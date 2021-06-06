@@ -1,0 +1,6 @@
+C:\Master\ForumMASTER\LIB\bin\Debug\LIB.dll
+C:\Master\ForumMASTER\LIB\bin\Debug\LIB.pdb
+C:\Master\ForumMASTER\LIB\obj\Debug\LIB.csprojAssemblyReference.cache
+C:\Master\ForumMASTER\LIB\obj\Debug\LIB.csproj.CoreCompileInputs.cache
+C:\Master\ForumMASTER\LIB\obj\Debug\LIB.dll
+C:\Master\ForumMASTER\LIB\obj\Debug\LIB.pdb
