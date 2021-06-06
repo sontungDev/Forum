@@ -53,13 +53,13 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="Content" Type="text" Nullable="false" />
     <Property Name="DateTimeCreated" Type="datetime" />
     <Property Name="UserID" Type="varchar" MaxLength="30" />
     <Property Name="ClubID" Type="varchar" MaxLength="30" />
     <Property Name="Title" Type="nvarchar" MaxLength="500" />
     <Property Name="Hashtag" Type="varchar" MaxLength="100" />
     <Property Name="Approval" Type="varchar" MaxLength="30" />
+    <Property Name="Content" Type="ntext" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>

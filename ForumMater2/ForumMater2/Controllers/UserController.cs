@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using ForumMater2.Models;
 using LIB;
+using PagedList;
+using PagedList.Mvc;
 
 namespace ForumMater2.Controllers
 {
@@ -14,7 +16,7 @@ namespace ForumMater2.Controllers
 
         // Trang chủ
         #region
-        public ActionResult Home()
+        public ActionResult Home(int page = 1, int size = 10)
         {
             if(Session["user"] != null)
             {
@@ -23,8 +25,12 @@ namespace ForumMater2.Controllers
 
                 // lấy user đang sử dụng
                 ViewBag.User = user;
+
                 ViewBag.Url = UrlContext();
-                return View();
+                ViewBag.UrlAva = UrlContext() + "/assets/images/avatars";
+                IEnumerable<Post> list_post = db.Posts.OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
+
+                return View(list_post);
             }
             return Redirect("/Log/Login"); 
         }

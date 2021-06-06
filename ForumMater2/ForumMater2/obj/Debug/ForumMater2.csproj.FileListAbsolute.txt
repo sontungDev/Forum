@@ -66,3 +66,7 @@ C:\Master\ForumMater2\ForumMater2\bin\EntityFramework.xml
 C:\Master\ForumMater2\ForumMater2\bin\EntityFramework.SqlServer.xml
 C:\Master\ForumMater2\ForumMater2\bin\CKFinder.dll
 C:\Master\ForumMater2\ForumMater2\bin\CKFinder.pdb
+C:\Master\ForumMater2\ForumMater2\bin\PagedList.dll
+C:\Master\ForumMater2\ForumMater2\bin\PagedList.Mvc.dll
+C:\Master\ForumMater2\ForumMater2\bin\PagedList.xml
+C:\Master\ForumMater2\ForumMater2\bin\PagedList.Mvc.xml
