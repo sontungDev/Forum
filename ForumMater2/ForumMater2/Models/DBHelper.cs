@@ -16,7 +16,7 @@ namespace ForumMater2.Models
             get
             {
                 if (instance == null)
-                    return new DBHelper();
+                    instance = new DBHelper();
                 return instance;
             }
         }

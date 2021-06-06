@@ -178,6 +178,9 @@
   <ItemGroup>
     <Content Include="assets\css\general\log.css" />
     <Content Include="assets\css\general\register.css" />
+    <Content Include="assets\css\user\home.css" />
+    <Content Include="assets\images\default\av.png" />
+    <Content Include="assets\images\default\gp.png" />
     <Content Include="assets\images\logoes\logo-ntu.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -339,9 +342,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\css\admin\" />
-    <Folder Include="assets\css\user\" />
     <Folder Include="assets\default\" />
-    <Folder Include="assets\images\default\" />
+    <Folder Include="assets\images\avatars\" />
+    <Folder Include="assets\images\cover\" />
     <Folder Include="assets\images\icons\" />
     <Folder Include="assets\images\uploads\" />
     <Folder Include="assets\js\" />

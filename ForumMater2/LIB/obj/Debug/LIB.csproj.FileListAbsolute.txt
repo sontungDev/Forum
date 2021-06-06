@@ -1,6 +1,5 @@
 C:\Master\ForumMater2\LIB\bin\Debug\LIB.dll
 C:\Master\ForumMater2\LIB\bin\Debug\LIB.pdb
-C:\Master\ForumMater2\LIB\obj\Debug\LIB.csprojAssemblyReference.cache
 C:\Master\ForumMater2\LIB\obj\Debug\LIB.csproj.CoreCompileInputs.cache
 C:\Master\ForumMater2\LIB\obj\Debug\LIB.dll
 C:\Master\ForumMater2\LIB\obj\Debug\LIB.pdb

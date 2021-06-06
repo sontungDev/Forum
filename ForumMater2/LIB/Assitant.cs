@@ -17,7 +17,7 @@ namespace LIB
             get
             {
                 if (instance == null)
-                    return new Assitant();
+                    instance = new Assitant();
                 return instance;
             }
         }

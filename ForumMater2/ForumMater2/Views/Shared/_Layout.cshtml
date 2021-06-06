@@ -1,40 +1,167 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string scheme = HttpContext.Current.Request.Url.Scheme;
+    string host = HttpContext.Current.Request.Url.Host;
+    int port = HttpContext.Current.Request.Url.Port;
+    string url = scheme + "://" + host + ":" + port;
+
+    ForumMater2.Models.ClubForumEntities db = new ForumMater2.Models.ClubForumEntities();
+    ForumMater2.Models.User user = db.Users.Find(Session["user"].ToString());
+    string url_avatar = String.IsNullOrEmpty(user.Avatar) ? ViewBag.Url + "/assets/images/default/av.png" : ViewBag.Url + "/assets/images/avatars/" + user.Avatar;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Diễn đàn CLB-NTU</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="@url/assets/css/user/home.css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+    <!-- header -->
+    <!-- Tim kiem va logo -->
+    <nav class="row m-0 container-fluid w-100 p-3 mb-md-5 mb-3 rounded header">
+        <div class="col-12 col-md-2 d-none d-sm-block text-center mb-0 m-0 p-0">
+            <img src="@url/assets/images/logoes/logo-ntu.png" class="img-thumbnail m-0 p-0 logo" id="">
+        </div>
+        <div class="col-12 col-md-4 d-sm-flex align-items-center d-none">
+            <div class="input-group">
+                <input type="search" placeholder="Nhập từ bạn cần tìm?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                <div class="input-group-append">
+                    <button id="button-addon1" type="submit" class="btn btn-link btn-light text-dark"><i class="fas fa-search"></i></button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+        <!-- End Tim kiem va logo -->
+        <!-- TenCLB và tìm kiếm -->
+        <nav class="d-sm-none show row col-12 m-0 p-0">
+            <div class="col-5 mt-2 p-0">
+                <p class="p-2 logoText">NTU CLUB</p>
+            </div>
+            <div class="search_box col-7 w-100 h-100 mt-2 m-0 pt-2 text-right">
+                <a href="#" class="search_btn float-right m-0 w-auto"><i class="fas fa-search"></i></a>
+                <input type="text" class="search_txt float-right m-0 pl-2 text-dark" name="search_txt" placeholder="Bạn Muốn Tìm gì?">
+
+            </div>
+        </nav>
+        <!-- End Ten CLB va tim kiem -->
+        <!-- Menu Chinh -->
+        <nav class="nav navbar-expand justify-content-center col col-md-4 align-items-center menu_first" id="">
+            <!-- content menu -->
+            <ul class="navbar-nav mb-0">
+                <li class="nav-item mr-md-3 ml-3 p-1 px-md-4 px-4">
+                    <a href="home.html" class="nav-link text-dark">
+                        <i class="fas fa-home d-block text-center"></i>
+                    </a>
+                </li>
+                <li class="nav-item mr-md-3 p-1 px-md-4 px-4">
+                    <a href="group.html" class="nav-link text-dark">
+                        <i class="fas fa-users d-block text-center"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item mr-md-3 p-1 px-md-4 px-4">
+                    <a href="#" class="nav-link text-dark" data-toggle="dropdown">
+                        <i class="far fa-bell text-center d-block"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h6 class="dropdown-header">
+                            Thông Báo
+                        </h6>
+                        <a class="dropdown-item d-flex" href="#">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">5-5-2021</div>
+                                <span class="font-weight-bold">Lâm Trường dẫn Sơn Hoàng đi ăn lẩu</span>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex" href="#">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-success">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">5-5-2021</div>
+                                Hóa đơn 500K! Lâm Trường trả :)
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-flex" href="#">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-warning">
+                                    <i class="fas fa-file-alt text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">5-5-2021</div>
+                                Sơn Hoàng bảo: oke luôn.
+                            </div>
+                        </a>
+
+                    </div>
+                </li>
+                <li class="nav-item mr-md-3 p-1 px-md-4 px-4 d-sm-none show">
+                    <a href="setting.html" class="nav-link text-dark">
+                        <i class="fas fa-cog text-center"></i>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        <!-- End Menu Chinh -->
+        <!-- menu user -->
+        <div class="btn-group col-md-1 d-block d-md-flex align-items-center w-100">
+
+            <img src="@url_avatar" class=" rounded-circle mt-md-1 d-none d-sm-block img_avatar">
+
+            <button class="btn d-none d-sm-block dropdown-toggle mt-md-1" data-toggle="dropdown">
+                @user.FirstName @user.LastName
+            </button>
+
+            <div class="dropdown-menu p-3">
+                <div>
+                    <p class="d-flex justify-content-center">Trạng thái</p>
+                    <hr class="bg-dark d-block">
+                    <div class="form-check">
+                        <input type="radio" name="Status" class="form-check-input">
+                        <label class="form-check-label" for="online">Online</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="Status" class="form-check-input" id="offline">
+                        <label class="form-check-label" for="offline">Offline</label>
+                    </div>
+
+                    <hr class="bg-dark d-block">
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" placeholder="Search" />
+                        <a href="#" class="input-group-text bg-white border-0">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <a href="setting.html" class="d-block text-decoration-none">Cài đặt</a>
+                        <hr>
+                    </div>
+                    <div class="text-center">
+                        <a href="intro.html" class="text-center w-100 text-decoration-none">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- End menu User -->
+    </nav>
+    <!-- End header -->
+
+    @RenderBody()
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
