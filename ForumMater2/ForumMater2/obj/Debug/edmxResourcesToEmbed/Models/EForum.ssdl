@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ClubForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Administrators">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="AdministratorName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="DateCreated" Type="date" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="Level" Type="smallint" />
+  </EntityType>
+  <EntityType Name="Clubs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="100" />
+    <Property Name="Avatar" Type="varchar" MaxLength="250" />
+    <Property Name="CoverPhoto" Type="varchar" MaxLength="250" />
+    <Property Name="DateCreated" Type="date" />
+    <Property Name="Approval" Type="varchar" MaxLength="30" />
+    <Property Name="Name" Type="nvarchar" MaxLength="250" />
+    <Property Name="ShortName" Type="varchar" MaxLength="10" />
+    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Content" Type="text" Nullable="false" />
+    <Property Name="DateTimeCreated" Type="datetime" />
+    <Property Name="UserID" Type="varchar" MaxLength="30" />
+    <Property Name="PostID" Type="varchar" MaxLength="30" />
+    <Property Name="Approval" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Plans">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" />
+    <Property Name="Content" Type="text" />
+    <Property Name="DateTimeExpected" Type="datetime" />
+    <Property Name="ClubID" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="Posts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Content" Type="text" Nullable="false" />
+    <Property Name="DateTimeCreated" Type="datetime" />
+    <Property Name="UserID" Type="varchar" MaxLength="30" />
+    <Property Name="ClubID" Type="varchar" MaxLength="30" />
+    <Property Name="Title" Type="nvarchar" MaxLength="500" />
+    <Property Name="Hashtag" Type="varchar" MaxLength="100" />
+    <Property Name="Approval" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="UserClubRoles">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="ClubID" />
+    </Key>
+    <Property Name="UserID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="ClubID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Role" Type="smallint" Nullable="false" />
+    <Property Name="DateTimeJoined" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="DateCreated" Type="date" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DateOfBirth" Type="date" />
+    <Property Name="Workplace" Type="nvarchar" MaxLength="250" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="Avatar" Type="varchar" MaxLength="250" />
+    <Property Name="CoverPhoto" Type="varchar" MaxLength="250" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+    <Property Name="Gender" Type="bit" />
+  </EntityType>
+  <Association Name="FK_Clubs_Administrators">
+    <End Role="Administrators" Type="Self.Administrators" Multiplicity="0..1" />
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrators">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Clubs">
+        <PropertyRef Name="Approval" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Administrators">
+    <End Role="Administrators" Type="Self.Administrators" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrators">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="Approval" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Posts">
+    <End Role="Posts" Type="Self.Posts" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Posts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comments_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Plans_Clubs">
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+    <End Role="Plans" Type="Self.Plans" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clubs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Plans">
+        <PropertyRef Name="ClubID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Admin">
+    <End Role="Administrators" Type="Self.Administrators" Multiplicity="0..1" />
+    <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrators">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="Approval" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Clubs">
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+    <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clubs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="ClubID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Posts_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Posts">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Roles_Clubs">
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+    <End Role="UserClubRoles" Type="Self.UserClubRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clubs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserClubRoles">
+        <PropertyRef Name="ClubID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Roles_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="UserClubRoles" Type="Self.UserClubRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserClubRoles">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ClubForumModelStoreContainer">
+    <EntitySet Name="Administrators" EntityType="Self.Administrators" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Clubs" EntityType="Self.Clubs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Plans" EntityType="Self.Plans" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserClubRoles" EntityType="Self.UserClubRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Clubs_Administrators" Association="Self.FK_Clubs_Administrators">
+      <End Role="Administrators" EntitySet="Administrators" />
+      <End Role="Clubs" EntitySet="Clubs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Administrators" Association="Self.FK_Comments_Administrators">
+      <End Role="Administrators" EntitySet="Administrators" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Posts" Association="Self.FK_Comments_Posts">
+      <End Role="Posts" EntitySet="Posts" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comments_Users" Association="Self.FK_Comments_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Plans_Clubs" Association="Self.FK_Plans_Clubs">
+      <End Role="Clubs" EntitySet="Clubs" />
+      <End Role="Plans" EntitySet="Plans" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Admin" Association="Self.FK_Posts_Admin">
+      <End Role="Administrators" EntitySet="Administrators" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Clubs" Association="Self.FK_Posts_Clubs">
+      <End Role="Clubs" EntitySet="Clubs" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Posts_Users" Association="Self.FK_Posts_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Posts" EntitySet="Posts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Roles_Clubs" Association="Self.FK_Roles_Clubs">
+      <End Role="Clubs" EntitySet="Clubs" />
+      <End Role="UserClubRoles" EntitySet="UserClubRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Roles_Users" Association="Self.FK_Roles_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserClubRoles" EntitySet="UserClubRoles" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

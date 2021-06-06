@@ -1,0 +1,43 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Noto Sans', sans-serif;
+    background-color: rgba(248, 248, 255, 0.274);
+}
+.f-width{
+    width: 90%;
+}
+.f-width-larger{
+    width : 90%;
+}
+#form-area{
+    background-color: rgba(199, 240, 240, 0.377);
+    border-radius: 1rem;
+}
+.f-title{
+    font-size: 1.2rem;
+    font-weight: 100;
+}
+.container{
+    font-size: 0.9rem !important;
+}
+span.form-message {
+    font-size: 0.8rem !important;
+    color:red !important;
+}
+.form-group.invalid .form-control {
+    border-color: #f33a58;
+}
+
+.form-group.invalid .form-message {
+    color: #f33a58;
+}
+
+@media (min-width: 768px){
+    .f-width {
+        width: 25%;
+    }
+    .f-width-larger {
+        width: 30%;
+    }
+}

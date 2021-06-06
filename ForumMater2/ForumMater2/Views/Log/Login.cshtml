@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LogLayout.cshtml";
+}
+@section styles{
+    <link href="@ViewBag.Url/assets/css/general/log.css" rel="stylesheet">
+}
+<div class="container f-width">
+    <div id="logo" class="text-center mb-4 pt-2">
+        <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
+        <p class="d-none d-md-block my-2 f-title">Đăng nhập vào diễn đàn</p>
+        <p class="d-md-none my-2 f-title">Đăng nhập vào diễn đàn</p>
+    </div>
+    <div id="form-area" class="py-3 px-4">
+        <form action="/Log/Login" method="post" id="form">
+            @* validate token is here *@
+            <div class="form-group">
+                <label for="user-name">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="user-name" name="user-name">
+                <span class="form-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span class="form-message"></span>
+            </div>
+            <div class="mb-2">
+                <span class="wrong-user-message"></span>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remember-user" name="remember-user" value="remember">
+                <label class="form-check-label" for="remember-user">Nhớ tài khoản</label>
+            </div>
+            <button type="submit" class="btn btn-info btn-block">Đăng nhập</button>
+        </form>
+    </div>
+    <div id="other" class="mt-2">
+        <div id="register" class="text-center">
+            <p>
+                <span>Chưa có tài khoản</span>
+                <a href="/Log/Register">đăng ký ngay</a>
+            </p>
+            <p>
+                <span>Có tài khoản nhưng</span>
+                <a href="#">quên mật khẩu</a>
+            </p>
+        </div>
+    </div>
+    <div id="footer" class="text-center mt-5 row p-0 mx-0 mb-0">
+        <div class="col-md-6 col-12 p-0 mb-3">
+            <a href="#" class="p-2">Kỳ hạn</a>
+            <a href="#" class="p-2">Riêng tư</a>
+        </div>
+        <div class="col-md-6 col-12 p-0 mb-3">
+            <a href="#" class="p-2">Bảo mật</a>
+            <a href="#" class="p-2">Liên hệ</a>
+        </div>
+    </div>
+</div>
+
+
