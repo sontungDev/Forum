@@ -73,5 +73,11 @@ namespace ForumMater2.Controllers
         #endregion
 
         // Đăng ký
+        #region
+        public ActionResult Register()
+        {
+            return View();
+        }
+        #endregion
     }
 }

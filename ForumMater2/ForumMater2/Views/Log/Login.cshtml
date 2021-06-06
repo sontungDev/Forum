@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Đăng nhập";
     Layout = "~/Views/Shared/_LogLayout.cshtml";
 }
 @section styles{
@@ -9,8 +9,7 @@
 <div class="container f-width">
     <div id="logo" class="text-center mb-4 pt-2">
         <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
-        <p class="d-none d-md-block my-2 f-title">Đăng nhập vào diễn đàn</p>
-        <p class="d-md-none my-2 f-title">Đăng nhập vào diễn đàn</p>
+        <p class="my-2 f-title">Đăng nhập vào diễn đàn</p>
     </div>
     <div id="form-area" class="py-3 px-4">
         <form action="/Log/Login" method="post" id="form">

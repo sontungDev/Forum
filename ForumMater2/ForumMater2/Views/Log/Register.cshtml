@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_LogLayout.cshtml";
+}
+@section styles{
+    <link href="@ViewBag.Url/assets/css/general/log.css" rel="stylesheet">
+    <link href="@ViewBag.Url/assets/css/general/register.css" rel="stylesheet">
+}
+<div class="container f-width pb-5 pt-2" style="background-color: rgba(199, 240, 240, 0.377);">
+    <div id="logo" class="text-center mb-4 pt-2">
+        <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
+        <p class="my-2 f-title">Đăng ký tài khoản</p>
+    </div>
+    <form action="/action_page.php" class="was-validated">
+        <div class="form-group">
+            <label for="uname" class="a font-weight-bold">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="uname" placeholder="Tên đăng nhập" name="uname" required>
+            <div class="valid-feedback">Hợp lệ</div>
+            <div class="invalid-feedback">Tên đăng nhập phải nhiều hơn 8 ký tự</div>
+        </div>
+        <div class="form-group">
+            <label for="pwd" class="a font-weight-bold">Mật khẩu</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="pswd" required>
+            <div class="valid-feedback">Hợp lệ</div>
+            <div class="invalid-feedback">Hãy nhập mật khẩu</div>
+        </div>
+        <div class="form-group">
+            <label for="pwd" class="a font-weight-bold">Nhập lại mật khẩu</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Nhập lại mật khẩu" name="pswd" required>
+            <div class="valid-feedback">Hợp lệ</div>
+            <div class="invalid-feedback">Phải trùng với mật khẩu đã nhập</div>
+        </div>
+        <div class="container row d-flex justify-content-between p-0 mx-0">
+            <div class="col-5 form-group p-0">
+                <label for="uname" class="a font-weight-bold">Họ</label>
+                <input type="text" class="form-control" id="uname" placeholder="Họ" name="uname" required>
+                <div class="valid-feedback">Hợp lệ</div>
+                <div class="invalid-feedback">Nhập họ của bạn</div>
+            </div>
+            <div class="col-5 form-group p-0">
+                <label for="uname" class="a font-weight-bold">Tên</label>
+                <input type="text" class="form-control" id="uname" placeholder="Tên" name="uname" required>
+                <div class="valid-feedback">Hợp lệ</div>
+                <div class="invalid-feedback">Nhập tên của bạn</div>
+            </div>
+        </div>
+        <dic class="form-group">
+            <label for="email" class="a font-weight-bold ">Ngày sinh</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+            <div class="valid-feedback">Hợp lệ.</div>
+            <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+        </dic>
+        <div class="form-group">
+            <label for="uname" class="a font-weight-bold">Email</label>
+            <input type="text" class="form-control" id="uname" placeholder="email@gmail.com" name="uname" required>
+            <div class="valid-feedback">Hợp lệ</div>
+            <div class="invalid-feedback">Nhập Email của bạn</div>
+        </div>
+        <div class="form-group">
+            <label for="uname" class="a font-weight-bold">Nơi làm việc hoặc học tập</label>
+            <input type="text" class="form-control" id="uname" placeholder="VD: nơi làm việc hoặc học tập" name="uname">
+        </div>
+        <div class="form-group">
+            <label for="add" class="a font-weight-bold">Địa chỉ</label>
+            <input type="text" class="form-control" id="add" placeholder="VD: 15/3 Đường Nhà Thờ, Nha Trang, Khánh hòa" name="add">
+        </div>
+        <div class="form-group">
+            <label for="dt" class="a font-weight-bold">Số điện thoại</label>
+            <input type="number" maxlength="10" minlength="9" class="form-control" id="dt" placeholder="VD: 0358405987" name="dt">
+        </div>
+        <div class="w-100 text-center center-block mt-4">
+            <button class="btn btn-block btn-info" type="submit">Đăng ký</button>
+        </div>
+    </form>
+</div>
+
+

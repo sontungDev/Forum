@@ -4,6 +4,9 @@ html, body {
     font-family: 'Noto Sans', sans-serif;
     background-color: rgba(248, 248, 255, 0.274);
 }
+.bg-blue {
+    background-color: rgba(248, 248, 255, 0.274) !important;
+}
 .f-width{
     width: 90%;
 }
