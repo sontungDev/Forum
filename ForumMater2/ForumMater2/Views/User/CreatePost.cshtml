@@ -1,0 +1,57 @@
+﻿@model List<ForumMater2.Models.Club>
+@{
+    ViewBag.Title = "CreatePost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="@ViewBag.Url/assets/css/user/create_post.css" rel="stylesheet" />
+}
+<h3 class="pl-5">Tạo bài viết mới</h3>
+<form class="was-validated px-5 py-3" action="/User/CreatePost" method="post" enctype="multipart/form-data" >
+    <div class="form-group">
+        <label for="title">Tiêu đề</label>
+        <input type="text" class="form-control w-25" name="title" id="title" placeholder="VD : Ngày chủ nhật may mắn ... " required>
+        <div class="valid-feedback">Hợp lệ</div>
+        <div class="invalid-feedback">Không được để trống trường này</div>
+    </div>
+    <div class="form-group">
+        <label for="hashtag">Hashtag</label>
+        <input type="text" class="form-control w-25" id="hashtag" name="hashtag" placeholder="VD : chunhat,mayman,... " required>
+        <div class="valid-feedback">Hợp lệ</div>
+        <div class="invalid-feedback">Không được để trống trường này</div>
+    </div>
+    <div class="form-group">
+        <label for="club_id">Đăng lên CLB </label>
+        <select class="form-control w-25" id="club_id" name="club_id" required>
+            @{ 
+                foreach(var item in Model)
+                {
+                    <option value="@item.ID">@item.Name</option>
+                }   
+            }
+        </select>
+        <div class="valid-feedback">Hợp lệ</div>
+        <div class="invalid-feedback">Không được để trống trường này</div>
+    </div>
+
+    <div class="form-group">
+        <label for="content">Nội dung</label>
+        <textarea class="form-control" id="content" name="content" required></textarea>
+        <div class="valid-feedback">Hợp lệ</div>
+        <div class="invalid-feedback">Không được để trống trường này</div>
+    </div>
+
+    <button type="submit" class="btn btn-info">Đăng bài</button>
+</form>
+
+@section scripts{
+    <script src="//cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+    <script src="~/assets/plugins/ckfinder/ckfinder.js"></script>
+    <script>
+        var edit = CKEDITOR.replace('content');
+
+        CKFinder.setupCKEditor(edit, '@Url.Content("~/assets/plugins/ckfinder/")');
+
+    </script>
+}
+
