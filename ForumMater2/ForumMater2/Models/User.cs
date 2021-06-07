@@ -25,10 +25,10 @@ namespace ForumMater2.Models
         public string ID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public Nullable<System.DateTime> DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string Workplace { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }

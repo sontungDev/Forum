@@ -6,7 +6,15 @@ html, body {
     padding: 0;
     margin: 0;
 }
-.img_avatar{
+.page-link.page-item.active{
+    color : white !important;
+    background-color: cornflowerblue !important;
+
+}
+.page-link.page-item{
+    font-size:20px;
+}
+.img_avatar {
     width: 2.5rem;
     height: 2.5rem;
 }
@@ -33,7 +41,6 @@ html, body {
 .search_txt {
     background: none;
     transition: 1s;
-    line-height: none;
     outline: none;
     border-radius: 5px;
     background-color: none;
@@ -158,11 +165,11 @@ html, body {
 
 /*Center body*/
 /*post_posts*/
-.nav_post_posts{
+.nav_post_posts {
     padding: 3%;
     cursor: pointer;
-    border:solid 1px white;
-    border-top-color: #7ed6df;
+    border: solid 1px white;
+    border-top-color: #ced9eb;
     border-top-width: 4px;
 }
 .btn_post_posts{
@@ -223,13 +230,21 @@ html, body {
 }
 
 /*posts*/
-.nav_posts{
+.nav_posts {
     cursor: pointer;
-    border:solid 1px #dfe6e9;
-    border-top-color: black;
+    border: solid 1px #dfe6e9;
+    border-top-color: #ced9eb;
     border-top-width: 2px;
 }
-
+.title-post{
+    font-size:20px !important;
+}
+.title-post a{
+    
+}
+.text-time{
+    font-size:12px !important;
+}
 .comment{
      font-size: 100%; 
      color:#b2bec3;

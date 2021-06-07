@@ -190,6 +190,7 @@
     <Content Include="assets\css\general\register.css" />
     <Content Include="assets\css\user\create_post.css" />
     <Content Include="assets\css\user\home.css" />
+    <Content Include="assets\css\user\setting.css" />
     <Content Include="assets\images\cover\default-cover.jpg" />
     <Content Include="assets\images\avatars\av.png" />
     <Content Include="assets\images\default\gp.png" />
@@ -1017,6 +1018,7 @@
     <Content Include="Views\User\Home.cshtml" />
     <Content Include="Views\Log\Register.cshtml" />
     <Content Include="Views\User\CreatePost.cshtml" />
+    <Content Include="Views\User\MyProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

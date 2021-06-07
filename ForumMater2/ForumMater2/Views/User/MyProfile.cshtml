@@ -1,0 +1,186 @@
+﻿@using ForumMater2.Models
+@using LIB;
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string user_id = Session["user"].ToString();
+    User user = DBHelper.Instance.GetUserById(user_id);
+    string dob = user.DateOfBirth.Date.ToString("yyyy'-'MM'-'dd");
+}
+@section styles{
+    <link rel="stylesheet" href="@ViewBag.Url/assets/css/user/setting.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.css" rel="stylesheet">
+}
+<nav class="w-100 row m-0 my-3 p-0">
+    <ul class="ml-md-5 col-md-3 col-12 bg-light border col-md-3 nav nav-tabs flex-column" id="panesl">
+        <li class="navbar-brand text-center font-weight-bold ml-5">Cài đặt</li>
+        <li class="nav-item border-bottom">
+            <a class="nav-link text-decoration-none ml-3" data-toggle="tab" href="#home"><i class="fas fa-user-circle"></i>&nbsp;Thay đổi ảnh</a>
+        </li>
+        <li class="nav-item border-bottom">
+            <a class="nav-link text-decoration-none ml-3" data-toggle="tab" href="#menu1"><i class="fas fa-globe"></i>&nbsp;Thông tin cá nhân</a>
+        </li>
+        <li class="nav-item border-bottom">
+            <a class="nav-link text-decoration-none ml-3" data-toggle="tab" href="#menu2"><i class="fas fa-lock"></i>&nbsp;Thay đổi mật khẩu</a>
+        </li>
+        <li class="nav-item border-bottom">
+            <a class="nav-link text-decoration-none ml-3" href="intro.html"><i class="fas fa-outdent"></i>&nbsp;Đăng xuất</a>
+        </li>
+    </ul>
+
+
+    <!-- right panes -->
+    <div class="col-md-7 col-12  tab-content ml-md-5 mt-md-0 mt-5 m-0 p-0" id="panesr">
+        <div class="tab-pane bg-light container border active m-0 p-0" id="home">
+            <form class="form m-3" id="form0">
+                <div class="v border-bottom">
+                    <label class="label font-weight-bold ml-3">Thay đổi ảnh</label>
+                </div>
+                <div class="form-group mt-2 row m-0 p-0">
+                    <div class="col-6 text-center">
+                        <div>
+                            <span>Ảnh đại diện</span>
+                        </div>
+                        <div>
+                            <img src="@ViewBag.UrlAva/@user.Avatar" alt="avatar" style="width:150px;" />
+                        </div>
+                    </div>
+                    <div class="col-6 text-center">
+                        <div class="text-left">
+                            Thay đổi ảnh
+                        </div>
+                        <div id="container" style="width:150px; height:150px; background-color:white; text-align:center;"></div>
+                        <div class="mt-5 text-left">
+                            <input type="file" placeholder="Thay đổi ảnh" id="croppie-input" accept="image/*" />
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary my-4" id="submit-image">Cập nhật thông tin </button>
+                </div>
+                
+            </form>
+        </div>
+        <div class="tab-pane container fade bg-light border px-5" id="menu1">
+            <form class="was-validated" id="form2">
+                <div class="v border-bottom">
+                    <label class="label font-weight-bold m-3">Thông tin cá nhân</label>
+                </div>
+                <div class="row p-0 m-0 justify-content-between">
+                    <div class="form-group1 col-5 p-0">
+                        <label for="uname" class="a font-weight-bold">Họ của bạn</label>
+                        <input type="text" class="form-control" id="uname" name="uname" value='@user.FirstName' required>
+                        <div class="valid-feedback">Hợp lệ.</div>
+                        <div class="invalid-feedback">Vui lòng điền vào trường này.</div>
+                    </div>
+                    <div class="form-group1 col-5 p-0">
+                        <label for="email" class="a font-weight-bold">Tên của bạn</label>
+                        <input type="text" class="form-control" id="email" name="email" value="@user.LastName" required>
+                        <div class="valid-feedback">Hợp lệ.</div>
+                        <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                    </div>
+                </div>
+                <div class="row p-0 m-0 justify-content-between">
+                    <div class="form-group1 col-5 p-0">
+                        <label for="email" class="a font-weight-bold">Ngày sinh của bạn</label>
+                        <input type="date" class="form-control" id="date" name="date" required value="@dob">
+                        <div class="valid-feedback">Hợp lệ.</div>
+                        <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                    </div>
+                    <div class="form-group1 col-5 p-0">
+                        <label for="dt" class="a font-weight-bold">Số điện thoại</label>
+                        <input type="text" maxlength="11" minlength="9" class="form-control" placeholder="Ví dụ : 0977777777" id="dt" value="@user.Phone" name="dt" />
+                        <div class="valid-feedback">Hợp lệ</div>
+                        <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                    </div>
+                </div>
+                <div class="form-group1">
+                    <label for="add" class="a font-weight-bold">Địa chỉ</label>
+                    <input type="text" class="form-control" id="add" placeholder="Ví dụ : 15/3 Đường Nhà Thờ, Nha Trang, Khánh hòa" value="@user.Address" name="add" required>
+                    <div class="valid-feedback">Hợp lệ.</div>
+                    <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                </div>
+                <div class="form-group1">
+                    <label for="workplace" class="a font-weight-bold">Nơi làm việc - học tập</label>
+                    <input type="text" class="form-control" id="workplace" placeholder="Công ty ABC" value="@user.Workplace" name="workplace" required>
+                    <div class="valid-feedback">Hợp lệ.</div>
+                    <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3 mb-3">Cập nhật thông tin </button>
+            </form>
+        </div>
+        <div class="tab-pane container fade bg-light border" id="menu2">
+            <form class="form" id="form3">
+                <div class="v border-bottom">
+                    <label class="label font-weight-bold ml-2 mt-2">Thiết lập tài khoản</label>
+                </div>
+                <div class="form-group m-4">
+                    <label for="old password" class="a font-weight-bold">Mật khẩu hiện tại:</label>
+                    <input type="password" class="form-control" placeholder="Mật khẩu hiện tại" id="Opassword">
+                </div>
+                <div class="form-group m-4">
+                    <label for="New password" class="a font-weight-bold">Mật khẩu mới:</label>
+                    <input type="password" class="form-control" placeholder=" Mật khẩu mới" id="Npassword">
+                </div>
+                <div class="form-group m-4">
+                    <label for="Repeat password" class="a font-weight-bold">Nhập lại mật khẩu:</label>
+                    <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" id="Rpassword">
+                </div>
+                <div class="form-group m-4">
+                    <a href="#" class="btn btn-info font-weight-bold" role="button">Quên mật khẩu ?</a>
+                </div>
+                <button type="submit" class="btn btn-info font-weight-bold ml-4 mb-3">Lưu cài đặt</button>
+                <button type="submit" class="btn btn-info font-weight-bold mb-3">Khôi phục cài đặt</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var croppieDemo = $('#container').croppie({
+                enableOrientation: true,
+                viewport: {
+                    width: 150,
+                    height: 150,
+                    type: 'square' // or 'circle'
+                },                
+            });
+            $('#croppie-input').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    croppieDemo.croppie('bind', {
+                        url: e.target.result
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+            $('#submit-image').on('click', function (ev) {
+                ev.preventDefault();
+                croppieDemo.croppie('result', {
+                    type: 'base64',
+                    size: 'viewport',
+                    format: 'jpeg'
+                }).then(function (image) {
+                    var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
+
+                    if (image != emt) {
+                        var formData = new FormData();
+
+                        // name , ima_base64
+                        formData.append('avatar', image);
+                        var request = new XMLHttpRequest();
+                        request.open("POST", "/User/MyProfile1");
+                        request.send(formData);
+                        window.location.href = "/User/MyProfile";
+                    }
+                });
+
+            });
+        });
+    </script>
+}
+
