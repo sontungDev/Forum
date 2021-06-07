@@ -79,5 +79,14 @@ namespace ForumMater2.Controllers
             return View();
         }
         #endregion
+
+        #region
+        public ActionResult SignOut()
+        {
+            Session["user"] = null;
+            return Redirect("/Log/Login");
+        }
+
+        #endregion
     }
 }

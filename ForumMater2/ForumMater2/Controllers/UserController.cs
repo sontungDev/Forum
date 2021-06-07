@@ -23,7 +23,7 @@ namespace ForumMater2.Controllers
             if(Session["user"] != null)
             {
                 string user_id = Session["user"].ToString();
-                User user = DBHelper.Instance.GetUserById(user_id);
+                User user = db.Users.Find(user_id);
 
                 // lấy user đang sử dụng
                 ViewBag.User = user;
@@ -79,6 +79,7 @@ namespace ForumMater2.Controllers
         #endregion
 
         // trang cá nhân
+        #region
         public ActionResult MyProfile()
         {
             if(Session["user"] != null)
@@ -87,7 +88,11 @@ namespace ForumMater2.Controllers
                 ViewBag.UrlAva = UrlContext() + "/assets/images/avatars";
                 ViewBag.UrlCover = UrlContext() + "assets/images/covers";
 
-                return View();
+                string id = Session["user"].ToString();
+
+                User user = db.Users.Find(id);
+
+                return View(user);
             }
             return Redirect("/Log/Login");
         }
@@ -110,7 +115,7 @@ namespace ForumMater2.Controllers
             string id = Session["user"].ToString();
 
             // cập nhật ảnh đại diện
-            User user = DBHelper.Instance.GetUserById(id);
+            User user = db.Users.Find(id);
             user.Avatar = name_file;
             
             db.Entry(user).State = EntityState.Modified;
@@ -119,6 +124,37 @@ namespace ForumMater2.Controllers
 
             return Json( form_data["avatar"] , JsonRequestBehavior.AllowGet) ;
         }
+
+        [HttpPost]
+        public ActionResult MyProfile2(FormCollection form_data)
+        {
+            string first_name = form_data["first-name"];
+            string last_name = form_data["last-name"];
+            bool gender = bool.Parse(form_data["gender"]);
+            DateTime dob = DateTime.Parse(form_data["dob"]);
+            string phone = form_data["phone"];
+            string address = form_data["address"];
+            string workplace = form_data["workplace"];
+
+            string id = Session["user"].ToString();
+
+            User user = db.Users.Find(id);
+
+            user.FirstName = first_name;
+            user.LastName = last_name;
+            user.Gender = gender;
+            user.DateOfBirth = dob;
+            user.Phone = phone;
+            user.Address = address;
+            user.Workplace = workplace;
+
+            db.Entry(user).State = EntityState.Modified;
+
+            db.SaveChanges();
+
+            return RedirectToAction("MyProfile","User", user);
+        }
+        #endregion
 
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)

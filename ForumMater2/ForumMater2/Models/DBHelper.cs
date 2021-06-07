@@ -35,13 +35,6 @@ namespace ForumMater2.Models
             }
             return false;
         }
-
-        // lấy user theo id
-        public User GetUserById(string id)
-        {
-            User user = db.Users.Find(id);
-            return user;
-        }
         public string GetUserId(string user_name)
         {
             string id = db.Users.Where(m => m.UserName == user_name).Select(m => m.ID).FirstOrDefault();
