@@ -1,0 +1,250 @@
+﻿@using ForumMater2.Models
+@{
+    ViewBag.Title = "CreateClub";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ClubForumEntities db = new ClubForumEntities();
+}
+@section styles{
+    <link href="@ViewBag.Url/assets/css/user/createCLB.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.css" rel="stylesheet">
+}
+<nav class="container-fluid form_body mb-5 m-0 row">
+    <div class="m-0 p-0 col-12">
+        <label for="" class="form-label w-100 m-0 text_sign" style="font-size: 150%">Tạo Câu Lạc Bộ</label>
+        <div class="blockquote-footer">Hãy điền đầy đủ thông tin câu lạc bộ vào đây nhé!</div>
+    </div>
+    <form action="#" class="form_CLB col-6" id="form">
+        <div class="form-group m-0" style="border-color: none;">
+            <div class="row">
+                <div class="col-9">
+                    <input type="text" class="form-control mt-2 btn_form" id="text_firstname_CLB" name="long-name-club" placeholder="Nhập tên câu lạc bộ">
+                    <small class="mb-0 text-danger d-none d-iblock" id="m11">Không được để trống này hoặc nhập dưới 8 kí tự</small>
+                    <small class="mb-0 text-danger d-none d-iblock" id="m12">Tên đã bị trùng</small>
+                    <small class="mb-0 d-none text-success d-iblock" id="m13">Có thể sử dụng tên này</small>
+                </div>
+                <div class="col-3 mt-2">
+                    <button class="btn btn-success" id="btn-long-name">Kiểm tra tên</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9">
+                    <input type="text" class="form-control mt-2 btn_form" name="short-name-club" id="text_lastname_CLB" placeholder="Nhập tên viết tắt của câu lạc bộ" maxlength="8">
+                    <small class="mb-0 d-none text-danger d-iblock" id="m21">Không để trống trường này hoặc nhập dưới 3 kí tự</small>
+                    <small class="mb-0 d-none text-danger d-iblock" id="m22">Tên đã bị trùng</small>
+                    <small class="mb-0 d-none text-success d-iblock" id="m23">Có thể sử dụng tên này</small>
+                </div>
+                <div class="col-3 mt-2">
+                    <button class="btn btn-success" id="btn-short-name">Kiểm tra tên</button>
+                </div>
+            </div>
+            <div class="row p-0 m-0">
+                <div class="form-group col-5 px-0 my-3">
+                    <label for="type-club">Thể loại CLB</label>
+                    <select class="form-control" id="type-club" name="type-club">
+                        <option value="Thể thao">Thể thao</option>
+                        <option value="Âm nhạc">Âm nhạc</option>
+                        <option value="Mỹ thuật">Mỹ thuật</option>
+                        <option value="Ngoại ngữ">Ngoại ngữ</option>
+                        <option value="Tin học">Tin học</option>
+                        <option value="Du lịch">Du lịch</option>
+                        <option value="Kinh doanh">Kinh doanh</option>
+                        <option value="Văn học">Văn học</option>
+                        <option value="Công nghệ">Công nghệ</option>
+                        <option value="Khoa học">Khoa học</option>
+                        <option value="Hoạt động xã hội">Hoạt động xã hội</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+            </div>
+            
+
+            @* Vị trí croppei *@
+            <div id="container-cover" style="width:560px; height:200px; background-color:lightgray;" class="my-3"></div>
+            @* ***** *@
+
+            <div class="form-group mt-2 btn_form row mt-5 p-0">
+                <div class="fileUpload col-4 ml-2 p-3">
+                    <span style="color: grey" id="span-upload">Chọn ảnh bìa</span>
+                    <input id="uploadBtn_group" type="file" accept="image/*" class="upload" />
+                </div>
+            </div>
+            <textarea rows="6" class="form-control-plaintext border border-1 p-2 mt-4" name="descri" id="text_description_CLB" placeholder="Nhập mô tả câu lạc bộ!" style="outline-style: none"></textarea>
+            <small class="mb-0 text-danger d-none d-iblock" id="m31">Không để trống trường này</small>
+        </div>
+        <button class="btn justify-content-center shadow btn-info my-3" id="submit-club">Hoàn Tất</button>
+    </form>
+</nav>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var valid_long_require = false;
+            var valid_short_require = false;
+            var valid_descri_require = false;
+            var valid_exist_long = false;
+            var valid_exist_short = false;
+            var croppieDemo = $('#container-cover').croppie({
+                enableOrientation: true,
+                viewport: {
+                    width: 560,
+                    height: 200,
+                    type: 'square' // or 'circle'
+                },
+            });
+            $('#uploadBtn_group').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    croppieDemo.croppie('bind', {
+                        url: e.target.result
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+            $('#submit-club').on('click', function (ev) {
+                ev.preventDefault();
+
+                // default class
+                $('#m11').removeClass('d-none').addClass('d-none');
+                $('#m21').removeClass('d-none').addClass('d-none');
+                $('#m31').removeClass('d-none').addClass('d-none');
+                //valid
+
+                var long_name = $('#text_firstname_CLB').val();
+                var short_name = $('#text_lastname_CLB').val();
+                var descr = $('#text_description_CLB').val();
+                var type_club = $('#type-club').val();
+                if (long_name.length < 8) {
+                    $('#m11').removeClass('d-none');
+                    valid_long_require = false;
+                }
+                else {
+                    valid_long_require = true;
+                }
+                if (short_name.length < 3) {
+                    $('#m21').removeClass('d-none');
+                    valid_short_require = false;
+                }
+                else {
+                    valid_short_require = true;
+                }
+                if (descr.length == 0) {
+                    $('#m31').removeClass('d-none');
+                    valid_descri_require = false;
+                }
+                else {
+                    valid_descri_require = true;
+                }
+                // hết valid
+                if (valid_descri_require && valid_exist_long && valid_exist_short && valid_long_require && valid_short_require) {
+                    croppieDemo.croppie('result', {
+                        type: 'base64',
+                        size: 'viewport',
+                        format: 'jpeg'
+                    }).then(function (image) {
+                        var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
+
+                        if (image != emt) {
+                            var formData = new FormData();
+
+                            // name , ima_base64
+                            formData.append('cover', image);
+                            formData.append('long_name', long_name);
+                            formData.append('short_name', short_name);
+                            formData.append('describe', descr);
+                            formData.append('type_club', type_club);
+
+                            var request = new XMLHttpRequest();
+                            request.open("POST", "/User/CreateClub");
+                            request.send(formData);
+                            alert("Tạo câu lạc bộ thành công, bạn vui lòng chờ quản trị viên duyệt yêu cầu của bạn");
+                            window.location.href = "/User/Home";
+                        }
+                });
+                    alert('Oke');
+                }
+                else {
+                    alert("Vui lòng kiểm tra lại thông tin đã nhập");
+                    console.log(valid_descri_require + 'mô tả');
+                    console.log(valid_exist_long + 'tồn tại dài');
+                    console.log(valid_exist_short + 'tồn tại dài');
+                }
+            });
+            $('#btn-long-name').click(function (e) {
+                e.preventDefault();
+                var long_name = $('#text_firstname_CLB').val();
+
+                if (long_name.length >= 8) {
+                    $('#m12').removeClass('d-none').addClass('d-none');
+                    $('#m13').removeClass('d-none').addClass('d-none');
+                    $('#m11').removeClass('d-none').addClass('d-none');
+                    var name = $('#text_firstname_CLB').val();
+                    $.ajax({
+                        url: '@Url.Action("IsExistLongNameClub","User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ val: name }),
+                        success: function (data) {
+                            if (data == 'exist') {
+                                $('#m12').removeClass('d-none');
+                                $('#m13').addClass('d-none');
+                                valid_exist_long = false;
+                            }
+                            else {
+                                $('#m13').removeClass('d-none');
+                                $('#m12').addClass('d-none');
+                                valid_exist_long = true;
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+                else {
+                    alert('Tên cần kiểm tra không hợp lệ - có thể bạn đã nhập ít hơn 8 kí tự');
+                }
+            });
+
+            //kiểm tra tên viết tắt
+            $('#btn-short-name').click(function (e) {
+                e.preventDefault();
+                var short_name = $('#text_lastname_CLB').val();
+
+                if (short_name.length >= 3) {
+                    $('#m22').removeClass('d-none').addClass('d-none');
+                    $('#m23').removeClass('d-none').addClass('d-none');
+                    $('#m21').removeClass('d-none').addClass('d-none');
+                    var name = $('#text_lastname_CLB').val();
+                    $.ajax({
+                        url: '@Url.Action("IsExistShortNameClub","User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ val: name }),
+                        success: function (data) {
+                            if (data == 'exist') {
+                                $('#m22').removeClass('d-none');
+                                $('#m23').addClass('d-none');
+                                valid_exist_short = false;
+                            }
+                            else {
+                                $('#m23').removeClass('d-none');
+                                $('#m22').addClass('d-none');
+                                valid_exist_short = true;
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+                else {
+                    alert('Tên cần kiểm tra không hợp lệ - có thể bạn đã nhập ít hơn 3 kí tự');
+                }
+
+            });
+        });
+    </script>
+}

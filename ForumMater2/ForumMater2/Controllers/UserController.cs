@@ -122,7 +122,7 @@ namespace ForumMater2.Controllers
             
             db.SaveChanges();
 
-            return Json( form_data["avatar"] , JsonRequestBehavior.AllowGet) ;
+            return Json( form_data["avatar"] , JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -155,6 +155,87 @@ namespace ForumMater2.Controllers
             return RedirectToAction("MyProfile","User", user);
         }
         #endregion
+
+        // thêm câu lạc bộ
+        public ActionResult CreateClub()
+        {
+            if(Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                return View();
+            }
+            return Redirect("/Log/Login");
+        }
+        [HttpPost]
+        public JsonResult CreateClub(FormCollection form_data)
+        {
+            string imgbase64 = form_data["cover"];
+            string name = form_data["long_name"];
+            string short_name = form_data["short_name"];
+            string describe = form_data["describe"];
+            string type_club = form_data["type_club"];
+
+
+            byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
+
+            // lấy tên ảnh
+            string name_file = Guid.NewGuid() + ".jpeg";
+
+            // ghi file vào máy chủ
+            FileStream stream = new FileStream(Server.MapPath("~/assets/images/clubs/covers/" + name_file), FileMode.Create);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
+
+            // lấy user đang sử dụng
+            string user_id = Session["user"].ToString();
+            string current_id = db.Clubs.Select(m => m.ID).Max();
+
+            string id = Assitant.Instance.GetAutoID(current_id, "CID");
+
+            Club club = new Club()
+            {
+                ID = id,
+                Approval = "AID0000000000",
+                CoverPhoto = name_file,
+                DateCreated = DateTime.Now.Date,
+                Description = describe,
+                Name = name,
+                ShortName = short_name,
+                user_created = user_id,
+                Type = type_club               
+            };
+
+            db.Clubs.Add(club);
+
+            db.SaveChanges();
+
+            return Json("Thành công", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult IsExistShortNameClub(string val)
+        {
+            Club club = null;
+            string result = "";
+            club = db.Clubs.Where(m => m.ShortName == val).FirstOrDefault();
+            if (club is null)
+                result = "not exist";
+            else
+                result = "exist";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult IsExistLongNameClub(string val)
+        {
+            Club club = null;
+            string result = "";
+            club = db.Clubs.Where(m => m.Name == val).FirstOrDefault();
+            if (club is null)
+                result = "not exist";
+            else
+                result = "exist";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)

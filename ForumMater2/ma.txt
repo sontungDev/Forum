@@ -1,0 +1,9 @@
+user	UID
+post	PID
+club	CID
+admin	AID
+comment	MID
+
+chờ duyệt là số 0
+thành viên là số 1
+trưởng clb là số 2

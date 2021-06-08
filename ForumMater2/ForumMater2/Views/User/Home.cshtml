@@ -36,7 +36,7 @@
         <!-- Left Body P2 -->
         <div class=" border border-1 mt-5 container-fluid text-left pt-2 pb-2">
             <span>Đề xuất</span>
-            <a href="#" class="float-right">Tạo câu lạc bộ</a>
+            <a href="/User/CreateClub" class="float-right">Tạo câu lạc bộ</a>
         </div>
         <div class=" border border-1 border-bottom-0 container-fluid text-left pt-2 pb-2 pr-0">
             @{
@@ -47,19 +47,10 @@
                 {
                     <div class="mt-2 justify-content-center row">
                                     <div class="m-0 p-0 col-md-2">
-                                        @{
-                                            if (String.IsNullOrEmpty(item.CoverPhoto))
-                                            {
-                                                <img src="@ViewBag.Url/assets/images/default/gp.png" class="rounded-circle p-0 img_clb" />
-                                            }
-                                            else
-                                            {
-                                                <img src="@ViewBag.Url/assets/images/cover/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
-                                            }
-                                        }
+                                        <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
                                     </div>
                         <div class="m-0 p-0 col-md-6 text_clb" id="">
-                            <a href="#" class="text-decoration-none text-dark m-0">@item.ShortName</a>
+                            <a href="#" class="text-decoration-none text-dark m-0">@item.Name</a>
                         </div>
                         <div class="m-0 p-0 col-md-2">
                             <button type="submit" class="border border-1 m-0 float-right mr-1 icon_insert" id=""><h4>+</h4></button>
@@ -153,18 +144,7 @@
                 {
                     <div class=" mt-4 justify-content-center row">
                                     <div class="m-0 p-0 col-md-2">
-                                        @{
-                                            if (String.IsNullOrEmpty(item.CoverPhoto))
-                                            {
-                                                <img src="@ViewBag.Url/assets/images/default/gp.png" class="rounded-circle p-0 img_clb" />
-                                            }
-                                            else
-                                            {
-
-
-                                                <img src="@ViewBag.Url/assets/images/cover/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
-                                            }
-                                        }
+                                         <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
                                     </div>
                         <div class="m-0 p-0 col-md-6" id="text_clb">
                             <a href="#" class="text-decoration-none text-dark m-0">@item.Name</a>

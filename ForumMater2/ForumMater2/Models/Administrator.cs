@@ -27,7 +27,7 @@ namespace ForumMater2.Models
         public string Password { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> DateCreated { get; set; }
+        public System.DateTime DateCreated { get; set; }
         public string Phone { get; set; }
         public Nullable<short> Level { get; set; }
     

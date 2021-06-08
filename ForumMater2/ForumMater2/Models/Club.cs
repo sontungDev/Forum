@@ -24,13 +24,13 @@ namespace ForumMater2.Models
     
         public string ID { get; set; }
         public string Type { get; set; }
-        public string Avatar { get; set; }
         public string CoverPhoto { get; set; }
-        public Nullable<System.DateTime> DateCreated { get; set; }
+        public System.DateTime DateCreated { get; set; }
         public string Approval { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public string Description { get; set; }
+        public string user_created { get; set; }
     
         public virtual Administrator Administrator { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -39,5 +39,6 @@ namespace ForumMater2.Models
         public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserClubRole> UserClubRoles { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace ForumMater2.Models
         public string UserID { get; set; }
         public string ClubID { get; set; }
         public short Role { get; set; }
-        public Nullable<System.DateTime> DateTimeJoined { get; set; }
+        public System.DateTime DateTimeJoined { get; set; }
     
         public virtual Club Club { get; set; }
         public virtual User User { get; set; }

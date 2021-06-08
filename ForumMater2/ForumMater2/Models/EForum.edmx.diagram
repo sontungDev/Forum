@@ -23,6 +23,7 @@
         <AssociationConnector Association="ClubForumModel.FK_Comments_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ClubForumModel.FK_Posts_Users" ManuallyRouted="false" />
         <AssociationConnector Association="ClubForumModel.FK_Roles_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="ClubForumModel.FK_Clubs_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

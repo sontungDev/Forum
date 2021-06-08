@@ -9,7 +9,7 @@
     <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="FullName" Type="nvarchar" MaxLength="100" />
     <Property Name="Email" Type="varchar" MaxLength="100" />
-    <Property Name="DateCreated" Type="date" />
+    <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="Phone" Type="varchar" MaxLength="20" />
     <Property Name="Level" Type="smallint" />
   </EntityType>
@@ -19,13 +19,13 @@
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Type" Type="nvarchar" MaxLength="100" />
-    <Property Name="Avatar" Type="varchar" MaxLength="250" />
     <Property Name="CoverPhoto" Type="varchar" MaxLength="250" />
-    <Property Name="DateCreated" Type="date" />
+    <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="Approval" Type="varchar" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" MaxLength="250" />
     <Property Name="ShortName" Type="varchar" MaxLength="10" />
     <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="user_created" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Comments">
     <Key>
@@ -33,7 +33,7 @@
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Content" Type="text" Nullable="false" />
-    <Property Name="DateTimeCreated" Type="datetime" />
+    <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
     <Property Name="UserID" Type="varchar" MaxLength="30" />
     <Property Name="PostID" Type="varchar" MaxLength="30" />
     <Property Name="Approval" Type="varchar" MaxLength="30" />
@@ -44,16 +44,16 @@
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Title" Type="nvarchar" MaxLength="250" />
-    <Property Name="Content" Type="text" />
-    <Property Name="DateTimeExpected" Type="datetime" />
+    <Property Name="DateTimeExpected" Type="datetime" Nullable="false" />
     <Property Name="ClubID" Type="varchar" MaxLength="30" />
+    <Property Name="Content" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="Posts">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="DateTimeCreated" Type="datetime" />
+    <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
     <Property Name="UserID" Type="varchar" MaxLength="30" />
     <Property Name="ClubID" Type="varchar" MaxLength="30" />
     <Property Name="Title" Type="nvarchar" MaxLength="500" />
@@ -79,7 +79,7 @@
     <Property Name="UserID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="ClubID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="Role" Type="smallint" Nullable="false" />
-    <Property Name="DateTimeJoined" Type="datetime" />
+    <Property Name="DateTimeJoined" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
@@ -88,17 +88,17 @@
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="DateCreated" Type="date" />
+    <Property Name="DateCreated" Type="date" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
     <Property Name="LastName" Type="nvarchar" MaxLength="50" />
-    <Property Name="DateOfBirth" Type="date" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
     <Property Name="Workplace" Type="nvarchar" MaxLength="250" />
     <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Avatar" Type="varchar" MaxLength="250" />
     <Property Name="CoverPhoto" Type="varchar" MaxLength="250" />
     <Property Name="Phone" Type="varchar" MaxLength="20" />
-    <Property Name="Gender" Type="bit" />
+    <Property Name="Gender" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_Clubs_Administrators">
     <End Role="Administrators" Type="Self.Administrators" Multiplicity="0..1" />
@@ -109,6 +109,18 @@
       </Principal>
       <Dependent Role="Clubs">
         <PropertyRef Name="Approval" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Clubs_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Clubs" Type="Self.Clubs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Clubs">
+        <PropertyRef Name="user_created" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -231,6 +243,10 @@
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Clubs_Administrators" Association="Self.FK_Clubs_Administrators">
       <End Role="Administrators" EntitySet="Administrators" />
+      <End Role="Clubs" EntitySet="Clubs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Clubs_Users" Association="Self.FK_Clubs_Users">
+      <End Role="Users" EntitySet="Users" />
       <End Role="Clubs" EntitySet="Clubs" />
     </AssociationSet>
     <AssociationSet Name="FK_Comments_Administrators" Association="Self.FK_Comments_Administrators">

@@ -1,0 +1,43 @@
+.text_sign{ 
+    font-size:2rem;
+}
+.btn_sign{
+    border-color: #4834d4;
+}
+.btn_sign:hover{
+    
+    background-color: #4834d4;
+}
+
+.btn_form{
+	border: none;
+	background-color: inherit;
+	border-radius: 0;
+
+}
+.btn_form:focus{
+	background-color: inherit;
+	border-color: inherit;
+}
+.btn_form:visited{
+	border:none;
+	border-color: inherit;
+}
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.d-iblock{
+    display : block !important;
+}

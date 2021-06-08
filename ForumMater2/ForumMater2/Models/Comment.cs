@@ -16,7 +16,7 @@ namespace ForumMater2.Models
     {
         public string ID { get; set; }
         public string Content { get; set; }
-        public Nullable<System.DateTime> DateTimeCreated { get; set; }
+        public System.DateTime DateTimeCreated { get; set; }
         public string UserID { get; set; }
         public string PostID { get; set; }
         public string Approval { get; set; }

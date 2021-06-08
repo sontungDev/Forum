@@ -18,9 +18,9 @@
     <EntitySetMapping Name="Clubs">
       <EntityTypeMapping TypeName="ClubForumModel.Club">
         <MappingFragment StoreEntitySet="Clubs">
+          <ScalarProperty Name="user_created" ColumnName="user_created" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Avatar" ColumnName="Avatar" />
           <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
           <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
           <ScalarProperty Name="Approval" ColumnName="Approval" />
