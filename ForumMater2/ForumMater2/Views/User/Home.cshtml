@@ -9,8 +9,7 @@
     // xử lý
     ClubForumEntities db = new ClubForumEntities();
     User user = ViewBag.User;
-    string url_avatar = ViewBag.Url + "/assets/images/avatars/" + user.Avatar;
-    string url__avatar_group = ViewBag.Url + "/assets/images/avatars/" + user.Avatar;
+    string url_avatar = ViewBag.Url + "/assets/images/users/avatars/" + user.Avatar;
 }
 
 <nav class="row container-fluid mt-md-5 mt-0 w-100 m-0 p-0">
@@ -38,7 +37,7 @@
             <span>Đề xuất</span>
             <a href="/User/CreateClub" class="float-right">Tạo câu lạc bộ</a>
         </div>
-        <div class=" border border-1 border-bottom-0 container-fluid text-left pt-2 pb-2 pr-0">
+        <div class=" border border-1 container-fluid text-left pt-2 pb-2 pr-0">
             @{
                 List<Club> list_clubs = db.Clubs.ToList(); // còn xử lý tiếp
                 List<Club> list_club_parti = db.UserClubRoles.Where(m => m.UserID == user.ID).Select(m => m.Club).ToList();
@@ -50,16 +49,16 @@
                                         <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
                                     </div>
                         <div class="m-0 p-0 col-md-6 text_clb" id="">
-                            <a href="#" class="text-decoration-none text-dark m-0">@item.Name</a>
+                            <a href="/User/ClubDetail/@item.ID" class="text-decoration-none text-dark m-0" style="font-size:13px;">@item.Name</a>
                         </div>
                         <div class="m-0 p-0 col-md-2">
                             <button type="submit" class="border border-1 m-0 float-right mr-1 icon_insert" id=""><h4>+</h4></button>
                         </div>
                     </div>
-                                            }
+                }
 
             }
-            <div class="pl-5 pt-4">
+            <div class="pl-5 pt-4 pb-3">
                 <a href="group.html" class="text-danger text-decoration-none pl-1">Xem thêm</a>
             </div>
         </div>
@@ -135,7 +134,7 @@
                 </div>
             </div>
         </div>
-        <div class="border border-1 mt-5">
+        <div class="border border-1 mt-5 pb-3">
             <div class="d-flex justify-content-center border border-0 border-bottom-1 pt-2 pb-2" style="background-color:  #7ed6df">
                 Các câu lạc bộ tham gia
             </div>
@@ -147,7 +146,7 @@
                                          <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
                                     </div>
                         <div class="m-0 p-0 col-md-6" id="text_clb">
-                            <a href="#" class="text-decoration-none text-dark m-0">@item.Name</a>
+                            <a href="/User/ClubDetail/@item.ID" class="text-decoration-none text-dark m-0" style="font-size:13px;">@item.Name</a>
                         </div>
                     </div>
                 }

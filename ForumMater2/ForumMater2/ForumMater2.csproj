@@ -190,13 +190,17 @@
     <Content Include="assets\css\general\register.css" />
     <Content Include="assets\css\user\createCLB.css" />
     <Content Include="assets\css\user\create_post.css" />
+    <Content Include="assets\css\user\groupofme_Chief.css" />
     <Content Include="assets\css\user\home.css" />
     <Content Include="assets\css\user\setting.css" />
     <Content Include="assets\images\clubs\covers\default-cover.jpg" />
-    <Content Include="assets\images\avatars\av.png" />
     <Content Include="assets\images\default\gp.png" />
     <Content Include="assets\images\default\logo_1.png" />
     <Content Include="assets\images\logoes\logo-ntu.png" />
+    <Content Include="assets\images\users\avatars\354815a7-078c-4546-b357-2c5bfe24c0fe.jpeg" />
+    <Content Include="assets\images\users\avatars\41758bbb-bc09-4cee-b117-3269fe5578fb.jpeg" />
+    <Content Include="assets\images\users\avatars\ae1d1ab4-5fae-4b8d-8f9b-c1c2dbe74534.jpeg" />
+    <Content Include="assets\images\users\avatars\av.png" />
     <Content Include="assets\plugins\ckfinder\bin\Debug\CKFinder.dll" />
     <Content Include="assets\plugins\ckfinder\bin\Debug\CKFinder.pdb" />
     <Content Include="assets\plugins\ckfinder\bin\Debug\CKFinder_FileEditor.dll" />
@@ -1021,6 +1025,8 @@
     <Content Include="Views\User\CreatePost.cshtml" />
     <Content Include="Views\User\MyProfile.cshtml" />
     <Content Include="Views\User\CreateClub.cshtml" />
+    <Content Include="Views\User\ClubDetail.cshtml" />
+    <Content Include="Views\User\ClubDetailMem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

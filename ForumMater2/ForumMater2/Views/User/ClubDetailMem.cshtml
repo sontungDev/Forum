@@ -1,0 +1,188 @@
+﻿@model ForumMater2.Models.Club
+@using ForumMater2.Models
+@{
+    ViewBag.Title = "ClubDetailMem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ClubForumEntities db = new ClubForumEntities();
+    int count = db.UserClubRoles.Where(m => m.ClubID == Model.ID).Count();
+    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID).ToList();
+}
+@section styles{
+    <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
+}
+<nav class="row container-fluid p-0 m-0 w-100 d-flex justify-content-center bg-light">
+    <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
+        <img src="@ViewBag.Url/assets/images/clubs/covers/@Model.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
+        <i class="fas fa-camera btn btn-light icon_camera" id="">
+            <span class="ml-2 d-none d-sm-inline">Thay đổi ảnh</span>
+            <input type="file" class="upload" />
+        </i>
+    </div>
+    <input class="col-6 col-md-7 h-50 mt-2 d-none" placeholder="Đang tải......" disabled="disabled" />
+    <div class="w-100 offset-2 mt-2 mb-2">
+        <h3 class="ml-md-5 ml-4">@Model.Name</h3>
+        <h5 class="ml-md-5 ml-4 blockquote-footer">@Model.ShortName</h5>
+        <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black">Nhóm công khai</i>
+        <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">Số lượng thành viên : @count</i>
+    </div>
+</nav>
+<hr class="mt-0">
+<!-- end header -->
+<!-- Body -->
+<nav class="row container-fluid mt-0 w-100 m-0 p-0">
+    <!-- left body -->
+    <nav class="boder border-bottom-1 d-none d-sm-block col-md-2 col-0 offset-md-1 p-0 left_body" id="">
+        <div class="border border-1 container-fluid text-left pt-2 mt-4 pb-2" style="background-color: #7ed6df">
+            <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/P3LEV6Y0FCf.png" style="height:36px;width:36px" alt=""> &nbsp Thành viên
+        </div>
+        @{
+            foreach (var item in remembers)
+            {
+                <div class="border border-1 justify-content-center">
+                    <div class="w-100 p-2">
+                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="avatar" class="d-inline rounded-circle img_member">
+                        <div class="d-inline"><a href="#" style="text-decoration: none; color: inherit;">@item.User.FirstName @item.User.LastName</a></div>
+                    </div>
+                </div>
+            }
+        }
+        <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
+            <a href="memberCLB_Chief.html" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+        </div>
+    </nav>
+    <!-- end left body -->
+    <!-- center body -->
+    <nav class="col-12 w-100 col-md-5 ml-md-5 m-0 p-0" style="box-sizing: border-box;">
+        <!-- Post a posts -->
+        <nav class="nav_post_posts">
+            <div class="d-inline">
+                <img src="image/1.jpg" alt="Avatar" class="avatar_post_posts rounded-circle">
+            </div>
+            <div class="d-inline ml-2">
+                <span>Bạn đang nghĩ gì ?</span>
+            </div>
+            <div class="d-inline float-right mt-md-1">
+                <input type="button" class="btn btn_post_posts" name="" value="Đăng Bài" data-toggle="modal" data-target="#modal_post">
+            </div>
+
+        </nav>
+
+        <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
+            <div class="d-inline mt-2 p-md-1 m-md-1 p-1 m-1 rounded-circle w-100">
+                <img src="image/1.jpg" alt="Avatar" class="avatar_post rounded-circle">
+            </div>
+            <div class="d-inline p-1 m-md-0 pt-1">
+                <span><a href="UseInfo.html" style="text-decoration: none; color: inherit;"><b class="mr-md-1">Lâm Trường</b></a></span>
+
+            </div>
+            <hr class="mt-1 mb-0">
+            <!-- nội dung bài đăng -->
+            <nav class="container-fluid ml-2 mt-md-3 mt-2">
+                <div>
+                    <span>
+                        <b>
+                            Tiêu đề bài đăng
+                            Lorem ipsum
+                        </b>
+                    </span>
+                </div>
+                <div class="mt-2">
+                    <div>
+                        Chào mừng các bạn
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                </div>
+                <div class="mt-3" style="color: #2d3436">
+                    <span class="border rounded-pill p-1" style="background-color: #dfe6e9">hastag1</span>
+                    <span class="border rounded-pill p-1" style="background-color: #dfe6e9">hastag2</span>
+                </div>
+            </nav>
+            <hr class="mb-2">
+            <!-- Love and comment -->
+            <div class="m-0 pb-2">
+
+                <i class="fas fa-comment-alt mt-0 ml-4 comment"><span class="ml-2 mt-0">Bình Luận<span class="ml-2 mt-0">1</span></span></i>
+            </div>
+            <!-- end Love and Comment -->
+            <hr class="mt-1">
+            <!-- content comment -->
+            <nav class="container_comment">
+                <!-- Comment of user -->
+                <div class="mb-2 ml-2">
+                    <img src="image/1.jpg" class="d-inline avatar_comment rounded-circle" alt="Avatar">
+                    <span class="">
+                        <b class=" ml-2">Tên user</b>
+                        <span class="d-block ml-5">
+                            nội dunaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa
+                            aaaaaaaaaaaaa aaaaaaaaaaaaaaa
+                        </span>
+                    </span>
+
+                </div>
+                <!-- end Comment of user -->
+                <div class="mt-md-4 mt-3">
+                    <img src="image/1.jpg" class="d-inline avatar_comment rounded-circle" alt="Avatar">
+                    <input type="text" name="" placeholder="Viết bình luận của bạn vào đây...." class="p-2 rounded-pill bg-light d-inline border border-0 comment_outline p-1" style="width: 86%;">
+                </div>
+
+            </nav>
+            <!-- end conten comment -->
+        </nav>
+        <!-- end posts -->
+
+
+
+    </nav>
+    <!-- End center body -->
+    <!-- right body -->
+    <nav class="col-0 col-md-2 ml-md-5 p-0 w-100 d-sm-block d-none">
+        <div class=" border border-1 container-fluid text-left pt-2 pb-2" style="background-color: #7ed6df">
+            Danh mục
+        </div>
+        <div class="border border-1 justify-content-center">
+            <div class="w-100 m-3">
+                <a href="eventCLB_Chief.html" style="text-decoration: none;  color: inherit;">
+                    <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/rvdJw9pk06Q.png" style="height:36px;width:36px" alt=""> &nbsp Sự kiên
+                </a>
+            </div>
+            <div class="w-100 m-3">
+                <a href="goupofme_Chief.html" style="text-decoration: none;  color: inherit;">
+                    <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yX/r/L2qlIhGe55v.png" style="height:36px;width:36px" alt=""> &nbsp Câu lạc bộ
+                </a>
+            </div>
+
+        </div>
+        <div class="border border-1 container-fluid text-left pt-2 mt-4 pb-2" style="background-color: #7ed6df">
+            Dánh sách các sự kiện
+        </div>
+        <div class="border border-1 justify-content-center">
+            <div class="w-100 p-2">
+                <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/WcCzeboYevF.png" alt="" style="height: 36px; width: 36px;">
+                <a href="eventCLB_Chief.html" class="d-inline text-decoration-none" style="color: inherit;">Sự kiện 1</a>
+            </div>
+            <div class="w-100 p-2">
+                <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/WcCzeboYevF.png" alt="" style="height: 36px; width: 36px;">
+                <a href="eventCLB_Chief.html" class="d-inline text-decoration-none" style="color: inherit;">Sự kiện 1</a>
+            </div>
+            <div class="w-100 p-2">
+                <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/WcCzeboYevF.png" alt="" style="height: 36px; width: 36px;">
+                <a href="eventCLB_Chief.html" class="d-inline text-decoration-none" style="color: inherit;">Sự kiện 1</a>
+            </div>
+            <div class="w-100 p-2">
+                <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/WcCzeboYevF.png" alt="" style="height: 36px; width: 36px;">
+                <a href="eventCLB_Chief.html" class="d-inline text-decoration-none" style="color: inherit;">Sự kiện 1</a>
+            </div>
+            <div class="w-100 p-2">
+                <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yI/r/WcCzeboYevF.png" alt="" style="height: 36px; width: 36px;">
+                <a href="eventCLB_Chief.html" class="d-inline text-decoration-none" style="color: inherit;">Sự kiện 1</a>
+            </div>
+        </div>
+        <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
+            <a href="eventCLB_Chief.html" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+        </div>
+    </nav>
+    <!-- end right body -->
+
+
+</nav>
+<!-- End body -->

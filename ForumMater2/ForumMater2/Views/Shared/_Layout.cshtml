@@ -56,7 +56,7 @@
             <!-- content menu -->
             <ul class="navbar-nav mb-0">
                 <li class="nav-item mr-md-3 ml-3 p-1 px-md-4 px-4">
-                    <a href="home.html" class="nav-link text-dark">
+                    <a href="/User/Home" class="nav-link text-dark">
                         <i class="fas fa-home d-block text-center"></i>
                     </a>
                 </li>
@@ -130,31 +130,12 @@
 
             <div class="dropdown-menu p-3">
                 <div>
-                    <p class="d-flex justify-content-center">Trạng thái</p>
-                    <hr class="bg-dark d-block">
-                    <div class="form-check">
-                        <input type="radio" name="Status" class="form-check-input">
-                        <label class="form-check-label" for="online">Online</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" name="Status" class="form-check-input" id="offline">
-                        <label class="form-check-label" for="offline">Offline</label>
-                    </div>
-
-                    <hr class="bg-dark d-block">
-                    <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search" />
-                        <a href="#" class="input-group-text bg-white border-0">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </div>
-                    <hr>
                     <div class="text-center">
-                        <a href="setting.html" class="d-block text-decoration-none">Cài đặt</a>
+                        <a href="/User/MyProfile" class="d-block text-decoration-none">Cài đặt</a>
                         <hr>
                     </div>
                     <div class="text-center">
-                        <a href="intro.html" class="text-center w-100 text-decoration-none">Đăng xuất</a>
+                        <a href="/Log/SignOut" class="text-center w-100 text-decoration-none">Đăng xuất</a>
                     </div>
                 </div>
             </div>
@@ -170,6 +151,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

@@ -157,6 +157,7 @@ namespace ForumMater2.Controllers
         #endregion
 
         // thêm câu lạc bộ
+        #region
         public ActionResult CreateClub()
         {
             if(Session["user"] != null)
@@ -235,6 +236,44 @@ namespace ForumMater2.Controllers
                 result = "exist";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        // trang cho quản trưởng clb
+        public ActionResult ClubDetail(string id)
+        {
+            if(Session["user"] != null)
+            {
+                string user_id = Session["user"].ToString();
+                ViewBag.Url = UrlContext();
+                Club club = db.Clubs.Find(id);
+                int roles = db.UserClubRoles.Where(m => m.ClubID == id && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
+                if (roles == 2)
+                    return View(club);
+                else if (roles == 1)
+                    return RedirectToAction("ClubDetailMem/" + id);
+                else
+                    return RedirectToAction("ClubDetailCus/" + id);
+            }
+            return Redirect("/Log/Login");
+        }
+        // trang cho thành viên
+        public ActionResult ClubDetailMem(string id)
+        {
+            if (Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                Club club = db.Clubs.Find(id);
+                return View(club);
+            }
+            return Redirect("/Log/Login");
+        }
+        // dành cho người không phải thành viên
+        public ActionResult ClubDetailCus(string id)
+        {
+            return Content("d");
+
+        }
+
+        #endregion
 
 
         // làm gì đó tiếp đi
