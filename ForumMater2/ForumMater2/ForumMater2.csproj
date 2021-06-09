@@ -192,6 +192,8 @@
     <Content Include="assets\css\user\create_post.css" />
     <Content Include="assets\css\user\groupofme_Chief.css" />
     <Content Include="assets\css\user\home.css" />
+    <Content Include="assets\css\user\memberCLB.css" />
+    <Content Include="assets\css\user\see_profile.css" />
     <Content Include="assets\css\user\setting.css" />
     <Content Include="assets\images\clubs\covers\default-cover.jpg" />
     <Content Include="assets\images\default\gp.png" />
@@ -1027,6 +1029,8 @@
     <Content Include="Views\User\CreateClub.cshtml" />
     <Content Include="Views\User\ClubDetail.cshtml" />
     <Content Include="Views\User\PostDetail.cshtml" />
+    <Content Include="Views\User\VerifyMembers.cshtml" />
+    <Content Include="Views\User\SeeProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

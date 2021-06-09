@@ -1,0 +1,95 @@
+﻿@using ForumMater2.Models
+@model Club
+@{
+    ViewBag.Title = "VerifyMembers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ClubForumEntities db = new ClubForumEntities();
+    string user_id = Session["user"].ToString();
+    List<User> waiting_broswer = db.UserClubRoles.OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user_id && m.Role == 1).Select(m => m.User).ToList();
+
+}
+@section styles{
+    <link href="~/assets/css/user/memberCLB.css" rel="stylesheet" />
+}
+
+<div class="row justify-content-between m-0 p-0">
+    <div class="col-3"></div>
+    <div class="col-6 px-3 py-4" id="main">
+        @{ 
+            foreach(var item in waiting_broswer)
+            {
+                <div class="row">
+                    <a class="col-8 d-block text-decoration-none text-black-50" href="#">
+                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.Avatar" alt="avatar" class="rounded-circle mr-3" style="width:35px;" />
+                        <span class="font-weight-bold">@item.FirstName @item.LastName</span>
+                    </a>
+                    <div class="col-4 text-right">
+                        <button class="btn btn-success" name="btn-accept">Chấp nhận</button>
+                        <button class="btn btn-danger" name="btn-refuse">Từ chối</button>
+                        <input type="hidden" value="@item.ID" name="user-id" />
+                        <input type="hidden" value="@Model.ID" name="club-id" />
+                    </div>
+                    <hr style="width:80%; margin: 15px auto;" />
+                </div>
+
+            }
+        }
+    </div>
+    <div class="col-3"></div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('button[name="btn-accept"]').click(function (e) {
+                e.preventDefault();
+                var user_id_ele = e.target.nextElementSibling.nextElementSibling;
+                var club_id_ele = user_id_ele.nextElementSibling;
+
+                var user_id = $(user_id_ele).val();
+                var club_id = $(club_id_ele).val();
+                $.ajax({
+                        url: '@Url.Action("VerifyMembers", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id, result : true }),
+                    success: function (data) {
+                        let container_ele = e.target.parentElement.parentElement;
+                        $(container_ele).remove();
+                        alert(data);
+                    },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+            });
+
+            $('button[name="btn-refuse"]').click(function (e) {
+                e.preventDefault();
+                var user_id_ele = e.target.nextElementSibling;
+                var club_id_ele = user_id_ele.nextElementSibling;
+
+                var user_id = $(user_id_ele).val();
+                var club_id = $(club_id_ele).val();
+
+                $.ajax({
+                        url: '@Url.Action("VerifyMembers", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id, result : false }),
+                        success: function (data) {
+                            let container_ele = e.target.parentElement.parentElement;
+                            $(container_ele).remove();
+                            alert(data);
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+            });
+        });
+    </script>    
+}
+

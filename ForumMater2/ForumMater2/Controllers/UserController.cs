@@ -144,6 +144,17 @@ namespace ForumMater2.Controllers
             }
             return Redirect("/Log/Login");
         }
+
+        public ActionResult SeeProfile(string id)
+        {
+            if(Session["user"] != null)
+            {
+                User user = db.Users.Find(id);
+                ViewBag.Url = UrlContext();
+                return View(user);
+            }
+            return Redirect("/Log/Login");
+        }    
         [HttpPost]
         // dùng để cập nhập ảnh đại diện người dùng
         public JsonResult MyProfile1(FormCollection form_data)
@@ -396,6 +407,41 @@ namespace ForumMater2.Controllers
         }
 
         #endregion
+
+        // thành viên
+        #region
+        // duyệt thành viên
+        public ActionResult VerifyMembers(string id)
+        {
+            if(Session["user"] != null)
+            {
+                Club club = db.Clubs.Find(id);
+
+                ViewBag.Url = UrlContext();
+                return View(club);
+            }
+            return Redirect("/Log/Login");
+        }
+        [HttpPost]
+        public JsonResult VerifyMembers(string user_id, string club_id, bool result)
+        {
+            UserClubRole userClubRole = db.UserClubRoles.Where(m => m.UserID == user_id && m.ClubID == club_id).FirstOrDefault();
+
+            if (result)
+            {
+                userClubRole.Role = 2;
+            }
+            else
+            {
+                db.UserClubRoles.Remove(userClubRole);
+            }
+            db.SaveChanges();
+
+            return Json("Thành công", JsonRequestBehavior.AllowGet);
+        }    
+
+        #endregion
+
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)
         {
