@@ -42,7 +42,7 @@
                                 <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" style="width:30px;" />
                                 <span style="font-weight:bold" class="px-2">@item.User.FirstName @item.User.LastName</span>
                             </a>
-                            <p>@item.Content</p>
+                            <p class="pl-3">@item.Content</p>
                             <div class="text-right mr-3">
                                 <small class="text-muted">@item.DateTimeCreated</small>
                             </div>
@@ -75,13 +75,11 @@
                             + '<a class="mb-2 d-block" href="#" style="text-decoration:none; color:black;">'
                             + '<img src="@ViewBag.Url/assets/images/users/avatars/@user.Avatar" style="width:30px;" />'
                             + '<span style="font-weight:bold" class="px-2">@user.FirstName @user.LastName</span></a>'
-                            + '<p>' + content + '</p>'
+                            + '<p class="pl-3">' + content + '</p>'
                             + '<div class="text-right mr-3">'
                             + '<small class="text-muted">@DateTime.Now</small></div></div>'
                             + '<hr style="width:50%" class="ml-5" />';
                         $('#con-comment').prepend(temp);
-                        alert(data);
-
                     },
                     error: function (err) {
                         alert('Đã xảy ra lỗi - Rất tiếc');

@@ -339,7 +339,7 @@ namespace ForumMater2.Controllers
         {
             UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
 
-            userClubRole.Role = 0;
+            db.UserClubRoles.Remove(userClubRole);
 
             int res = db.SaveChanges();
             if(res > 0)
@@ -356,8 +356,21 @@ namespace ForumMater2.Controllers
 
             UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
 
-            userClubRole.Role = 1;
-
+            if(userClubRole == null)
+            {
+                userClubRole = new UserClubRole()
+                {
+                    ClubID = club_id,
+                    UserID = user_id,
+                    DateTimeJoined = DateTime.Now,
+                    Role = 1
+                };
+                db.UserClubRoles.Add(userClubRole);
+            }
+            else
+            {
+                userClubRole.Role = 1;
+            }
             int res = db.SaveChanges();
             if (res > 0)
             {

@@ -12,3 +12,6 @@ trưởng clb là số 3
 riêng tư
 1 privary
 2 công khai
+
+câu lạc bộ chưa tham gia lấy 7
+thành viên xem 10
