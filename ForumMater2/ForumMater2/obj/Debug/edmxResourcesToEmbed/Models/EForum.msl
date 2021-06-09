@@ -18,7 +18,6 @@
     <EntitySetMapping Name="Clubs">
       <EntityTypeMapping TypeName="ClubForumModel.Club">
         <MappingFragment StoreEntitySet="Clubs">
-          <ScalarProperty Name="user_created" ColumnName="user_created" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
@@ -27,6 +26,8 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ShortName" ColumnName="ShortName" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
+          <ScalarProperty Name="Privacy" ColumnName="Privacy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -47,9 +48,9 @@
         <MappingFragment StoreEntitySet="Plans">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
-          <ScalarProperty Name="Content" ColumnName="Content" />
           <ScalarProperty Name="DateTimeExpected" ColumnName="DateTimeExpected" />
           <ScalarProperty Name="ClubID" ColumnName="ClubID" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -57,13 +58,13 @@
       <EntityTypeMapping TypeName="ClubForumModel.Post">
         <MappingFragment StoreEntitySet="Posts">
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Content" ColumnName="Content" />
           <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="ClubID" ColumnName="ClubID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Hashtag" ColumnName="Hashtag" />
           <ScalarProperty Name="Approval" ColumnName="Approval" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -4,6 +4,11 @@ club	CID
 admin	AID
 comment	MID
 
-chờ duyệt là số 0
-thành viên là số 1
-trưởng clb là số 2
+người khác nhóm 0
+chờ duyệt là số 1
+thành viên là số 2
+trưởng clb là số 3
+
+riêng tư
+1 privary
+2 công khai

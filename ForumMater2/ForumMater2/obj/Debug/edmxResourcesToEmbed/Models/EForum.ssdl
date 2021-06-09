@@ -25,7 +25,8 @@
     <Property Name="Name" Type="nvarchar" MaxLength="250" />
     <Property Name="ShortName" Type="varchar" MaxLength="10" />
     <Property Name="Description" Type="nvarchar" MaxLength="250" />
-    <Property Name="user_created" Type="varchar" MaxLength="30" />
+    <Property Name="UserCreated" Type="varchar" MaxLength="30" />
+    <Property Name="Privacy" Type="smallint" />
   </EntityType>
   <EntityType Name="Comments">
     <Key>
@@ -120,7 +121,7 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Clubs">
-        <PropertyRef Name="user_created" />
+        <PropertyRef Name="UserCreated" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

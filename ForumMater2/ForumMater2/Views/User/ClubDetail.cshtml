@@ -8,17 +8,16 @@
     List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID).ToList();
     string user_id = Session["user"].ToString();
     User user = db.Users.Find(user_id);
+    int roles = db.UserClubRoles.Where(m => m.ClubID == Model.ID && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
 }
 @section styles{
     <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
 }
-<nav class="row container-fluid p-0 m-0 w-100 d-flex justify-content-center bg-light">
+<input type="hidden" name="user-id" value="@user_id" />
+<input type="hidden" name="club-id" value="@Model.ID" />
+<nav class="row container-fluid pt-5 m-0 w-100 d-flex justify-content-center bg-light">
     <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
         <img src="@ViewBag.Url/assets/images/clubs/covers/@Model.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
-        <i class="fas fa-camera btn btn-light icon_camera" id="">
-            <span class="ml-2 d-none d-sm-inline">Thay đổi ảnh</span>
-            <input type="file" class="upload" />
-        </i>
     </div>
     <input class="col-6 col-md-7 h-50 mt-2 d-none" placeholder="Đang tải......" disabled="disabled" />
     <div class="w-100 offset-2 mt-2 mb-2">
@@ -26,9 +25,45 @@
         <h5 class="ml-md-5 ml-4 blockquote-footer">@Model.ShortName</h5>
         <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black">Nhóm công khai</i>
         <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">Số lượng thành viên : @count</i>
-        <i class="fas fa-user-clock d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="acpt_memberCLB_Chief.html" class="text-decoration-none text-dark">Duyệt thành viên</a></i>
-        <i class="fas fa-cog d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="settingCLB_Chief.html" class="text-decoration-none text-dark">Chỉnh sửa</a></i>
+        @{
+            if (roles == 3)
+            {
+                <i class="fas fa-user-clock d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="acpt_memberCLB_Chief.html" class="text-decoration-none text-dark">Duyệt thành viên</a></i>
+                <i class="fas fa-cog d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="settingCLB_Chief.html" class="text-decoration-none text-dark">Chỉnh sửa</a></i>
+                @*<button class="btn btn-warning ml-5" id="delete-club">Giải tán câu lạc bộ</button>*@
+            }
+            else if (roles == 2) // rời câu lạc bộ
+            {
+                <button class="btn btn-warning ml-5" id="btn-leave">Rời câu lạc bộ</button>
+                <button class="btn btn-info ml-5 d-none" id="btn-join">Xin gia nhập CLB</button>
+            }
+            else if (roles == 1) // hiển thị ra đang chờ duyệt
+            {
+                <div class="dropdown d-inline ml-5" id="wait-browser">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="drop_club" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Đang chờ duyệt
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" id="cancel-club">Hủy gia nhập</button>
+                    </div>
+                </div>
 
+                <button class="btn btn-info ml-5 d-none" id="btn-join">Xin gia nhập CLB</button>
+            }
+            else // xin gia nhập câu lạc bộ
+            {
+                <button class="btn btn-info ml-5" id="btn-join">Xin gia nhập CLB</button>
+
+                <div class="dropdown d-inline ml-5 d-none" id="wait-browser">
+                    <button class="btn btn-secondary dropdown-toggle d-none" type="button" id="drop_club" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Đang chờ duyệt
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" id="cancel-club">Hủy gia nhập</button>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </nav>
 <hr class="mt-0">
@@ -37,7 +72,7 @@
 <nav class="row container-fluid mt-0 w-100 m-0 p-0">
     <!-- left body -->
     <nav class="boder border-bottom-1 d-none d-sm-block col-md-2 col-0 offset-md-1 p-0 left_body" id="">
-        <div class="border border-1 container-fluid text-left pt-2 mt-4 pb-2" style="background-color: #7ed6df">
+        <div class="border border-1 container-fluid text-left pt-2 pb-2" style="background-color: #7ed6df">
             <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/P3LEV6Y0FCf.png" style="height:36px;width:36px" alt=""> &nbsp Thành viên
         </div>
         @{
@@ -191,3 +226,98 @@
 
 </nav>
 <!-- End body -->
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var user_id = $('input[name="user-id"]').val();
+            var club_id = $('input[name="club-id"]').val();
+
+            // rời câu lạc bộ
+            $('#btn-leave').click(function (e) {
+                e.preventDefault();
+                var res = confirm("Bạn có chắc muốn rời nhóm không");
+                if (res) {
+                    $.ajax({
+                        url: '@Url.Action("LeaveClub", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id }),
+                        success: function (data) {
+                            if (data == 'Thành công') {
+                                $('#btn-leave').addClass('d-none');
+                                $('#btn-join').removeClass('d-none');
+                                alert(data);
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                    console.log('OK');
+                    // xử lý ajax ở đây
+                }
+            });
+
+            $('#cancel-club').click(function (e) {
+                e.preventDefault();
+                var res = confirm("Bạn có chắc muốn rút lại yêu cầu xin gia nhập");
+                console.log('Cancel');
+                if (res) {
+                    $.ajax({
+                        url: '@Url.Action("CancelRequest", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id }),
+                        success: function (data) {
+                            if (data == 'Thành công') {
+                                $('#wait-browser').addClass('d-none');
+                                $('#drop_club').addClass('d-none');
+                                $('#btn-join').removeClass('d-none');
+                                alert(data);
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+            });
+
+            //  giải tán câu lạc bộ
+            $('#delete-club').click(function (e) {
+                e.preventDefault();
+                var res = prompt("Bạn có chắc muốn giải tán câu lạc bộ\nNhập OKAY để giản tán ");
+                if (res.toLowerCase() == 'okay') {
+                    console.log('OK');
+                    //xử lý ajax xóa clb ở đây
+                }
+            });
+
+            // xin gia nhập vào clb
+            $('#btn-join').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                        url: '@Url.Action("JoinClub", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id }),
+                        success: function (data) {
+                            if (data == 'Thành công') {
+                                $('#wait-browser').removeClass('d-none');
+                                $('#drop_club').removeClass('d-none');
+                                $('#btn-join').addClass('d-none');
+                                alert(data);
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+            });
+        });
+    </script>
+} 

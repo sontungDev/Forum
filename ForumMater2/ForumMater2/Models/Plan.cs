@@ -16,9 +16,9 @@ namespace ForumMater2.Models
     {
         public string ID { get; set; }
         public string Title { get; set; }
-        public string Content { get; set; }
         public System.DateTime DateTimeExpected { get; set; }
         public string ClubID { get; set; }
+        public string Content { get; set; }
     
         public virtual Club Club { get; set; }
     }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ClubForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ClubForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Administrators">
           <Key>
             <PropertyRef Name="ID" />
@@ -30,7 +30,8 @@
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="ShortName" Type="varchar" MaxLength="10" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
-          <Property Name="user_created" Type="varchar" MaxLength="30" />
+          <Property Name="UserCreated" Type="varchar" MaxLength="30" />
+          <Property Name="Privacy" Type="smallint" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -125,7 +126,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Clubs">
-              <PropertyRef Name="user_created" />
+              <PropertyRef Name="UserCreated" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -291,7 +292,8 @@
             <End Role="UserClubRoles" EntitySet="UserClubRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClubForumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -304,7 +306,7 @@
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int16" />
           <NavigationProperty Name="Clubs" Relationship="Self.FK_Clubs_Administrators" FromRole="Administrators" ToRole="Clubs" />
@@ -318,17 +320,18 @@
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="CoverPhoto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Approval" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UserCreated" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Privacy" Type="Int16" />
           <NavigationProperty Name="Administrator" Relationship="Self.FK_Clubs_Administrators" FromRole="Clubs" ToRole="Administrators" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Clubs_Users" FromRole="Clubs" ToRole="Users" />
           <NavigationProperty Name="Plans" Relationship="Self.FK_Plans_Clubs" FromRole="Clubs" ToRole="Plans" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Clubs" FromRole="Clubs" ToRole="Posts" />
           <NavigationProperty Name="UserClubRoles" Relationship="Self.FK_Roles_Clubs" FromRole="Clubs" ToRole="UserClubRoles" />
-          <Property Name="user_created" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="ClubForumModel.FK_Clubs_Users" FromRole="Club" ToRole="User" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -336,7 +339,7 @@
           </Key>
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DateTimeCreated" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PostID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Approval" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -350,9 +353,9 @@
           </Key>
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="DateTimeExpected" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateTimeExpected" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ClubID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Plans_Clubs" FromRole="Plans" ToRole="Clubs" />
         </EntityType>
         <EntityType Name="Post">
@@ -360,13 +363,13 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateTimeCreated" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="ClubID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Hashtag" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Approval" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Administrator" Relationship="Self.FK_Posts_Admin" FromRole="Posts" ToRole="Administrators" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Posts_Clubs" FromRole="Posts" ToRole="Clubs" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Posts" FromRole="Posts" ToRole="Comments" />
@@ -390,7 +393,7 @@
           <Property Name="UserID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ClubID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Role" Type="Int16" Nullable="false" />
-          <Property Name="DateTimeJoined" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="DateTimeJoined" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Roles_Clubs" FromRole="UserClubRoles" ToRole="Clubs" />
           <NavigationProperty Name="User" Relationship="Self.FK_Roles_Users" FromRole="UserClubRoles" ToRole="Users" />
         </EntityType>
@@ -401,10 +404,10 @@
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DateCreated" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="0" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Workplace" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -412,10 +415,10 @@
           <Property Name="CoverPhoto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Clubs" Relationship="Self.FK_Clubs_Users" FromRole="Users" ToRole="Clubs" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Users" FromRole="Users" ToRole="Comments" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Users" FromRole="Users" ToRole="Posts" />
           <NavigationProperty Name="UserClubRoles" Relationship="Self.FK_Roles_Users" FromRole="Users" ToRole="UserClubRoles" />
-          <NavigationProperty Name="Clubs" Relationship="ClubForumModel.FK_Clubs_Users" FromRole="User" ToRole="Club" />
         </EntityType>
         <Association Name="FK_Clubs_Administrators">
           <End Role="Administrators" Type="Self.Administrator" Multiplicity="0..1" />
@@ -450,6 +453,18 @@
             </Principal>
             <Dependent Role="Posts">
               <PropertyRef Name="Approval" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clubs_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Clubs" Type="Self.Club" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Clubs">
+              <PropertyRef Name="UserCreated" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -558,6 +573,10 @@
             <End Role="Administrators" EntitySet="Administrators" />
             <End Role="Posts" EntitySet="Posts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Clubs_Users" Association="Self.FK_Clubs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clubs" EntitySet="Clubs" />
+          </AssociationSet>
           <AssociationSet Name="FK_Plans_Clubs" Association="Self.FK_Plans_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="Plans" EntitySet="Plans" />
@@ -586,23 +605,7 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserClubRoles" EntitySet="UserClubRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Clubs_Users" Association="ClubForumModel.FK_Clubs_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Club" EntitySet="Clubs" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Clubs_Users">
-          <End Type="ClubForumModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="ClubForumModel.Club" Role="Club" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Club">
-              <PropertyRef Name="user_created" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -626,7 +629,6 @@
           <EntitySetMapping Name="Clubs">
             <EntityTypeMapping TypeName="ClubForumModel.Club">
               <MappingFragment StoreEntitySet="Clubs">
-                <ScalarProperty Name="user_created" ColumnName="user_created" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
@@ -635,6 +637,8 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -655,9 +659,9 @@
               <MappingFragment StoreEntitySet="Plans">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="DateTimeExpected" ColumnName="DateTimeExpected" />
                 <ScalarProperty Name="ClubID" ColumnName="ClubID" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -665,13 +669,13 @@
             <EntityTypeMapping TypeName="ClubForumModel.Post">
               <MappingFragment StoreEntitySet="Posts">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="DateTimeCreated" ColumnName="DateTimeCreated" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ClubID" ColumnName="ClubID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Hashtag" ColumnName="Hashtag" />
                 <ScalarProperty Name="Approval" ColumnName="Approval" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -202,7 +202,7 @@ namespace ForumMater2.Controllers
                 Description = describe,
                 Name = name,
                 ShortName = short_name,
-                user_created = user_id,
+                UserCreated = user_id,
                 Type = type_club               
             };
 
@@ -236,7 +236,10 @@ namespace ForumMater2.Controllers
                 result = "exist";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        #endregion
 
+        // trang chi tiết câu lạc bộ
+        #region
         // trang cho quản trưởng clb
         public ActionResult ClubDetail(string id)
         {
@@ -246,9 +249,9 @@ namespace ForumMater2.Controllers
                 ViewBag.Url = UrlContext();
                 Club club = db.Clubs.Find(id);
                 int roles = db.UserClubRoles.Where(m => m.ClubID == id && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
-                if (roles == 2)
+                if (roles == 3)
                     return View(club);
-                else if (roles == 1)
+                else if (roles == 2)
                     return RedirectToAction("ClubDetailMem/" + id);
                 else
                     return RedirectToAction("ClubDetailCus/" + id);
@@ -262,20 +265,76 @@ namespace ForumMater2.Controllers
             {
                 ViewBag.Url = UrlContext();
                 Club club = db.Clubs.Find(id);
-                return View(club);
+                return View("ClubDetail",club);
             }
             return Redirect("/Log/Login");
         }
         // dành cho người không phải thành viên
         public ActionResult ClubDetailCus(string id)
         {
-            return Content("d");
-
+            if (Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                Club club = db.Clubs.Find(id);
+                return View("ClubDetail", club);
+            }
+            return Redirect("/Log/Login");
         }
 
         #endregion
 
+        // xử lý rời , gia nhập câu lạc bộ
+        #region
+        // xử lý rời câu lạc bộ
+        [HttpPost]
+        public JsonResult LeaveClub(string user_id, string club_id)
+        {
+            UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
 
+            userClubRole.Role = 0;
+
+            int res = db.SaveChanges();
+            if(res > 0)
+            {
+                return Json("Thành công", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Thất bại", JsonRequestBehavior.AllowGet);
+
+        }
+        // xử lý gia nhập câu lạc bộ
+        [HttpPost]
+        public JsonResult JoinClub(string user_id, string club_id)
+        {
+
+            UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
+
+            userClubRole.Role = 1;
+
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                return Json("Thành công", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Thất bại", JsonRequestBehavior.AllowGet);
+        }
+
+        // xử lý hủy yêu cầu câu lạc bộ
+        [HttpPost]
+        public JsonResult CancelRequest(string user_id, string club_id)
+        {
+            UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
+
+            userClubRole.Role = 0;
+
+            int res = db.SaveChanges();
+            if (res > 0)
+            {
+                return Json("Thành công", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Thất bại", JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)
         {
