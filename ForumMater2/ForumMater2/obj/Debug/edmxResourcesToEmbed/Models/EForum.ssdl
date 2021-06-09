@@ -33,11 +33,11 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="Content" Type="text" Nullable="false" />
     <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
     <Property Name="UserID" Type="varchar" MaxLength="30" />
     <Property Name="PostID" Type="varchar" MaxLength="30" />
     <Property Name="Approval" Type="varchar" MaxLength="30" />
+    <Property Name="Content" Type="nvarchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="Plans">
     <Key>

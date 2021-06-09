@@ -14,9 +14,10 @@
         <div class="valid-feedback">Hợp lệ</div>
         <div class="invalid-feedback">Không được để trống trường này</div>
     </div>
+
     <div class="form-group">
         <label for="hashtag">Hashtag</label>
-        <input type="text" class="form-control w-25" id="hashtag" name="hashtag" placeholder="VD : chunhat,mayman,... " required>
+        <input type="text" class="form-control w-25" id="hashtag" name="hashtag" placeholder="VD : #chunhat, #mayman,... " required>
         <div class="valid-feedback">Hợp lệ</div>
         <div class="invalid-feedback">Không được để trống trường này</div>
     </div>
@@ -51,7 +52,6 @@
         var edit = CKEDITOR.replace('content');
 
         CKFinder.setupCKEditor(edit, '@Url.Content("~/assets/plugins/ckfinder/")');
-
     </script>
 }
 

@@ -29,7 +29,7 @@ namespace ForumMater2.Controllers
                 ViewBag.User = user;
 
                 ViewBag.Url = UrlContext();
-                ViewBag.UrlAva = UrlContext() + "/assets/images/avatars";
+                ViewBag.UrlAva = UrlContext() + "/assets/images/users/avatars";
                 IEnumerable<Post> list_post = db.Posts.OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
 
                 return View(list_post);
@@ -76,6 +76,54 @@ namespace ForumMater2.Controllers
 
             return RedirectToAction("Home","User");
         }
+
+        // chi tiết bài đăng
+        public ActionResult PostDetail(string id)
+        {
+            if(Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                Post post = db.Posts.Find(id);
+                return View(post);
+            }
+            return Redirect("/Log/Login");
+        }
+        #endregion
+
+
+        // Bình luận
+        #region
+        // viết binh luận nhưng không chờ duyệt
+        [HttpPost]
+        public JsonResult PostCommnent(string post_id, string content)
+        {
+            string current_id = db.Comments.Select(m => m.ID).Max();
+            string id = Assitant.Instance.GetAutoID(current_id, "MID");
+
+            string user_id = Session["user"].ToString();
+            string approval = "AID0000000000";
+            string json = "";
+
+            Comment comment = new Comment()
+            {
+                ID = id,
+                Approval = approval,
+                Content = content,
+                DateTimeCreated = DateTime.Now,
+                PostID = post_id,
+                UserID = user_id             
+            };
+
+            db.Comments.Add(comment);
+            int res = db.SaveChanges();
+
+            if (res > 0)
+                json = "Thành công";
+            else
+                json = "Thất bại";
+
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         // trang cá nhân
@@ -85,7 +133,7 @@ namespace ForumMater2.Controllers
             if(Session["user"] != null)
             {
                 ViewBag.Url = UrlContext();
-                ViewBag.UrlAva = UrlContext() + "/assets/images/avatars";
+                ViewBag.UrlAva = UrlContext() + "/assets/images/users/avatars";
                 ViewBag.UrlCover = UrlContext() + "assets/images/covers";
 
                 string id = Session["user"].ToString();

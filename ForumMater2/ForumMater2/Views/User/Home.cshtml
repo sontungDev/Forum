@@ -94,15 +94,21 @@
                 </div>
                 <hr class="mt-1 mb-0">
                 <!-- nội dung bài đăng -->
-                <nav class="container-fluid ml-2 mt-md-3 mt-2">
-                    <div class="title-post">
-                        <a href="#">@item.Title</a>
+                <div class="container-fluid ml-2 mt-md-3 mt-2 row justify-content-start">
+                    <a class="col-2 pt-1 d-block" href="/User/PostDetail/@item.ID">
+                        <img src="@ViewBag.Url/assets/images/clubs/covers/@item.Club.CoverPhoto" class="w-100" alt="Ảnh câu lạc bộ" />
+                    </a>
+                    <div class="col-10">
+                        <div class="title-post">
+                            <a href="/User/PostDetail/@item.ID">@item.Title</a>
+                        </div>
+                        <div class="text-time">
+                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                            <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                        </div>
                     </div>
-                    <div class="text-time">
-                        <i class="fa fa-caret-right" aria-hidden="true"></i>
-                        <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
-                    </div>
-                </nav>              
+                    
+                </div>              
             }
         <div class="my-3">
             @Html.PagedListPager(Model, page => Url.Action("Home", new { page }),
@@ -125,34 +131,23 @@
         </div>
         <div class="border border-1 mt-0">
             <div class="d-flex justify-content-center border border-0 border-bottom-1 pt-2 pb-2" style="background-color:  #7ed6df">
-                Tìm kiếm
-            </div>
-            <div class="input-group p-2">
-                <input type="search" placeholder="Nhập từ bạn cần tìm?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
-                <div class="input-group-append">
-                    <button id="button-addon1" type="submit" class="btn btn-link btn-light text-dark"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </div>
-        <div class="border border-1 mt-5 pb-3">
-            <div class="d-flex justify-content-center border border-0 border-bottom-1 pt-2 pb-2" style="background-color:  #7ed6df">
                 Các câu lạc bộ tham gia
             </div>
             @{
                 foreach (ForumMater2.Models.Club item in list_club_parti)
                 {
                     <div class=" mt-4 justify-content-center row">
-                                    <div class="m-0 p-0 col-md-2">
-                                         <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
-                                    </div>
+                        <div class="m-0 p-0 col-md-2">
+                            <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
+                        </div>
                         <div class="m-0 p-0 col-md-6" id="text_clb">
                             <a href="/User/ClubDetail/@item.ID" class="text-decoration-none text-dark m-0" style="font-size:13px;">@item.Name</a>
                         </div>
                     </div>
                 }
             }
-        </div>
 
+        </div>
     </nav>
 </nav>
 

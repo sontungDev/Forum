@@ -245,35 +245,5 @@ html, body {
 .text-time{
     font-size:12px !important;
 }
-.comment{
-     font-size: 100%; 
-     color:#b2bec3;
-}
-.comment:hover{
-   color:#0984e3;
-}
-
-/*comment*/
-@media only screen and (min-width: 576px){
-  .avatar_comment{
-    width: 2rem;
-    height: 2rem;
-
-  }
-}
-@media only screen and (max-width: 575px){
-    .avatar_comment{
-        width:1.5rem; 
-        height: 1.5rem;
-    }
-}
-.container_comment{
-   
-    }
-
-.comment_outline{
-    outline-style: none;
-    border: none;
-}
 
 

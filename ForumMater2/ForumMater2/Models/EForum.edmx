@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ClubForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ClubForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Administrators">
           <Key>
             <PropertyRef Name="ID" />
@@ -38,11 +38,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Content" Type="text" Nullable="false" />
           <Property Name="DateTimeCreated" Type="datetime" Nullable="false" />
           <Property Name="UserID" Type="varchar" MaxLength="30" />
           <Property Name="PostID" Type="varchar" MaxLength="30" />
           <Property Name="Approval" Type="varchar" MaxLength="30" />
+          <Property Name="Content" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="Plans">
           <Key>
@@ -292,8 +292,7 @@
             <End Role="UserClubRoles" EntitySet="UserClubRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClubForumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -338,7 +337,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="DateTimeCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PostID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />

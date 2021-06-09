@@ -6,7 +6,7 @@
 
     ForumMater2.Models.ClubForumEntities db = new ForumMater2.Models.ClubForumEntities();
     ForumMater2.Models.User user = db.Users.Find(Session["user"].ToString());
-    string url_avatar = String.IsNullOrEmpty(user.Avatar) ? ViewBag.Url + "/assets/images/default/av.png" : ViewBag.Url + "/assets/images/avatars/" + user.Avatar;
+    string url_avatar = ViewBag.Url + "/assets/images/users/avatars/" + user.Avatar;
 }
 <!DOCTYPE html>
 <html>

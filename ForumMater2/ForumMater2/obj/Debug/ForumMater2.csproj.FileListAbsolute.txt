@@ -1,3 +1,4 @@
+C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Master\ForumMater2\ForumMater2\bin\ForumMater2.dll.config
 C:\Master\ForumMater2\ForumMater2\bin\ForumMater2.dll
 C:\Master\ForumMater2\ForumMater2\bin\ForumMater2.pdb
@@ -8,7 +9,6 @@ C:\Master\ForumMater2\ForumMater2\bin\roslyn\csi.exe
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\csi.exe.config
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\csi.rsp
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Master\ForumMater2\ForumMater2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
