@@ -137,6 +137,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\XController.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\admin\layout.css" />
     <Content Include="assets\css\general\log.css" />
     <Content Include="assets\css\general\register.css" />
     <Content Include="assets\css\user\createCLB.css" />
@@ -196,6 +198,10 @@
     <Content Include="assets\css\user\memberCLB.css" />
     <Content Include="assets\css\user\see_profile.css" />
     <Content Include="assets\css\user\setting.css" />
+    <Content Include="assets\default\club.png" />
+    <Content Include="assets\default\post1.png" />
+    <Content Include="assets\font\admin\fontawesome-webfont.svg" />
+    <Content Include="assets\font\admin\glyphicons-halflings-regular.svg" />
     <Content Include="assets\images\clubs\covers\default-cover.jpg" />
     <Content Include="assets\images\default\gp.png" />
     <Content Include="assets\images\default\logo_1.png" />
@@ -918,6 +924,15 @@
     <Content Include="Models\EForum.edmx.diagram">
       <DependentUpon>EForum.edmx</DependentUpon>
     </Content>
+    <Content Include="assets\font\admin\fontawesome-webfont.eot" />
+    <Content Include="assets\font\admin\fontawesome-webfont.ttf" />
+    <Content Include="assets\font\admin\fontawesome-webfont.woff" />
+    <Content Include="assets\font\admin\fontawesome-webfont.woff2" />
+    <Content Include="assets\font\admin\FontAwesome.otf" />
+    <Content Include="assets\font\admin\glyphicons-halflings-regular.eot" />
+    <Content Include="assets\font\admin\glyphicons-halflings-regular.ttf" />
+    <Content Include="assets\font\admin\glyphicons-halflings-regular.woff" />
+    <Content Include="assets\font\admin\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -1033,14 +1048,14 @@
     <Content Include="Views\User\VerifyMembers.cshtml" />
     <Content Include="Views\User\SeeProfile.cshtml" />
     <Content Include="Views\User\NotJoinedClubs.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_admin_layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="assets\css\admin\" />
-    <Folder Include="assets\default\" />
     <Folder Include="assets\images\icons\" />
     <Folder Include="assets\images\uploads\" />
-    <Folder Include="assets\js\" />
+    <Folder Include="assets\js\admin\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

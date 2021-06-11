@@ -1,0 +1,102 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif !important;
+}
+.bg-ff {
+    background-color: #7ed6df;
+}
+.page-link.page-item.active {
+    color: white !important;
+    background-color: cornflowerblue !important;
+}
+
+.page-link.page-item {
+    font-size: 20px;
+}
+
+.img_avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.header {
+    background-color: #7ed6df;
+}
+
+.logo {
+    background-color: #7ed6df;
+    border-color: #7ed6df;
+    width: 4rem;
+    height: 4rem;
+}
+
+.first_menu {
+    background-color: #7ed6df;
+    z-index: 1000;
+}
+
+.search_box {
+    background-color: none;
+    transform: translate( -50% -50%);
+}
+
+.search_txt {
+    background: none;
+    transition: 1s;
+    outline: none;
+    border-radius: 5px;
+    background-color: none;
+    border: 0px black solid;
+    width: 0px;
+    color: white;
+}
+
+.search_btn {
+    color: black;
+    height: 50%;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    background-color: none;
+    transition: 0s;
+}
+
+.search_box:hover > .search_txt {
+    width: 85%;
+    border: 1px black solid;
+}
+
+
+.search_box:hover > .search_btn {
+    background-color: none;
+    transition: 0s;
+}
+
+.fas, .far {
+    font-size: 1.5em;
+    color: rgb(12, 59, 104);
+}
+
+.fa-search {
+    font-size: 1.2rem !important;
+    color: rgb(12, 59, 104);
+}
+
+.logoText {
+    color: rgba(255, 255, 255, 0.726);
+    font-weight: 700;
+    font-size: larger;
+}
+.menu_first {
+    transform: translate( -50% -50%);
+    transition: 4s;
+}
+
+.header {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    height: 15%;
+}
+.catori:hover {
+    background-color: #e6f6f7;
+}

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Diễn đàn CLB-NTU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link href="~/assets/css/admin/layout.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+
+    <nav class="row m-0 container-fluid w-100 p-3 mb-3 rounded header justify-content-between">
+        <div class="col-12 col-md-2 d-none d-sm-block text-center mb-0 m-0 p-0">
+            <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="img-thumbnail m-0 p-0 logo" id="">
+        </div>
+        <div class="col-12 col-md-6 d-sm-flex align-items-center d-none">
+            <div class="input-group">
+                <input type="search" placeholder="Nhập từ bạn cần tìm?" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                <div class="input-group-append">
+                    <button id="button-addon1" type="submit" class="btn btn-link btn-light text-dark"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <!-- End Tim kiem va logo -->
+        <!-- End Ten CLB va tim kiem -->
+        <!-- menu user -->
+        <div class="btn-group col-md-3 d-block d-md-flex align-items-center w-100">
+
+            <img src="#" class=" rounded-circle mt-md-1 d-none d-sm-block img_avatar">
+
+            <button class="btn d-none d-sm-block dropdown-toggle mt-md-1 text-left" data-toggle="dropdown">
+                tên admin
+            </button>
+
+            <div class="dropdown-menu p-3">
+                <div>
+                    <div class="text-center">
+                        <a href="/User/MyProfile" class="d-block text-decoration-none">Cài đặt</a>
+                        <hr>
+                    </div>
+                    <div class="text-center">
+                        <a href="/Log/SignOut" class="text-center w-100 text-decoration-none">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End menu User -->
+    </nav>
+    <div class="row m-0">
+        <div class="col-3">
+            <div class="nav flex-column nav-pills bg-light rounded p-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link p-3 active" id="home-tab" data-toggle="pill" href="#home-panel" role="tab" aria-controls="home-panel" aria-selected="true">Trang chủ</a>
+                <a class="nav-link p-3" id="v-pills-profile-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-profile" aria-selected="false">Câu lạc bộ</a>
+                <a class="nav-link p-3" id="v-pills-messages-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-messages" aria-selected="false">Tài khoản</a>
+                <a class="nav-link p-3" id="v-pills-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-settings" aria-selected="false">Bài viết</a>
+                <a class="nav-link p-3" id="v-pills-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-settings" aria-selected="false">Thông tin</a>
+                <a class="nav-link p-3" id="v-pills-settings-tab" data-toggle="pill" href="#" role="tab" aria-controls="v-pills-settings" aria-selected="false">Quản trị viên</a>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="tab-content" id="v-pills-tabContent">               
+                @*<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>*@
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
