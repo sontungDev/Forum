@@ -295,6 +295,16 @@ namespace ForumMater2.Controllers
                 result = "exist";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult NotJoinedClubs()
+        {
+            if(Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                return View();
+            }    
+            return Redirect("/Log/Login");
+        }
         #endregion
 
         // trang chi tiết câu lạc bộ
@@ -396,7 +406,7 @@ namespace ForumMater2.Controllers
         {
             UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == club_id && m.UserID == user_id).FirstOrDefault();
 
-            userClubRole.Role = 0;
+            db.UserClubRoles.Remove(userClubRole);
 
             int res = db.SaveChanges();
             if (res > 0)

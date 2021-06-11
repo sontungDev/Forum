@@ -1,0 +1,41 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+/*card*/
+.card0,.card{
+    background-color: #7ed6df;
+}
+@media only screen and (min-width: 576px){
+   .avatar{
+    width: 7rem;
+    height: 7rem;
+    margin-top: 2rem;
+    margin-left: 5rem;
+   }
+}
+@media only screen and (max-width: 575px){
+    .avatar{
+    width: 7rem;
+    height: 7rem;
+    margin-top: 2rem;
+    margin-left: 6rem;
+   }
+}
+p,h4{
+    text-align: center;
+}
+#fas1{
+    color: white;
+}
+.card-body{
+    text-align: center;
+}
+.btn{
+    margin-left:2% ;
+}
+.va1{
+    padding-left: 6%;
+}
+

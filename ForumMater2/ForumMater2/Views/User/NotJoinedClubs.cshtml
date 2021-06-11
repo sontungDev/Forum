@@ -1,0 +1,102 @@
+﻿@using ForumMater2.Models
+@{
+    ViewBag.Title = "NotJoinedClubs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string user_id = Session["user"].ToString();
+    ClubForumEntities db = new ClubForumEntities();
+    List<Club> list_club = db.Clubs.ToList();
+    List<Club> list_joined = db.UserClubRoles.Where(m => m.UserID == user_id).Select(m => m.Club).ToList();
+    List<Club> list_not_joined = list_club.Except(list_joined).ToList();
+}
+@section styles{
+    
+}
+<nav class="mt-2 p-0">
+    <div class="px-3">
+        <p class="btn btn-block btn-info">Danh sách các câu lạc bộ chưa tham gia</p>
+    </div>
+    
+    <!-- 4 card-->
+    <div class="container-fluid mb-5">
+        <div class="row">
+            @{
+                foreach (var item in list_not_joined)
+                {
+                    <div class="card col-2 m-2 justify-content-center py-2 px-0" style="font-size:14px;">
+                        <img class="avatar rounded" src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" alt="Card image" style="width:70%; margin:0 auto;">
+                        <div class="card-body text-center">
+                            <a href="/User/ClubDetailCus/@item.ID" class="card-title d-block text-decoration-none text-dark">@item.Name</a>
+                            <p class="card-text text-muted" style="font-size:12px;">@item.ShortName</p>
+                            <div class="d-flex justify-content-center" >
+                                <button class="btn btn-info mr-3 joined" style="font-size:10px;">Tham gia</button>
+                                <input type="hidden" value="@item.ID" name="cid" />
+                                <input type="hidden" value="@user_id" name="uid" />
+                                <a href="/User/ClubDetailCus/@item.ID" class="btn btn-info" style="font-size:11px;">Xem</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</nav>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.joined').click(function (e) {
+                e.preventDefault();
+                var tar = $(e.target);
+
+                var club_id_ele = tar.next();
+                var user_id_ele = club_id_ele.next();
+
+                var club_id = club_id_ele.val();
+                var user_id = user_id_ele.val();
+                if (tar.text() == 'Tham gia') {
+                    $.ajax({
+                        url: '@Url.Action("JoinClub", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id }),
+                        success: function (data) {
+                            if (data == 'Thành công') {
+                                tar.text("Đã gửi yêu cầu");
+                                tar.removeClass("btn-info");
+                                tar.addClass("btn-secondary");
+                                alert("Đã gửi yêu cầu thành công");
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '@Url.Action("LeaveClub", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ user_id: user_id, club_id: club_id }),
+                        success: function (data) {
+                            if (data == 'Thành công') {
+                                tar.text("Tham gia");
+                                tar.addClass("btn-info");
+                                tar.removeClass("btn-secondary");
+                                alert('Hủy yêu cầu thành công');
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>    
+}

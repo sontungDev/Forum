@@ -190,6 +190,7 @@
     <Content Include="assets\css\general\register.css" />
     <Content Include="assets\css\user\createCLB.css" />
     <Content Include="assets\css\user\create_post.css" />
+    <Content Include="assets\css\user\group.css" />
     <Content Include="assets\css\user\groupofme_Chief.css" />
     <Content Include="assets\css\user\home.css" />
     <Content Include="assets\css\user\memberCLB.css" />
@@ -1031,6 +1032,7 @@
     <Content Include="Views\User\PostDetail.cshtml" />
     <Content Include="Views\User\VerifyMembers.cshtml" />
     <Content Include="Views\User\SeeProfile.cshtml" />
+    <Content Include="Views\User\NotJoinedClubs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

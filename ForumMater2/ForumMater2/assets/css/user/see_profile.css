@@ -11,3 +11,7 @@
 .border-fr {
     border: #e3dddc 1px solid;
 }
+.over-text-ellipsis {
+    width : 1000%;
+    text-overflow: ellipsis
+}

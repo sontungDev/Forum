@@ -17,8 +17,13 @@
     List<Club> list_club_browsed = db.UserClubRoles.Take(7).OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user.ID && m.Role >= 2).Select(m => m.Club).ToList();
     List<Club> list_clubs_not_parti = list_clubs.Take(7).Except(list_club_parti).ToList();
     List<Club> list_waiting_browser = list_club_parti.Except(list_club_browsed).Take(7).ToList();
-}
 
+    int offer_count = list_clubs_not_parti.Count;
+}
+@section styles{
+
+    
+}
 <nav class="row container-fluid mt-md-5 mt-0 w-100 m-0 p-0">
     <!-- Left Body -->
 
@@ -48,27 +53,25 @@
             @{
                 foreach (Club item in list_clubs_not_parti)
                 {
-                    <div class="mt-2 justify-content-center row">
-                                    <div class="m-0 p-0 col-md-2">
-                                        <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
-                                    </div>
-                        <div class="m-0 p-0 col-md-6 text_clb" id="">
-                            <a href="/User/ClubDetail/@item.ID" class="text-decoration-none text-dark m-0" style="font-size:13px;">@item.Name</a>
-                        </div>
+                    <div class="mt-2 py-2 justify-content-center row">
                         <div class="m-0 p-0 col-md-2">
-                            <button type="submit" class="border border-1 m-0 float-right mr-1 icon_insert" id=""><h4>+</h4></button>
+                            <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="rounded-circle p-0 img_clb" />
+                        </div>
+                        <div class="m-0 p-0 col-md-8 text_clb" id="">
+                            <a href="/User/ClubDetail/@item.ID" class="text-decoration-none text-dark m-0" style="font-size:12px;">@item.Name</a>
                         </div>
                     </div>
                 }
-
+                if (offer_count > 7)
+                {
+                    <div class="pl-5 pt-4 pb-3">
+                        <a href="/User/NotJoinedClubs" class="text-danger text-decoration-none pl-1">Xem thêm</a>
+                    </div>
+                }
             }
-            <div class="pl-5 pt-4 pb-3">
-                <a href="group.html" class="text-danger text-decoration-none pl-1">Xem thêm</a>
-            </div>
         </div>
     </nav>
     <!-- End Left Body -->
-
     <!-- Center Body -->
     <nav class="col-12 w-100 col-md-5 ml-md-5 m-0 p-0" style="box-sizing: border-box;">
         <!-- Post a posts -->
@@ -111,18 +114,18 @@
                             <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
                         </div>
                     </div>
-                    
-                </div>              
+
+                </div>
             }
-        <div class="my-3">
-            @Html.PagedListPager(Model, page => Url.Action("Home", new { page }),
-                new PagedListRenderOptions
-                {
-                    LiElementClasses = new List<string> { "page-item", "page-link" },
-                    UlElementClasses = new List<string> { "pagination" },
-                    ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
-                })
-        </div>
+            <div class="my-3">
+                @Html.PagedListPager(Model, page => Url.Action("Home", new { page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new List<string> { "page-item", "page-link" },
+                        UlElementClasses = new List<string> { "pagination" },
+                        ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
+                    })
+            </div>
 
         </nav>
     </nav>
@@ -152,7 +155,7 @@
             }
 
         </div>
-        <div class="border border-1 mt-0">
+        <div class="border border-1 mt-5">
             <div class="d-flex justify-content-center border border-0 border-bottom-1 pt-2 pb-2" style="background-color:  #7ed6df">
                 Các câu lạc bộ đang chờ duyệt
             </div>

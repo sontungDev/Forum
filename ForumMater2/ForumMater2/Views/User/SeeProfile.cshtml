@@ -25,8 +25,7 @@
             @{ 
                 foreach(var item in list_club) { 
                     <a class="text-left py-2 ml-2 d-block text-decoration-none" href="/User/ClubDetail/@item.ID">
-                        <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" alt="anh club" class="rounded" style="width:80px" />
-                        <span class="d-inline-block ml-3">@item.Name</span>
+                        <span class="d-inline-block ml-3 over-text-ellipsis">@item.Name</span>
                     </a>
                 }
             }

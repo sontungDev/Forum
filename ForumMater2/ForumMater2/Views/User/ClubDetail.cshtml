@@ -102,9 +102,17 @@
                 <span>Bạn đang nghĩ gì ?</span>
             </div>
             <div class="d-inline float-right mt-md-1">
-                <a href="/User/CreatePost" class="btn btn-info">Đăng bài</a>
+                @{
+                    if (roles >= 2)
+                    {
+                        <a href="/User/CreatePost" class="btn btn-info" id="create-post">Đăng bài</a>
+                    }
+                    else
+                    {
+                        <a href="/User/CreatePost" class="btn btn-info disabled" id="create-post">Đăng bài</a>
+                    }
+                }
             </div>
-
         </nav>
 
         <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
@@ -198,7 +206,6 @@
                             alert('Đã xảy ra lỗi - Rất tiếc');
                         }
                     });
-                    console.log('OK');
                     // xử lý ajax ở đây
                 }
             });
