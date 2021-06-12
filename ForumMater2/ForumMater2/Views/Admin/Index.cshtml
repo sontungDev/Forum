@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_admin_layout.cshtml";
 }
 <!--Home panel-->
-<div class="tab-pane fade show active" id="home-panel" role="tabpanel" aria-labelledby="home-tab">
+<div>
     <div class="row m-0 ml-3" style="cursor:pointer;">
         <div class="card catori" style="width:350px;">
             <div class="card-header row p-3 m-0">
@@ -31,6 +31,13 @@
     </div>
 </div>
 
-<!--Club Panel-->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.tabf').removeClass('active');
+            var active = $('.tabf').eq(0);
+            active.addClass('active');
 
-
+        });
+    </script>
+}

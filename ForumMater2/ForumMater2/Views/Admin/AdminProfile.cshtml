@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "AdminProfile";
+    Layout = "~/Views/Shared/_admin_layout.cshtml";
+}
+<style>
+    .ver {
+        line-height: calc(1.5em + 0.75rem + 2px);
+        height: calc(1.5em + 0.75rem + 2px);
+    }
+</style>
+<div class="row justify-content-between m-0 px-4">
+    <div class="col-5">
+        <h5>Thông tin cá nhân</h5>
+        <div class="row m-0">
+            <div class="col-4 ver">ID</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-4 ver">Tên đăng nhập</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-4 ver">Họ tên</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-4 ver">Email</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-4 ver">Ngày lập tài khoản</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0 mt-3">
+            <div class="col-4 ver">SĐT</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+        <div class="row m-0">
+            <div class="col-4 ver">Mức truy cập</div>
+            <div class="col-8"><input type="text" class="form-control" /></div>
+        </div>
+    </div>
+    <div class="col-5">
+        <h5>Đổi mật khẩu</h5>
+        <form class="w-50 my-5">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nhập mật khẩu cũ" id="oldpass" />
+                <span class="form-text text-danger d-none">Nhập hơn 8 kí tự</span>
+                <span class="form-text text-success d-none">Hợp lệ</span>
+                <span class="form-text text-danger d-none" id="pass">Mật khẩu không đúng</span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nhập mật mới" id="newpass" />
+                <span class="form-text text-danger d-none">Nhập hơn 8 kí tự</span>
+                <span class="form-text text-success d-none">Hợp lệ</span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nhập lại mật khẩu" id="repass" />
+                <span class="form-text text-danger d-none">Mật khẩu chưa khớp</span>
+                <span class="form-text text-success d-none">Hợp lệ</span>
+            </div>
+            <button class="btn btn-info" id="submit">Đổi mật khẩu</button>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('.tabf').removeClass('active');
+            var active = $('.tabf').eq(4);
+            active.addClass('active');
+
+            var valNewPass = false;
+            var valOldPass = false;
+            var valRePass = false;
+
+            $('#oldpass').blur(function () {
+                var oldPass = $('#oldpass');
+                oldPass.next().addClass('d-none');
+                oldPass.next().next().addClass('d-none');
+                if (oldPass.val().length < 8) {
+                    oldPass.next().removeClass('d-none');
+                    valOldPass = false;
+                }
+                else {
+                    oldPass.next().next().removeClass('d-none');
+                    valOldPass = true;
+                }
+            });
+
+            $('#newpass').blur(function () {
+                var newPass = $('#newpass');
+                newPass.next().addClass('d-none');
+                newPass.next().next().addClass('d-none');
+                if (newPass.val().length < 8) {
+                    newPass.next().removeClass('d-none');
+                    valNewPass = false;
+                }
+                else {
+                    newPass.next().next().removeClass('d-none');
+                    valNewPass = true;
+                }
+            });
+
+            $('#repass').blur(function () {
+                var rePass = $('#repass');
+                rePass.next().addClass('d-none');
+                rePass.next().next().addClass('d-none');
+                if (rePass.val() != $('#newpass').val() || rePass.val().length == 0) {
+                    rePass.next().removeClass('d-none');
+                    valRePass = false;
+                }
+                else {
+                    rePass.next().next().removeClass('d-none');
+                    valRePass = true;
+                }
+            });
+            $('#submit').click(function (e) {
+                e.preventDefault();
+                if (valNewPass && valOldPass && valRePass) {
+                    var newpass = $('#newpass').val();
+                    var password = $('#oldpass').val();
+                    $.ajax({
+                        url: '@Url.Action("ChangePassWord", "Admin")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ old_password : password, new_password: newpass }),
+                        success: function (data) {
+                            if (data == 'OK') {
+                                alert('Dô');
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+                }
+            });
+        });
+    </script>    
+}
