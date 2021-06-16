@@ -235,7 +235,6 @@ namespace ForumMater2.Controllers
             string describe = form_data["describe"];
             string type_club = form_data["type_club"];
 
-
             byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
 
             // lấy tên ảnh
@@ -262,14 +261,12 @@ namespace ForumMater2.Controllers
                 Name = name,
                 ShortName = short_name,
                 UserCreated = user_id,
-                Type = type_club               
+                Type = type_club
             };
 
             db.Clubs.Add(club);
 
             int res = db.SaveChanges();
-            int b = 0;
-
             return Json("Thành công", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]

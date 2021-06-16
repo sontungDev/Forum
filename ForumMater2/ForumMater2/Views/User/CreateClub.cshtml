@@ -103,7 +103,6 @@
             });
             $('#submit-club').on('click', function (ev) {
                 ev.preventDefault();
-
                 // default class
                 $('#m11').removeClass('d-none').addClass('d-none');
                 $('#m21').removeClass('d-none').addClass('d-none');
@@ -113,6 +112,7 @@
                 var long_name = $('#text_firstname_CLB').val();
                 var short_name = $('#text_lastname_CLB').val();
                 var descr = $('#text_description_CLB').val();
+                var descr_break = descr.replace(/\r\n|\r|\n/g, "\n");
                 var type_club = $('#type-club').val();
                 if (long_name.length < 8) {
                     $('#m11').removeClass('d-none');
@@ -154,11 +154,15 @@
                             formData.append('describe', descr);
                             formData.append('type_club', type_club);
 
-                            var request = new XMLHttpRequest();
+                            const request = new XMLHttpRequest();
                             request.open("POST", "/User/CreateClub");
                             request.send(formData);
-                            alert("Tạo câu lạc bộ thành công, bạn vui lòng chờ quản trị viên duyệt yêu cầu của bạn");
-                            window.location.href = "/User/Home";
+
+                            
+                            
+
+                            //alert("Tạo câu lạc bộ thành công, bạn vui lòng chờ quản trị viên duyệt yêu cầu của bạn");
+                            //window.location.href = "/User/Home";
                         }
                         else {
                             alert("Hãy chọn ảnh bìa");
@@ -167,9 +171,6 @@
                 }
                 else {
                     alert("Vui lòng kiểm tra lại thông tin đã nhập");
-                    console.log(valid_descri_require + 'mô tả');
-                    console.log(valid_exist_long + 'tồn tại dài');
-                    console.log(valid_exist_short + 'tồn tại dài');
                 }
             });
             $('#btn-long-name').click(function (e) {

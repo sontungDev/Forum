@@ -24,7 +24,7 @@
     <Property Name="Approval" Type="varchar" MaxLength="30" />
     <Property Name="Name" Type="nvarchar" MaxLength="250" />
     <Property Name="ShortName" Type="varchar" MaxLength="10" />
-    <Property Name="Description" Type="nvarchar" MaxLength="250" />
+    <Property Name="Description" Type="ntext" />
     <Property Name="UserCreated" Type="varchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Comments">
