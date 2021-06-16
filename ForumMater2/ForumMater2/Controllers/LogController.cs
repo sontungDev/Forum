@@ -29,6 +29,7 @@ namespace ForumMater2.Controllers
 
             if (result)
             {
+
                 // thiết lập session khi đăng nhập
                 Session["user"] = DBHelper.Instance.GetUserId(user_name);
 

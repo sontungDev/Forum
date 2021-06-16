@@ -1,43 +1,63 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_admin_layout.cshtml";
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LogLayout.cshtml";
 }
-<!--Home panel-->
-<div>
-    <div class="row m-0 ml-3" style="cursor:pointer;">
-        <div class="card catori" style="width:350px;">
-            <div class="card-header row p-3 m-0">
-                <div class="col-4">
-                    <img src="~/assets/default/post1.png" class="w-100" />
-                </div>
-                <div class="col-8 text-right">
-                    <div class="" style="font-size: 35px;">27</div>
-                    <div>Bài viết đang chờ duyệt</div>
-                </div>
+<!--Đăng nhập-->
+@section styles{
+    <link href="@ViewBag.Url/assets/css/general/log.css" rel="stylesheet">
+}
+<div class="container f-width">
+    <div id="logo" class="text-center mb-4 pt-2">
+        <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
+        <p class="my-2 f-title">Trang dành cho quản trị viên</p>
+    </div>
+    <div id="form-area" class="py-3 px-4">
+        <form action="/Admin/Index" method="post" id="form">
+            @* validate token is here *@
+            <div class="form-group">
+                <label for="user-name">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="user-name" name="user-name">
+                <span class="form-message"></span>
             </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span class="form-message"></span>
+            </div>
+            <div class="mb-2">
+                <span class="wrong-user-message"></span>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remember-user" name="remember-user" value="remember">
+                <label class="form-check-label" for="remember-user">Nhớ tài khoản</label>
+            </div>
+            <div class="my-2">
+                <span class="text-danger">@ViewBag.message</span>
+            </div>
+            <button type="submit" class="btn btn-info btn-block">Đăng nhập</button>
+        </form>
+    </div>
+    <div id="other" class="mt-2">
+        <div id="register" class="text-center">
+            <p>
+                <span>Bạn đã</span>
+                <a href="#">quên mật khẩu</a>
+            </p>
         </div>
-        <div class="card catori ml-3" style="width:350px;">
-            <div class="card-header row p-3 m-0">
-                <div class="col-4">
-                    <img src="~/assets/default/club.png" class="w-100" />
-                </div>
-                <div class="col-8 text-right">
-                    <div class="" style="font-size: 35px;">27</div>
-                    <div>CLB đang chờ duyệt</div>
-                </div>
-            </div>
+    </div>
+    <div id="footer" class="text-center mt-5 row p-0 mx-0 mb-0">
+        <div class="col-md-6 col-12 p-0 mb-3">
+            <a href="#" class="p-2">Kỳ hạn</a>
+            <a href="#" class="p-2">Riêng tư</a>
+        </div>
+        <div class="col-md-6 col-12 p-0 mb-3">
+            <a href="#" class="p-2">Bảo mật</a>
+            <a href="#" class="p-2">Liên hệ</a>
         </div>
     </div>
 </div>
 
 @section scripts{
-    <script>
-        $(document).ready(function () {
-            $('.tabf').removeClass('active');
-            var active = $('.tabf').eq(0);
-            active.addClass('active');
 
-        });
-    </script>
 }

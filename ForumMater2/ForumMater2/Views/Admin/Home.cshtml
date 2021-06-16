@@ -1,0 +1,53 @@
+﻿@using ForumMater2.Models
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_admin_layout.cshtml";
+
+    ClubForumEntities db = new ClubForumEntities();
+    int posts_count = db.Posts.Where(m => m.Approval == "AID0000000000").Count();
+    int clubs_count = db.Clubs.Where(m => m.Approval == "AID0000000000").Count();
+}
+
+<!--Home panel-->
+<div>
+    <div class="row m-0 ml-3" style="cursor:pointer;">
+        <div class="card catori" style="width:350px;" id="br-posts">
+            <div class="card-header row p-3 m-0">
+                <div class="col-4">
+                    <img src="~/assets/default/post1.png" class="w-100" />
+                </div>
+                <div class="col-8 text-right">
+                    <div class="" style="font-size: 35px;">@posts_count</div>
+                    <div>Bài viết đang chờ duyệt</div>
+                </div>
+            </div>
+        </div>
+        <div class="card catori ml-3" style="width:350px;">
+            <div class="card-header row p-3 m-0">
+                <div class="col-4">
+                    <img src="~/assets/default/club.png" class="w-100" />
+                </div>
+                <div class="col-8 text-right">
+                    <div class="" style="font-size: 35px;">@clubs_count</div>
+                    <div>CLB đang chờ duyệt</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.tabf').removeClass('active');
+            var active = $('.tabf').eq(0);
+            active.addClass('active');
+
+            $('#br-posts').click(function (e) {
+                e.preventDefault();
+                window.location.href = '/Admin/BrowserPosts';
+            });
+        });
+    </script>
+}
+
