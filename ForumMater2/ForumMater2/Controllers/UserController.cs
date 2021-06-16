@@ -69,7 +69,7 @@ namespace ForumMater2.Controllers
                 ClubID = form_data["club_id"],
                 Title = form_data["title"],
                 Hashtag = form_data["hashtag"],
-                Approval = "AID0000000000"
+                Approval = "AID0"
             };
             db.Posts.Add(post);
             db.SaveChanges();
@@ -101,7 +101,7 @@ namespace ForumMater2.Controllers
             string id = Assitant.Instance.GetAutoID(current_id, "MID");
 
             string user_id = Session["user"].ToString();
-            string approval = "AID0000000000";
+            string approval = "AID0";
             string json = "";
 
             Comment comment = new Comment()
@@ -255,7 +255,7 @@ namespace ForumMater2.Controllers
             Club club = new Club()
             {
                 ID = id,
-                Approval = "AID0000000000",
+                Approval = "AID0",
                 CoverPhoto = name_file,
                 DateCreated = DateTime.Now.Date,
                 Description = describe,
@@ -267,7 +267,8 @@ namespace ForumMater2.Controllers
 
             db.Clubs.Add(club);
 
-            db.SaveChanges();
+            int res = db.SaveChanges();
+            int b = 0;
 
             return Json("Thành công", JsonRequestBehavior.AllowGet);
         }

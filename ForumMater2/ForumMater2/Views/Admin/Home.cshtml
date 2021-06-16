@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_admin_layout.cshtml";
 
     ClubForumEntities db = new ClubForumEntities();
-    int posts_count = db.Posts.Where(m => m.Approval == "AID0000000000").Count();
-    int clubs_count = db.Clubs.Where(m => m.Approval == "AID0000000000").Count();
+    int posts_count = db.Posts.Where(m => m.Approval == "AID0").Count();
+    int clubs_count = db.Clubs.Where(m => m.Approval == "AID0").Count();
 }
 
 <!--Home panel-->

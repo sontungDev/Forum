@@ -12,62 +12,75 @@
         <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
         <p class="my-2 f-title">Đăng ký tài khoản</p>
     </div>
-    <form action="/action_page.php" class="was-validated">
+    <form action="/Log/Register" method="post" class="was-validated">
         <div class="form-group">
             <label for="uname" class="a font-weight-bold">Tên đăng nhập</label>
-            <input type="text" class="form-control" id="uname" placeholder="Tên đăng nhập" name="uname" required>
+            <input type="text" class="form-control" id="user-name" placeholder="Tên đăng nhập" name="user-name" required />
             <div class="valid-feedback">Hợp lệ</div>
             <div class="invalid-feedback">Tên đăng nhập phải nhiều hơn 8 ký tự</div>
         </div>
         <div class="form-group">
             <label for="pwd" class="a font-weight-bold">Mật khẩu</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Mật khẩu" name="pswd" required>
+            <input type="password" class="form-control" id="pass" placeholder="Mật khẩu" name="pass" required />
             <div class="valid-feedback">Hợp lệ</div>
             <div class="invalid-feedback">Hãy nhập mật khẩu</div>
         </div>
         <div class="form-group">
             <label for="pwd" class="a font-weight-bold">Nhập lại mật khẩu</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Nhập lại mật khẩu" name="pswd" required>
+            <input type="password" class="form-control" id="repass" placeholder="Nhập lại mật khẩu" name="repass" required />
             <div class="valid-feedback">Hợp lệ</div>
             <div class="invalid-feedback">Phải trùng với mật khẩu đã nhập</div>
         </div>
         <div class="container row d-flex justify-content-between p-0 mx-0">
             <div class="col-5 form-group p-0">
                 <label for="uname" class="a font-weight-bold">Họ</label>
-                <input type="text" class="form-control" id="uname" placeholder="Họ" name="uname" required>
+                <input type="text" class="form-control" id="first-name" placeholder="Họ" name="first-name" required />
                 <div class="valid-feedback">Hợp lệ</div>
                 <div class="invalid-feedback">Nhập họ của bạn</div>
             </div>
             <div class="col-5 form-group p-0">
                 <label for="uname" class="a font-weight-bold">Tên</label>
-                <input type="text" class="form-control" id="uname" placeholder="Tên" name="uname" required>
+                <input type="text" class="form-control" id="last-name" placeholder="Tên" name="last-name" required />
                 <div class="valid-feedback">Hợp lệ</div>
                 <div class="invalid-feedback">Nhập tên của bạn</div>
             </div>
         </div>
+        <div class="form-group mt-3">
+            <span style="font-weight: bold;">Giới tính: </span>
+            <div class="form-check-inline">
+                <label class="form-check-label font-weight-bold ml-5">
+                    <input type="radio" class="form-check-input" name="gender" value="true" checked />Nam
+                </label>
+            </div>
+            <div class="form-check-inline font-weight-bold ml-5">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="gender" value="false" />Nữ
+                </label>
+            </div>
+        </div>
         <dic class="form-group">
             <label for="email" class="a font-weight-bold ">Ngày sinh</label>
-            <input type="date" class="form-control" id="date" name="date" required>
+            <input type="date" class="form-control" id="dob" name="dob" required />
             <div class="valid-feedback">Hợp lệ.</div>
             <div class="invalid-feedback">Vui lòng điền vào trường này</div>
         </dic>
         <div class="form-group">
             <label for="uname" class="a font-weight-bold">Email</label>
-            <input type="text" class="form-control" id="uname" placeholder="email@gmail.com" name="uname" required>
+            <input type="text" class="form-control" id="email" placeholder="email@gmail.com" name="email" required />
             <div class="valid-feedback">Hợp lệ</div>
             <div class="invalid-feedback">Nhập Email của bạn</div>
         </div>
         <div class="form-group">
             <label for="uname" class="a font-weight-bold">Nơi làm việc hoặc học tập</label>
-            <input type="text" class="form-control" id="uname" placeholder="VD: nơi làm việc hoặc học tập" name="uname">
+            <input type="text" class="form-control" id="work-place" placeholder="VD: nơi làm việc hoặc học tập" name="work-place" />
         </div>
         <div class="form-group">
             <label for="add" class="a font-weight-bold">Địa chỉ</label>
-            <input type="text" class="form-control" id="add" placeholder="VD: 15/3 Đường Nhà Thờ, Nha Trang, Khánh hòa" name="add">
+            <input type="text" class="form-control" id="address" placeholder="VD: 15/3 Đường Nhà Thờ, Nha Trang, Khánh hòa" name="address" />
         </div>
         <div class="form-group">
             <label for="dt" class="a font-weight-bold">Số điện thoại</label>
-            <input type="number" maxlength="10" minlength="9" class="form-control" id="dt" placeholder="VD: 0358405987" name="dt">
+            <input type="number" maxlength="10" minlength="9" class="form-control" id="phone" placeholder="VD: 0358405987" name="phone" />
         </div>
         <div class="w-100 text-center center-block mt-4">
             <button class="btn btn-block btn-info" type="submit">Đăng ký</button>

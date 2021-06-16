@@ -118,7 +118,7 @@ namespace ForumMater2.Controllers
         {
             if (Session["admin"] != null)
             {
-                List<Post> posts = db.Posts.Where(m => m.Approval == "AID0000000000").ToList();
+                List<Post> posts = db.Posts.Where(m => m.Approval == "AID0").ToList();
                 return View(posts);
             }
             return Redirect("/Admin/Index");

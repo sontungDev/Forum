@@ -31,7 +31,6 @@ namespace ForumMater2.Models
         public string ShortName { get; set; }
         public string Description { get; set; }
         public string UserCreated { get; set; }
-        public Nullable<short> Privacy { get; set; }
     
         public virtual Administrator Administrator { get; set; }
         public virtual User User { get; set; }

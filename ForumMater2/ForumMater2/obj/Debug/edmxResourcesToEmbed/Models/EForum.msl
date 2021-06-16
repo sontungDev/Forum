@@ -27,7 +27,6 @@
           <ScalarProperty Name="ShortName" ColumnName="ShortName" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
-          <ScalarProperty Name="Privacy" ColumnName="Privacy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -103,7 +102,6 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="Avatar" ColumnName="Avatar" />
-          <ScalarProperty Name="CoverPhoto" ColumnName="CoverPhoto" />
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Gender" ColumnName="Gender" />
         </MappingFragment>

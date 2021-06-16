@@ -29,7 +29,6 @@
     <Property Name="ShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="UserCreated" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="Privacy" Type="Int16" />
     <NavigationProperty Name="Administrator" Relationship="Self.FK_Clubs_Administrators" FromRole="Clubs" ToRole="Administrators" />
     <NavigationProperty Name="User" Relationship="Self.FK_Clubs_Users" FromRole="Clubs" ToRole="Users" />
     <NavigationProperty Name="Plans" Relationship="Self.FK_Plans_Clubs" FromRole="Clubs" ToRole="Plans" />
@@ -115,7 +114,6 @@
     <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Avatar" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="CoverPhoto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Gender" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Clubs" Relationship="Self.FK_Clubs_Users" FromRole="Users" ToRole="Clubs" />

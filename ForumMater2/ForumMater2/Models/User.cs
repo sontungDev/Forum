@@ -34,7 +34,6 @@ namespace ForumMater2.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string Avatar { get; set; }
-        public string CoverPhoto { get; set; }
         public string Phone { get; set; }
         public bool Gender { get; set; }
     

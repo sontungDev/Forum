@@ -12,13 +12,21 @@
     string url_avatar = ViewBag.Url + "/assets/images/users/avatars/" + user.Avatar;
 
     // các list ở đây
-    List<Club> list_clubs = db.Clubs.ToList(); // còn xử lý tiếp
-    List<Club> list_club_parti = db.UserClubRoles.Where(m => m.UserID == user.ID).Select(m => m.Club).ToList();
-    List<Club> list_club_browsed = db.UserClubRoles.Take(7).OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user.ID && m.Role >= 2).Select(m => m.Club).ToList();
-    List<Club> list_clubs_not_parti = list_clubs.Take(7).Except(list_club_parti).ToList();
-    List<Club> list_waiting_browser = list_club_parti.Except(list_club_browsed).Take(7).ToList();
+    List<Club> clubs = db.Clubs.ToList(); // còn xử lý tiếp
 
-    int offer_count = list_clubs_not_parti.Count;
+    // danh sách các câu lạc bộ đã tham gia (kể cả đang xét duyệt)
+    List<Club> clubs_joining = db.UserClubRoles.Where(m => m.UserID == user.ID).Select(m => m.Club).ToList();
+
+    // danh sách đã xét duyệt
+    List<Club> clubs_considered = db.UserClubRoles.Take(7).OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user.ID && m.Role >= 2).Select(m => m.Club).ToList();
+
+    // danh sách các clb chưa tham gia
+    List<Club> clubs_unjoin = clubs.Take(7).Except(clubs_joining).ToList();
+    
+    // danh sách các câu lạc bộ đang chờ duyệt
+    List<Club> clubs_unconsidered = clubs_joining.Except(clubs_considered).Take(7).ToList();
+
+    int offer_count = clubs_unjoin.Count;
 }
 @section styles{
 
@@ -38,7 +46,7 @@
         </div>
         <div class="border border-1 border-top-0 container-fluid text-center pt-2">
             <p>Câu lạc bộ tham gia</p>
-            <p> 2 <p>
+            <p> @clubs_considered.Count <p>
         </div>
         <div class="border border-1 border-top-0 container-fluid text-center pt-2 pb-2">
             <a href="/User/MyProfile" class="text-danger text-decoration-none">Xem trang cá nhân</a>
@@ -51,7 +59,7 @@
         </div>
         <div class=" border border-1 container-fluid text-left pt-2 pb-2 pr-0">
             @{
-                foreach (Club item in list_clubs_not_parti)
+                foreach (Club item in clubs_unjoin)
                 {
                     <div class="mt-2 py-2 justify-content-center row">
                         <div class="m-0 p-0 col-md-2">
@@ -141,7 +149,7 @@
                 Các câu lạc bộ tham gia
             </div>
             @{
-                foreach (ForumMater2.Models.Club item in list_club_browsed)
+                foreach (ForumMater2.Models.Club item in clubs_considered)
                 {
                     <div class=" mt-4 justify-content-center row">
                         <div class="m-0 p-0 col-md-2">
@@ -160,7 +168,7 @@
                 Các câu lạc bộ đang chờ duyệt
             </div>
             @{
-                foreach (ForumMater2.Models.Club item in list_waiting_browser)
+                foreach (ForumMater2.Models.Club item in clubs_unconsidered)
                 {
                     <div class=" mt-4 justify-content-center row">
                         <div class="m-0 p-0 col-md-2">

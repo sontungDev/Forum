@@ -22,7 +22,7 @@ namespace LIB
             }
         }
         // mã hóa chuỗi
-        public static string EncodeF64(string text)
+        public string EncodeF64(string text)
         {
             if (String.IsNullOrEmpty(text)) return "";
             text += key;

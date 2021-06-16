@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ForumMater2.Models;
+using LIB;
 
 namespace ForumMater2.Controllers
 {
     public class LogController : XController
     {
+        ClubForumEntities db = new ClubForumEntities();
         // Đăng nhập
         #region
         public ActionResult Login()
@@ -69,7 +71,11 @@ namespace ForumMater2.Controllers
                 return RedirectToAction("Home", "User");
             }
             else
-                return Content("Fail");
+            {
+                ViewBag.message = "Sài tên đăng nhập hoặc mật khẩu";
+                return View();
+            }    
+                
         }
         #endregion
 
@@ -78,6 +84,48 @@ namespace ForumMater2.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult Register(FormCollection form_data)
+        {
+            string current_id = db.Users.Select(m => m.ID).Max();
+            string id = Assitant.Instance.GetAutoID(current_id, "UID");
+            string user_name = form_data["user-name"];
+            string pass = form_data["pass"];
+            string first_name = form_data["first-name"];
+            string last_name = form_data["last-name"];
+            DateTime dob = DateTime.Parse(form_data["dob"]);
+            string email = form_data["email"];
+            string work_place = form_data["work-place"];
+            string address = form_data["address"];
+            string phone = form_data["phone"];
+            bool gender = bool.Parse(form_data["gender"]);
+
+
+            User user = new User()
+            {
+                ID = id,
+                Address = address,
+                Avatar = "av.png",
+                DateCreated = DateTime.Now.Date,
+                DateOfBirth = dob,
+                Email = email,
+                FirstName = first_name,
+                LastName = last_name,
+                Gender = gender,
+                Password = Assitant.Instance.EncodeF64(pass),
+                Phone = phone,
+                Workplace = work_place,
+                UserName = user_name             
+            };
+
+            db.Users.Add(user);
+
+            int res = db.SaveChanges();
+            if (res > 0)
+                return RedirectToAction("Login", "Log");
+            else
+                return View();
         }
         #endregion
 

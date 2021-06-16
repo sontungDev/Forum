@@ -26,7 +26,6 @@
     <Property Name="ShortName" Type="varchar" MaxLength="10" />
     <Property Name="Description" Type="nvarchar" MaxLength="250" />
     <Property Name="UserCreated" Type="varchar" MaxLength="30" />
-    <Property Name="Privacy" Type="smallint" />
   </EntityType>
   <EntityType Name="Comments">
     <Key>
@@ -97,7 +96,6 @@
     <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="Address" Type="nvarchar" MaxLength="250" />
     <Property Name="Avatar" Type="varchar" MaxLength="250" />
-    <Property Name="CoverPhoto" Type="varchar" MaxLength="250" />
     <Property Name="Phone" Type="varchar" MaxLength="20" />
     <Property Name="Gender" Type="bit" Nullable="false" />
   </EntityType>
