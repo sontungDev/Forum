@@ -1,39 +1,45 @@
-﻿@model ForumMater2.Models.Club
-@using ForumMater2.Models
+﻿@using ForumMater2.Models
+@model PagedList.IPagedList<Post>
+@using PagedList.Mvc 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = "Thông tin CLB";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ClubForumEntities db = new ClubForumEntities();
-    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID && m.Role > 1).ToList();
     string user_id = Session["user"].ToString();
+    Club club = db.Clubs.Find(ViewBag.ClubID);
     User user = db.Users.Find(user_id);
-    int roles = db.UserClubRoles.Where(m => m.ClubID == Model.ID && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
-    List<Post> posts = Model.Posts.Where(m => m.Approval != "AID0").ToList();
+    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role > 1).ToList();
+    List<UserClubRole> remem_unconsider = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role == 1).ToList();
+    int roles = db.UserClubRoles.Where(m => m.ClubID == club.ID && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
+    List<Post> posts = club.Posts.Where(m => m.Approval != "AID0").ToList();
+    List<Plan> plans = club.Plans.ToList(); // lấy hết
 }
 @section styles{
     <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
 }
 <input type="hidden" name="user-id" value="@user_id" />
-<input type="hidden" name="club-id" value="@Model.ID" />
+<input type="hidden" name="club-id" value="@club.ID" />
 <nav class="row container-fluid pt-5 m-0 w-100 d-flex justify-content-center bg-light">
     <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
-        <img src="@ViewBag.Url/assets/images/clubs/covers/@Model.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
+        <img src="@ViewBag.Url/assets/images/clubs/covers/@club.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
     </div>
     <input class="col-6 col-md-7 h-50 mt-2 d-none" placeholder="Đang tải......" disabled="disabled" />
     <div class="w-100 offset-2 mt-2 mb-2">
-        <h3 class="ml-md-5 ml-4">@Model.Name</h3>
-        <h5 class="ml-md-5 ml-4 blockquote-footer">@Model.ShortName</h5>
-        <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black"> &nbsp @Model.Type</i>
+        <h3 class="ml-md-5 ml-4">@club.Name</h3>
+        <h5 class="ml-md-5 ml-4 blockquote-footer">@club.ShortName</h5>
+        <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black"> &nbsp @club.Type</i>
         <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">&nbsp Số lượng thành viên : @remembers.Count</i>
         @{
             if (roles == 3)
             {
-                <i class="fas fa-user-clock d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="/User/VerifyMembers/@Model.ID" class="text-decoration-none text-dark">Duyệt thành viên</a></i>
+                <i class="fas fa-user-clock d-md-inline ml-md-5" style="font-size: 100%; color: black">
+                    <a href="/User/VerifyMembers/@club.ID" class="text-decoration-none text-dark">Duyệt thành viên (@remem_unconsider.Count)</a>
+                </i>
                 <i class="fas fa-cog d-md-inline ml-md-5" style="font-size: 100%; color: black">
-                    <a href="/User/EditClub/@Model.ID" class="text-decoration-none text-dark">Chỉnh sửa</a>
+                    <a href="/User/EditClub/@club.ID" class="text-decoration-none text-dark">Chỉnh sửa</a>
                 </i>
                 <i class="fa fa-calendar-plus-o ml-5" aria-hidden="true" style="font-size: 100%; color: black; font-weight:bold;">
-                    <a href="#" class="text-decoration-none text-dark">Thêm kế hoạch</a>
+                    <a href="/User/CreatePlan/@club.ID" class="text-decoration-none text-dark">Thêm kế hoạch</a>
                 </i>
                 @*<button class="btn btn-warning ml-5" id="delete-club">Giải tán câu lạc bộ</button>*@
             }
@@ -91,15 +97,15 @@
                 </div>
             }
         }
-    <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
-        @{
-            if (remembers.Count > 10)
-            {
-                <a href="#" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+        <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
+            @{
+                if (remembers.Count > 10)
+                {
+                    <a href="#" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+                }
             }
-        }
 
-    </div>
+        </div>
     </nav>
     <!-- end left body -->
     <!-- center body -->
@@ -124,13 +130,13 @@
                     }
 
 
-}
+                }
             </div>
         </nav>
 
         <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
             @{
-                foreach (var item in posts)
+                foreach (var item in Model)
                 {
                     <div class="d-inline my-2 py-3 px-2 rounded-circle w-100">
                         <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
@@ -157,6 +163,15 @@
                     <hr class="mt-1 mb-0">
                 }
             }
+            <div class="my-3">
+                @Html.PagedListPager(Model, page => Url.Action("ClubDetail", new { page }),
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new List<string> { "page-item", "page-link" },
+                        UlElementClasses = new List<string> { "pagination" },
+                        ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
+                    })
+            </div>
         </nav>
         <!-- end posts -->
 
@@ -185,7 +200,7 @@
                                 </button>
                             </div>
                             <div class="modal-body" style="white-space: pre-line;">
-                                @Html.Raw(Model.Description)
+                                @Html.Raw(club.Description)
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -195,20 +210,55 @@
                 </div>
             </div>
         </div>
-        @{ 
-            if(roles > 1)
+        @{
+            if (roles > 1)
             {
                 <div class=" border border-1 container-fluid text-left px-0 mt-5" style="background-color: #7ed6df">
                     <div class="text-decoration-none p-2" style="color: inherit;">
                         <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y5/r/rvdJw9pk06Q.png" style="height:36px;width:36px" alt=""> &nbsp Kế hoạch
                     </div>
-                    <div class="bg-light mt-2 p-2 pl-3">
-                        <a href="goupofme_Chief.html" style="text-decoration: none;  color: inherit;">Kế hoạch 1</a>
+                    <div class="accordion" id="plan-collapse">
+                        @{
+                            int i = 0;
+                            string idcolap = "collap";
+                            string heading = "heading";
+                            foreach (var item in plans)
+                            {
+                                string collapse = idcolap + i;
+                                string head = heading + i;
+                                i++;
+                                <div class="card">
+                                    <div class="card-header" id="@head">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#@collapse" aria-expanded="true" aria-controls="@collapse">
+                                                @item.Title
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <div id="@collapse" class="collapse" aria-labelledby="@head" data-parent="#plan-collapse">
+                                        <div class="card-body">
+                                            <p class="" style="white-space:pre-line;">@item.Content</p>
+                                            <p class="text-success font-weight-bold" style="font-size:smaller;">Diễn ra vào lúc @item.DateTimeExpected</p>
+                                            @{
+                                                if (roles >= 3)
+                                                {
+                                                    <a href="/User/EditPlan/@item.ID" class="btn btn-sm btn-info">Sửa</a>
+                                                    <button class="btn btn-sm btn-danger">Xóa</button>
+                                                    <input type="hidden" class="pid" value="@item.ID" />
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             }
         }
-        
+
 
 
     </nav>
@@ -307,6 +357,15 @@
                             alert('Đã xảy ra lỗi - Rất tiếc');
                         }
                     });
+            });
+
+            $('.btn-danger').click(function (e) {
+                e.preventDefault();
+                var res = confirm("Bạn có chắc muốn xóa kế hoạch này không?");
+                if (res) {
+                    var pid = $(e.target).next().val();
+                    window.location.href = "/User/RemovePlan/" + pid;
+                }
             });
         });
     </script>

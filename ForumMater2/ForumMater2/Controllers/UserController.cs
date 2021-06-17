@@ -45,9 +45,9 @@ namespace ForumMater2.Controllers
             if(Session["user"] != null)
             {
                 string user_id = Session["user"].ToString();
-                List<Club> list_club_parti = db.UserClubRoles.Where(m => m.UserID == user_id).Select(m => m.Club).ToList();
+                List<Club> clubs_considered = db.UserClubRoles.Where(m => m.UserID == user_id && m.Role >= 2).Select(m => m.Club).ToList();
                 ViewBag.Url = UrlContext();
-                return View(list_club_parti);
+                return View(clubs_considered);
             }
             return Redirect("/Log/Login");
         }
@@ -308,7 +308,7 @@ namespace ForumMater2.Controllers
         // trang chi tiết câu lạc bộ
         #region
         // trang cho quản trưởng clb
-        public ActionResult ClubDetail(string id)
+        public ActionResult ClubDetail(string id, int page = 1, int size = 1)
         {
             if(Session["user"] != null)
             {
@@ -316,12 +316,10 @@ namespace ForumMater2.Controllers
                 ViewBag.Url = UrlContext();
                 Club club = db.Clubs.Find(id);
                 int roles = db.UserClubRoles.Where(m => m.ClubID == id && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
-                if (roles == 3)
-                    return View(club);
-                else if (roles == 2)
-                    return RedirectToAction("ClubDetailMem/" + id);
-                else
-                    return RedirectToAction("ClubDetailCus/" + id);
+                IEnumerable<Post> posts = db.Posts.Where(m => m.ClubID == id && m.Approval != "AID0")
+                    .OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
+                ViewBag.ClubID = id;
+                return View(posts);
             }
             return Redirect("/Log/Login");
         }
@@ -385,28 +383,6 @@ namespace ForumMater2.Controllers
 
             db.SaveChanges();
             return Json("xong", JsonRequestBehavior.AllowGet);
-        }
-        // trang cho thành viên
-        public ActionResult ClubDetailMem(string id)
-        {
-            if (Session["user"] != null)
-            {
-                ViewBag.Url = UrlContext();
-                Club club = db.Clubs.Find(id);
-                return View("ClubDetail",club);
-            }
-            return Redirect("/Log/Login");
-        }
-        // dành cho người không phải thành viên
-        public ActionResult ClubDetailCus(string id)
-        {
-            if (Session["user"] != null)
-            {
-                ViewBag.Url = UrlContext();
-                Club club = db.Clubs.Find(id);
-                return View("ClubDetail", club);
-            }
-            return Redirect("/Log/Login");
         }
 
         #endregion
@@ -511,10 +487,82 @@ namespace ForumMater2.Controllers
 
         #endregion
 
+        // kế hoạch
         #region
-        public ActionResult CreatePlan()
+        public ActionResult CreatePlan(string id)
         {
-            return View();
+            if(Session["user"] != null)
+            {
+                ViewBag.ID = id;
+                return View();
+            }
+            return Redirect("/Log/Login");
+        }
+        [HttpPost]
+        public ActionResult CreatePlan(FormCollection form_data)
+        {
+            string current_id = db.Plans.Select(m => m.ID).Max();
+            string id = Assitant.Instance.GetAutoID(current_id, "KID");
+
+            string title = form_data["title"];
+            string content = form_data["content"];
+            DateTime start = DateTime.Parse(form_data["start-datetime"]);
+            string club_id = form_data["club-id"];
+
+            Plan plan = new Plan()
+            {
+                ID = id,
+                ClubID = club_id,
+                Content = content,
+                Title = title,
+                DateTimeExpected = start
+            };
+
+            db.Plans.Add(plan);
+            db.SaveChanges();
+            
+            return Redirect("/User/ClubDetail/" + club_id);
+        }
+        [HttpGet]
+        public ActionResult RemovePlan(string id)
+        {
+            Plan plan = db.Plans.Find(id);
+            string club_id = plan.ClubID;
+
+            db.Plans.Remove(plan);
+
+            db.SaveChanges();
+
+            return Redirect("/User/ClubDetail/" + club_id);
+        }
+        public ActionResult EditPlan(string id)
+        {
+            if(Session["user"] != null)
+            {
+                Plan plan = db.Plans.Find(id);
+
+                return View(plan);
+            }
+            return Redirect("/Log/Login");
+        }
+        [HttpPost]
+        public ActionResult EditPlan(FormCollection form_data)
+        {
+            string id = form_data["plan-id"];
+
+            Plan plan = db.Plans.Find(id);
+
+            string title = form_data["title"];
+            string content = form_data["content"];
+            DateTime date_expected = DateTime.Parse(form_data["start-datetime"]);
+
+            plan.Title = title;
+            plan.Content = content;
+            plan.DateTimeExpected = date_expected;
+
+            db.SaveChanges();
+
+            return Redirect("/User/ClubDetail/" + plan.ClubID);
         }
         #endregion
         // làm gì đó tiếp đi

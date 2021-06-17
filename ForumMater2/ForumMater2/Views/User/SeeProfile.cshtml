@@ -12,7 +12,7 @@
     string dct = Model.DateCreated.Date.ToString("dd/MM/yyyy");
 
     // tính toán
-    int posted_count = db.Posts.Where(m => m.ID == Model.ID).Count();
+    int posted_count = db.Posts.Where(m => m.UserID == Model.ID && m.Approval != "AID0").Count();
 }
 @section styles{
     <link href="~/assets/css/user/see_profile.css" rel="stylesheet" />

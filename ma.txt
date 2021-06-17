@@ -3,6 +3,7 @@ post	PID
 club	CID
 admin	AID
 comment	MID
+plan 	KID
 
 người khác nhóm 0
 chờ duyệt là số 1

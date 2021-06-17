@@ -1068,6 +1068,7 @@
     <Content Include="Views\Details\Club.cshtml" />
     <Content Include="Views\User\EditClub.cshtml" />
     <Content Include="Views\User\CreatePlan.cshtml" />
+    <Content Include="Views\User\EditPlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

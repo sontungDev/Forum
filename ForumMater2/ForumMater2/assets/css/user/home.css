@@ -246,4 +246,7 @@ html, body {
     font-size:12px !important;
 }
 
-
+li.nav-item.ff-active.active{
+    background-color : beige !important;
+    border-radius : 20px !important;
+}

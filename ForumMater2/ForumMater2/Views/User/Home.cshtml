@@ -186,6 +186,13 @@
 
 
 @section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.ff-active').removeClass('active');
+            $('.ff-active').eq(0).addClass('active');
+            console.log($('.ff-active'));
+        });
+    </script>
 
 }
 
