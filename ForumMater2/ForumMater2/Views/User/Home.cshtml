@@ -11,8 +11,8 @@
     User user = ViewBag.User;
     string url_avatar = ViewBag.Url + "/assets/images/users/avatars/" + user.Avatar;
 
-    // các list ở đây
-    List<Club> clubs = db.Clubs.ToList(); // còn xử lý tiếp
+    // tất cả các clb đã được admin duyệt qua
+    List<Club> clubs = db.Clubs.Where(m => m.Approval != "AID0").ToList(); // còn xử lý tiếp
 
     // danh sách các câu lạc bộ đã tham gia (kể cả đang xét duyệt)
     List<Club> clubs_joining = db.UserClubRoles.Where(m => m.UserID == user.ID).Select(m => m.Club).ToList();
@@ -122,7 +122,6 @@
                             <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
                         </div>
                     </div>
-
                 </div>
             }
             <div class="my-3">

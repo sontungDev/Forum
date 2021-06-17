@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ClubForumEntities db = new ClubForumEntities();
     string user_id = Session["user"].ToString();
-    List<User> waiting_broswer = db.UserClubRoles.OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user_id && m.Role == 1).Select(m => m.User).ToList();
+    List<User> waiting_broswer = db.UserClubRoles.OrderByDescending(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID && m.Role == 1).Select(m => m.User).ToList();
 
 }
 @section styles{

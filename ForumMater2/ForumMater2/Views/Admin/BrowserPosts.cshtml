@@ -31,14 +31,14 @@
                 e.preventDefault();
                 var target = $(e.target);
                 var parent = target.parent().parent();
-                var post_id = target.next().next().val();
+                var club_id = target.next().next().val();
                 // xử lý ở đây ajax
                 $.ajax({
                         url: '@Url.Action("AcceptBrowserPosts", "Admin")',
                         dataType: 'json',
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({ id : post_id }),
+                        data: JSON.stringify({ id : club_id }),
                         success: function (data) {
                             if (data == 'true') {
                                 alert("Đã được duyệt");
@@ -60,14 +60,14 @@
                 e.preventDefault();
                 var target = $(e.target);
                 var parent = target.parent().parent();
-                var post_id = target.next().val();
+                var club_id = target.next().val();
                 // xử lý ajax
                 $.ajax({
                         url: '@Url.Action("RefuseBrowserPosts", "Admin")',
                         dataType: 'json',
                         type: 'POST',
                         contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({ id : post_id }),
+                        data: JSON.stringify({ id : club_id }),
                     success: function (data) {
                         if (data == 'true') {
                             alert("Đã được duyệt");

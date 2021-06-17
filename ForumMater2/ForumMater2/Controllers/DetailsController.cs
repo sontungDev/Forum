@@ -7,7 +7,7 @@ using ForumMater2.Models;
 
 namespace ForumMater2.Controllers
 {
-    public class DetailsController : Controller
+    public class DetailsController : XController
     {
         ClubForumEntities db = new ClubForumEntities();
         // GET: Details
@@ -19,6 +19,12 @@ namespace ForumMater2.Controllers
         {
             Post post = db.Posts.Find(id);
             return View(post);
+        }
+        public ActionResult Club(string id)
+        {
+            ViewBag.Url = UrlContext();
+            Club club = db.Clubs.Find(id);
+            return View(club);
         }
     }
 }

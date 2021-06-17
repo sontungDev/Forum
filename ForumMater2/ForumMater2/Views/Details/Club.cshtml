@@ -1,0 +1,29 @@
+﻿@using ForumMater2.Models
+@model Club
+@{
+    ViewBag.Title = "Club";
+    Layout = "~/Views/Shared/_detail_layout.cshtml";
+}
+
+@section styles{
+    <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
+}
+<nav class="row container-fluid pt-5 m-0 w-100 d-flex justify-content-center bg-light">
+    <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
+        <img src="@ViewBag.Url/assets/images/clubs/covers/@Model.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
+    </div>
+    <input class="col-6 col-md-7 h-50 mt-2 d-none" placeholder="Đang tải......" disabled="disabled" />
+    <div class="w-100 offset-2 mt-2 mb-2">
+        <h3 class="ml-md-5 ml-4">@Model.Name</h3>
+        <h5 class="ml-md-5 ml-4 blockquote-footer">@Model.ShortName</h5>
+        <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black"> &nbsp @Model.Type</i>
+    </div>
+</nav>
+<hr class="mt-0">
+<!-- end header -->
+<div class="row m-0 p-0 justify-content-center mb-5">
+    <div class="col-6">
+        <h4>Mô tả</h4>
+        <p style="white-space : pre-line;">@Model.Description</p>
+    </div>
+</div>

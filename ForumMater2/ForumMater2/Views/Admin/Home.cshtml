@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="card catori ml-3" style="width:350px;">
+        <div class="card catori ml-3" style="width:350px;" id="br-clubs">
             <div class="card-header row p-3 m-0">
                 <div class="col-4">
                     <img src="~/assets/default/club.png" class="w-100" />
@@ -46,6 +46,11 @@
             $('#br-posts').click(function (e) {
                 e.preventDefault();
                 window.location.href = '/Admin/BrowserPosts';
+            });
+
+            $('#br-clubs').click(function (e) {
+                e.preventDefault();
+                window.location.href = '/Admin/BrowserClubs';
             });
         });
     </script>

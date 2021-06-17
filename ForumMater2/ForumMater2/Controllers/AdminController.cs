@@ -123,6 +123,8 @@ namespace ForumMater2.Controllers
             }
             return Redirect("/Admin/Index");
         }
+
+        // duyệt bài
         [HttpPost]
         public JsonResult AcceptBrowserPosts(string id)
         {
@@ -151,14 +153,57 @@ namespace ForumMater2.Controllers
                 json = "false";
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+        // hết duyệt bài
+
+        // duyệt clb
         public ActionResult BrowserClubs()
         {
             if (Session["admin"] != null)
             {
-                return View();
+                List<Club> clubs = db.Clubs.Where(m => m.Approval == "AID0").ToList();
+                return View(clubs);
             }
             return Redirect("/Admin/Index");
         }
+        [HttpPost]
+        public JsonResult AcceptClubs(string id)
+        {
+            string json = "";
+            string admin_id = Session["admin"].ToString();
+
+            Club club = db.Clubs.Find(id);
+
+            UserClubRole userClubRole = new UserClubRole()
+            {
+                ClubID = club.ID,
+                UserID = club.UserCreated,
+                DateTimeJoined = DateTime.Now,
+                Role = 3 // trưởng câu lạc bộ
+            };
+
+            db.UserClubRoles.Add(userClubRole);
+            club.Approval = admin_id;
+
+            int res = db.SaveChanges();
+            if (res > 0)
+                json = "true";
+            else json = "false";
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult RefuseClubs(string id)
+        {
+            Club club = db.Clubs.Find(id);
+            db.Clubs.Remove(club);
+            int res = db.SaveChanges();
+            string json = "";
+            if (res > 0)
+                json = "true";
+            else
+                json = "false";
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+        // hết duyệt clb
         public ActionResult Home()
         {
             if (Session["admin"] != null)

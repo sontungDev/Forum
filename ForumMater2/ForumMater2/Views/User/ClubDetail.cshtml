@@ -4,11 +4,11 @@
     ViewBag.Title = Model.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
     ClubForumEntities db = new ClubForumEntities();
-    int count = db.UserClubRoles.Where(m => m.ClubID == Model.ID).Count();
-    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID).ToList();
+    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == Model.ID && m.Role > 1).ToList();
     string user_id = Session["user"].ToString();
     User user = db.Users.Find(user_id);
     int roles = db.UserClubRoles.Where(m => m.ClubID == Model.ID && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
+    List<Post> posts = Model.Posts.Where(m => m.Approval != "AID0").ToList();
 }
 @section styles{
     <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
@@ -24,12 +24,17 @@
         <h3 class="ml-md-5 ml-4">@Model.Name</h3>
         <h5 class="ml-md-5 ml-4 blockquote-footer">@Model.ShortName</h5>
         <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black"> &nbsp @Model.Type</i>
-        <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">&nbsp Số lượng thành viên : @count</i>
+        <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">&nbsp Số lượng thành viên : @remembers.Count</i>
         @{
             if (roles == 3)
             {
                 <i class="fas fa-user-clock d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="/User/VerifyMembers/@Model.ID" class="text-decoration-none text-dark">Duyệt thành viên</a></i>
-                <i class="fas fa-cog d-md-inline ml-md-5" style="font-size: 100%; color: black"><a href="settingCLB_Chief.html" class="text-decoration-none text-dark">Chỉnh sửa</a></i>
+                <i class="fas fa-cog d-md-inline ml-md-5" style="font-size: 100%; color: black">
+                    <a href="/User/EditClub/@Model.ID" class="text-decoration-none text-dark">Chỉnh sửa</a>
+                </i>
+                <i class="fa fa-calendar-plus-o ml-5" aria-hidden="true" style="font-size: 100%; color: black; font-weight:bold;">
+                    <a href="#" class="text-decoration-none text-dark">Thêm kế hoạch</a>
+                </i>
                 @*<button class="btn btn-warning ml-5" id="delete-club">Giải tán câu lạc bộ</button>*@
             }
             else if (roles == 2) // đã gia nhập và xử lý cả khi nó muốn rời câu lạc bộ
@@ -86,9 +91,15 @@
                 </div>
             }
         }
-        <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
-            <a href="#" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
-        </div>
+    <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
+        @{
+            if (remembers.Count > 10)
+            {
+                <a href="#" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+            }
+        }
+
+    </div>
     </nav>
     <!-- end left body -->
     <!-- center body -->
@@ -111,12 +122,41 @@
                     {
                         <a href="/User/CreatePost" class="btn btn-info disabled" id="create-post">Đăng bài</a>
                     }
-                }
+
+
+}
             </div>
         </nav>
 
         <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
-            
+            @{
+                foreach (var item in posts)
+                {
+                    <div class="d-inline my-2 py-3 px-2 rounded-circle w-100">
+                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
+                    </div>
+                    <div class="d-inline p-md-1 m-md-1 p-1 m-1">
+                        <span>
+                            <a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;">
+                                <b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- nội dung bài đăng -->
+                    <div class="container-fluid ml-2 mb-3 mt-2 row justify-content-start">
+                        <div class="col-10">
+                            <div class="title-post">
+                                <a href="/User/PostDetail/@item.ID">@item.Title</a>
+                            </div>
+                            <div class="text-time">
+                                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-1 mb-0">
+                }
+            }
         </nav>
         <!-- end posts -->
 
@@ -144,8 +184,8 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                @Model.Description
+                            <div class="modal-body" style="white-space: pre-line;">
+                                @Html.Raw(Model.Description)
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -1065,6 +1065,9 @@
     <Content Include="Views\Admin\DetailClub.cshtml" />
     <Content Include="Views\Shared\_detail_layout.cshtml" />
     <Content Include="Views\Details\Post.cshtml" />
+    <Content Include="Views\Details\Club.cshtml" />
+    <Content Include="Views\User\EditClub.cshtml" />
+    <Content Include="Views\User\CreatePlan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

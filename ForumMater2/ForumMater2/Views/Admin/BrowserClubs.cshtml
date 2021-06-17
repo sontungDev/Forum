@@ -1,8 +1,89 @@
-﻿
+﻿@using ForumMater2.Models
+@model List<Club>
 @{
     ViewBag.Title = "BrowserClubs";
     Layout = "~/Views/Shared/_admin_layout_empty.cshtml";
 }
 
+@{
+    foreach (Club item in Model)
+    {
+        <div class="row m-0" style="font-size:15px;">
+            <div class="col-8">
+                <a href="/Details/Club/@item.ID" target="_blank" class="text-decoration-none text-dark d-block">@item.Name</a>
+                <span class="text-muted">@item.DateCreated</span>
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-sm btn-success acc-post">Duyệt</button>
+                <button class="btn btn-sm btn-danger ref-post">Từ chối</button>
+                <input type="hidden" class="temp-id" value="@item.ID" />
+            </div>
+            <hr style="width:100%;" />
+        </div>
+    }
+}
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // nút chấp nhận
+            $('.acc-post').click(function (e) {
+                e.preventDefault();
+                var target = $(e.target);
+                var parent = target.parent().parent();
+                var post_id = target.next().next().val();
+                // xử lý ở đây ajax
+                $.ajax({
+                        url: '@Url.Action("AcceptClubs", "Admin")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ id : post_id }),
+                        success: function (data) {
+                            if (data == 'true') {
+                                alert("Đã được duyệt");
+                                parent.remove();
+                            }
+                            else {
+                                alert('Không duyệt được');
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+            });
+            // hết nút chấp nhận
+
+            // nút hủy
+            $('.ref-post').click(function (e) {
+                e.preventDefault();
+                var target = $(e.target);
+                var parent = target.parent().parent();
+                var post_id = target.next().val();
+                // xử lý ajax
+                $.ajax({
+                        url: '@Url.Action("RefuseClubs", "Admin")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ id : post_id }),
+                    success: function (data) {
+                        if (data == 'true') {
+                            alert("Đã được duyệt");
+                            parent.remove();
+                        }
+                            else {
+                                alert('Không duyệt được');
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+            });
+            // hết nút hủy
+        });
+    </script>
+}
 

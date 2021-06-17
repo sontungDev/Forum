@@ -1,23 +1,26 @@
 ﻿@using ForumMater2.Models
+@model Club
 @{
-    ViewBag.Title = "CreateClub";
+    ViewBag.Title = "EditClub";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ClubForumEntities db = new ClubForumEntities();
+
 }
 @section styles{
     <link href="@ViewBag.Url/assets/css/user/createCLB.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.css" rel="stylesheet">
 }
+<input type="hidden" id="club_id" value="@Model.ID" />
 <nav class="container-fluid form_body mb-5 m-0 row">
     <div class="m-0 p-0 col-12">
-        <label for="" class="form-label w-100 m-0 text_sign" style="font-size: 150%">Tạo Câu Lạc Bộ</label>
-        <div class="blockquote-footer">Hãy điền đầy đủ thông tin câu lạc bộ vào đây nhé!</div>
+        <label for="" class="form-label w-100 m-0 text_sign" style="font-size: 150%">Thiết lập Câu Lạc Bộ</label>
+        <div class="blockquote-footer">Chỉnh sửa các thông tin bên dưới!</div>
     </div>
     <form action="#" class="form_CLB col-6" id="form">
         <div class="form-group m-0" style="border-color: none;">
             <div class="row">
                 <div class="col-9">
-                    <input type="text" class="form-control mt-2 btn_form" id="text_firstname_CLB" name="long-name-club" placeholder="Nhập tên câu lạc bộ">
+                    <input type="text" class="form-control mt-2 btn_form" id="text_firstname_CLB"
+                           name="long-name-club" placeholder="Nhập tên câu lạc bộ" value="@Model.Name" />
                     <small class="mb-0 text-danger d-none d-iblock" id="m11">Không được để trống này hoặc nhập dưới 8 kí tự</small>
                     <small class="mb-0 text-danger d-none d-iblock" id="m12">Tên đã bị trùng</small>
                     <small class="mb-0 d-none text-success d-iblock" id="m13">Có thể sử dụng tên này</small>
@@ -28,7 +31,8 @@
             </div>
             <div class="row">
                 <div class="col-9">
-                    <input type="text" class="form-control mt-2 btn_form" name="short-name-club" id="text_lastname_CLB" placeholder="Nhập tên viết tắt của câu lạc bộ" maxlength="8">
+                    <input type="text" class="form-control mt-2 btn_form" name="short-name-club" id="text_lastname_CLB"
+                           placeholder="Nhập tên viết tắt của câu lạc bộ" maxlength="8" value="@Model.ShortName" />
                     <small class="mb-0 d-none text-danger d-iblock" id="m21">Không để trống trường này hoặc nhập dưới 3 kí tự</small>
                     <small class="mb-0 d-none text-danger d-iblock" id="m22">Tên đã bị trùng</small>
                     <small class="mb-0 d-none text-success d-iblock" id="m23">Có thể sử dụng tên này</small>
@@ -41,6 +45,7 @@
                 <div class="form-group col-5 px-0 my-3">
                     <label for="type-club">Thể loại CLB</label>
                     <select class="form-control" id="type-club" name="type-club">
+                        <option value="@Model.Type">@Model.Type</option>
                         <option value="Thể thao">Thể thao</option>
                         <option value="Âm nhạc">Âm nhạc</option>
                         <option value="Mỹ thuật">Mỹ thuật</option>
@@ -64,11 +69,11 @@
 
             <div class="form-group mt-2 btn_form row mt-5 p-0">
                 <div class="fileUpload col-4 ml-2 p-3">
-                    <span style="color: grey" id="span-upload">Chọn ảnh bìa</span>
+                    <span style="color: grey" id="span-upload" class="btn btn-info text-light">Thay đổi ảnh bìa</span>
                     <input id="uploadBtn_group" type="file" accept="image/*" class="upload" />
                 </div>
             </div>
-            <textarea rows="6" class="form-control" name="describe" id="describe"></textarea>
+            <textarea rows="6" class="form-control" name="describe" id="describe" style="white-space:pre-line;">@Model.Description</textarea>
             <small class="mb-0 text-danger d-none d-iblock" id="m31">Không để trống trường này</small>
         </div>
         <button class="btn justify-content-center shadow btn-info my-3" id="submit-club">Hoàn Tất</button>
@@ -80,6 +85,8 @@
     <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
     <script>
         $(document).ready(function () {
+            var old_long_name = $('#text_firstname_CLB').val();
+            var old_short_name = $('#text_lastname_CLB').val();
             //var edit = CKEDITOR.replace('describe');
             var valid_long_require = false;
             var valid_short_require = false;
@@ -93,6 +100,9 @@
                     height: 200,
                     type: 'square' // or 'circle'
                 },
+            });
+            croppieDemo.croppie('bind', {
+                url: '@ViewBag.Url/assets/images/clubs/covers/@Model.CoverPhoto'
             });
             $('#uploadBtn_group').on('change', function () {
                 var reader = new FileReader();
@@ -113,6 +123,7 @@
 
                 var long_name = $('#text_firstname_CLB').val();
                 var short_name = $('#text_lastname_CLB').val();
+                var club_id = $('#club_id').val();
                 //var descr = CKEDITOR.instances['describe'].getData();
                 var descr = $('#describe').val();
                 var type_club = $('#type-club').val();
@@ -142,34 +153,27 @@
                     croppieDemo.croppie('result', {
                         type: 'base64',
                         size: 'viewport',
-                        format: 'jpeg'
+                        forViewBagat: 'jpeg'
                     }).then(function (image) {
-                        var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
+                        var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAModelQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
 
-                        if (image != emt) {                     
+                        var formData = new FormData();
+                        formData.append('id', club_id);
+                        formData.append('long_name', long_name);
+                        formData.append('short_name', short_name);
+                        formData.append('describe', descr);
+                        formData.append('type_club', type_club);
 
-                            var form = $('#form');
-                            var formData = new FormData();
-                            // name , ima_base64
+                        if (image != emt) {
+                            console.log(image);
                             formData.append('cover', image);
-                            formData.append('long_name', long_name);
-                            formData.append('short_name', short_name);
-                            formData.append('describe', descr);
-                            formData.append('type_club', type_club);
-
-                            console.log(descr);
-
-                            const request = new XMLHttpRequest();
-                            request.open("POST", "/User/CreateClub");
-                            request.send(formData);
-
-                            alert("Tạo câu lạc bộ thành công, bạn vui lòng chờ quản trị viên duyệt yêu cầu của bạn");
-                            window.location.href = "/User/Home";
                         }
-                        else {
-                            alert("Hãy chọn ảnh bìa");
-                        }
-                });
+
+                        const request = new XMLHttpRequest();
+                        request.open("POST", "/User/EditClub");
+                        request.send(formData);
+                        alert("Đã cập nhật thành công");
+                    });
                 }
                 else {
                     alert("Vui lòng kiểm tra lại thông tin đã nhập");
@@ -184,28 +188,35 @@
                     $('#m13').removeClass('d-none').addClass('d-none');
                     $('#m11').removeClass('d-none').addClass('d-none');
                     var name = $('#text_firstname_CLB').val();
-                    $.ajax({
-                        url: '@Url.Action("IsExistLongNameClub","User")',
-                        dataType: 'json',
-                        type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({ val: name }),
-                        success: function (data) {
-                            if (data == 'exist') {
-                                $('#m12').removeClass('d-none');
-                                $('#m13').addClass('d-none');
-                                valid_exist_long = false;
+                    if (long_name != old_long_name) {
+                        $.ajax({
+                            url: '@Url.Action("IsExistLongNameClub","User")',
+                            dataType: 'json',
+                            type: 'POST',
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify({ val: name }),
+                            success: function (data) {
+                                if (data == 'exist') {
+                                    $('#m12').removeClass('d-none');
+                                    $('#m13').addClass('d-none');
+                                    valid_exist_long = false;
+                                }
+                                else {
+                                    $('#m13').removeClass('d-none');
+                                    $('#m12').addClass('d-none');
+                                    valid_exist_long = true;
+                                }
+                            },
+                            error: function (err) {
+                                alert('Đã xảy ra lỗi - Rất tiếc');
                             }
-                            else {
-                                $('#m13').removeClass('d-none');
-                                $('#m12').addClass('d-none');
-                                valid_exist_long = true;
-                            }
-                        },
-                        error: function (err) {
-                            alert('Đã xảy ra lỗi - Rất tiếc');
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        $('#m13').removeClass('d-none');
+                        $('#m12').addClass('d-none');
+                        valid_exist_long = true;
+                    }
                 }
                 else {
                     alert('Tên cần kiểm tra không hợp lệ - có thể bạn đã nhập ít hơn 8 kí tự');
@@ -222,28 +233,35 @@
                     $('#m23').removeClass('d-none').addClass('d-none');
                     $('#m21').removeClass('d-none').addClass('d-none');
                     var name = $('#text_lastname_CLB').val();
-                    $.ajax({
-                        url: '@Url.Action("IsExistShortNameClub","User")',
-                        dataType: 'json',
-                        type: 'POST',
-                        contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({ val: name }),
-                        success: function (data) {
-                            if (data == 'exist') {
-                                $('#m22').removeClass('d-none');
-                                $('#m23').addClass('d-none');
-                                valid_exist_short = false;
+                    if (short_name != old_short_name) {
+                        $.ajax({
+                            url: '@Url.Action("IsExistShortNameClub","User")',
+                            dataType: 'json',
+                            type: 'POST',
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify({ val: name }),
+                            success: function (data) {
+                                if (data == 'exist') {
+                                    $('#m22').removeClass('d-none');
+                                    $('#m23').addClass('d-none');
+                                    valid_exist_short = false;
+                                }
+                                else {
+                                    $('#m23').removeClass('d-none');
+                                    $('#m22').addClass('d-none');
+                                    valid_exist_short = true;
+                                }
+                            },
+                            error: function (err) {
+                                alert('Đã xảy ra lỗi - Rất tiếc');
                             }
-                            else {
-                                $('#m23').removeClass('d-none');
-                                $('#m22').addClass('d-none');
-                                valid_exist_short = true;
-                            }
-                        },
-                        error: function (err) {
-                            alert('Đã xảy ra lỗi - Rất tiếc');
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        $('#m23').removeClass('d-none');
+                        $('#m22').addClass('d-none');
+                        valid_exist_short = true;
+                    }
                 }
                 else {
                     alert('Tên cần kiểm tra không hợp lệ - có thể bạn đã nhập ít hơn 3 kí tự');

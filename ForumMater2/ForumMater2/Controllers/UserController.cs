@@ -30,7 +30,7 @@ namespace ForumMater2.Controllers
 
                 ViewBag.Url = UrlContext();
                 ViewBag.UrlAva = UrlContext() + "/assets/images/users/avatars";
-                IEnumerable<Post> list_post = db.Posts.OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
+                IEnumerable<Post> list_post = db.Posts.Where(m => m.Approval != "AID0").OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
 
                 return View(list_post);
             }
@@ -325,6 +325,67 @@ namespace ForumMater2.Controllers
             }
             return Redirect("/Log/Login");
         }
+
+        // trang edit clb
+        public ActionResult EditClub(string id) // id của club
+        {
+            if(Session["user"] != null)
+            {
+                string user_id = Session["user"].ToString();
+                UserClubRole userClubRole = db.UserClubRoles.Where(m => m.ClubID == id && m.UserID == user_id && m.Role >= 3).FirstOrDefault();
+                if (userClubRole != null)
+                {
+                    Club club = userClubRole.Club;
+                    return View(club);
+                }
+                else
+                {
+                    return RedirectToAction("Home", "User");
+                }
+            }
+            else
+            {
+                return Redirect("/Log/Login");
+            }
+             
+        }
+        [HttpPost]
+        public JsonResult EditClub(FormCollection form_data) // id của club
+        {
+            string name = form_data["long_name"];
+            string short_name = form_data["short_name"];
+            string describe = form_data["describe"];
+            string type_club = form_data["type_club"];
+            string club_id = form_data["id"];
+            Club club = db.Clubs.Find(club_id);
+
+            club.Name = name;
+            club.ShortName = short_name;
+            club.Description = describe;
+            club.Type = type_club;
+
+
+            if (form_data["cover"] != null)
+            {
+                string imgbase64 = form_data["cover"];
+
+
+                byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
+
+                // lấy tên ảnh
+                string name_file = Guid.NewGuid() + ".jpeg";
+
+                // ghi file vào máy chủ
+                FileStream stream = new FileStream(Server.MapPath("~/assets/images/clubs/covers/" + name_file), FileMode.Create);
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Flush();
+
+                club.CoverPhoto = name_file;
+            }
+
+            db.SaveChanges();
+            return Json("xong", JsonRequestBehavior.AllowGet);
+        }
         // trang cho thành viên
         public ActionResult ClubDetailMem(string id)
         {
@@ -446,10 +507,16 @@ namespace ForumMater2.Controllers
             db.SaveChanges();
 
             return Json("Thành công", JsonRequestBehavior.AllowGet);
-        }    
+        }
 
         #endregion
 
+        #region
+        public ActionResult CreatePlan()
+        {
+            return View();
+        }
+        #endregion
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)
         {

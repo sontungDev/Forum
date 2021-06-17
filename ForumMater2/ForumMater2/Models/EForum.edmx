@@ -52,6 +52,7 @@
           <Property Name="DateTimeExpected" Type="datetime" Nullable="false" />
           <Property Name="ClubID" Type="varchar" MaxLength="30" />
           <Property Name="Content" Type="nvarchar" MaxLength="500" />
+          <Property Name="DateTimeFinished" Type="datetime" />
         </EntityType>
         <EntityType Name="Posts">
           <Key>
@@ -353,6 +354,7 @@
           <Property Name="ClubID" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Plans_Clubs" FromRole="Plans" ToRole="Clubs" />
+          <Property Name="DateTimeFinished" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -651,6 +653,7 @@
           <EntitySetMapping Name="Plans">
             <EntityTypeMapping TypeName="ClubForumModel.Plan">
               <MappingFragment StoreEntitySet="Plans">
+                <ScalarProperty Name="DateTimeFinished" ColumnName="DateTimeFinished" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DateTimeExpected" ColumnName="DateTimeExpected" />
