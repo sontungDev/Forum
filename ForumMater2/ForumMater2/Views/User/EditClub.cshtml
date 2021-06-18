@@ -64,7 +64,7 @@
 
 
             @* Vị trí croppei *@
-            <div id="container-cover" style="width:560px; height:200px; background-color:lightgray;" class="my-3"></div>
+            <div id="container-cover" style="width:800px; height:286px; background-color:lightgray;" class="my-3"></div>
             @* ***** *@
 
             <div class="form-group mt-2 btn_form row mt-5 p-0">
@@ -97,8 +97,8 @@
             var croppieDemo = $('#container-cover').croppie({
                 enableOrientation: true,
                 viewport: {
-                    width: 560,
-                    height: 200,
+                    width: 800,
+                    height: 286,
                     type: 'square' // or 'circle'
                 },
             });
@@ -155,9 +155,8 @@
                     croppieDemo.croppie('result', {
                         type: 'base64',
                         size: 'viewport',
-                        forViewBagat: 'jpeg'
+                        forViewBagat: 'png'
                     }).then(function (image) {
-                        var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAModelQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
 
                         var formData = new FormData();
                         formData.append('id', club_id);

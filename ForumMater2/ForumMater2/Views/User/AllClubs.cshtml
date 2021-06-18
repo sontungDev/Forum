@@ -7,19 +7,21 @@
 
 <div class="container">
     <h4 class="text-center mb-5">Danh sách toàn bộ các CLB</h4>
-    @foreach (var item in Model)
-    {
-        <div class="card" style="width: 12rem;">
-            <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="card-img-top" alt="ảnh bìa">
-            <div class="card-body">
-                <h5 class="card-title font-weight-bold">@item.ShortName</h5>
-                <p class="card-text">@item.Name</p>
+    <div class="row m-0 p-0">
+        @foreach (var item in Model)
+        {
+            <div class="card col-3 mx-2">
+                <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="card-img-top" alt="ảnh bìa">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@item.ShortName</h5>
+                    <p class="card-text">@item.Name</p>
+                </div>
+                <div class="card-body">
+                    <a href="/User/ClubDetail/@item.ID" class="card-link">Xem chi tiết</a>
+                </div>
             </div>
-            <div class="card-body">
-                <a href="/User/ClubDetail/@item.ID" class="card-link">Xem chi tiết</a>
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 @section scripts{

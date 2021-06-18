@@ -16,6 +16,11 @@ namespace ForumMater2.Controllers
         public ActionResult Login()
         {
             ViewBag.Url = UrlContext();
+            if (Session["user"] != null)
+            {
+                return RedirectToAction("Home", "User");
+            }    
+
             return View();
         }
         [HttpPost]

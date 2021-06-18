@@ -8,7 +8,8 @@
 
     // xử lý
     ClubForumEntities db = new ClubForumEntities();
-    User user = ViewBag.User;
+    User user = db.Users.Find(Session["user"].ToString());
+
     string url_avatar = ViewBag.Url + "/assets/images/users/avatars/" + user.Avatar;
 
     // tất cả các clb đã được admin duyệt qua
@@ -18,13 +19,13 @@
     List<Club> clubs_joining = db.UserClubRoles.Where(m => m.UserID == user.ID).Select(m => m.Club).ToList();
 
     // danh sách đã xét duyệt
-    List<Club> clubs_considered = db.UserClubRoles.Take(7).OrderByDescending(m => m.DateTimeJoined).Where(m => m.UserID == user.ID && m.Role >= 2).Select(m => m.Club).ToList();
+    List<Club> clubs_considered = db.UserClubRoles.Where(m => m.UserID == user.ID && m.Role >= 2).Select(m => m.Club).ToList();
 
     // danh sách các clb chưa tham gia
-    List<Club> clubs_unjoin = clubs.Take(7).Except(clubs_joining).ToList();
-    
+    List<Club> clubs_unjoin = clubs.Except(clubs_joining).ToList();
+
     // danh sách các câu lạc bộ đang chờ duyệt
-    List<Club> clubs_unconsidered = clubs_joining.Except(clubs_considered).Take(7).ToList();
+    List<Club> clubs_unconsidered = clubs_joining.Except(clubs_considered).ToList();
 
     int offer_count = clubs_unjoin.Count;
 }
@@ -107,7 +108,6 @@
                     <span><a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;"><b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>&#10148;</a></span>
                     <span><a href="/User/ClubDetail/@item.ClubID" style="text-decoration: none; color: inherit;"><b>@item.Club.Name</b></a></span>
                 </div>
-                <hr class="mt-1 mb-0">
                 <!-- nội dung bài đăng -->
                 <div class="container-fluid ml-2 mt-md-3 mt-2 row justify-content-start">
                     <a class="col-2 pt-1 d-block" href="/User/PostDetail/@item.ID">
@@ -123,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+                <hr class="mt-3 mb-5">
             }
             <div class="my-3">
                 @Html.PagedListPager(Model, page => Url.Action("Home", new { page }),

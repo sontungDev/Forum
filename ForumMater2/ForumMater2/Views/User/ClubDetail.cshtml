@@ -1,6 +1,6 @@
 ﻿@using ForumMater2.Models
 @model PagedList.IPagedList<Post>
-@using PagedList.Mvc 
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Thông tin CLB";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,8 +8,8 @@
     string user_id = Session["user"].ToString();
     Club club = db.Clubs.Find(ViewBag.ClubID);
     User user = db.Users.Find(user_id);
-    List<UserClubRole> remembers = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role > 1).ToList();
-    List<UserClubRole> remem_unconsider = db.UserClubRoles.Take(10).OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role == 1).ToList();
+    List<UserClubRole> remembers = db.UserClubRoles.OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role > 1).ToList();
+    List<UserClubRole> remem_unconsider = db.UserClubRoles.OrderBy(m => m.DateTimeJoined).Where(m => m.ClubID == club.ID && m.Role == 1).ToList();
     int roles = db.UserClubRoles.Where(m => m.ClubID == club.ID && m.UserID == user_id).Select(m => m.Role).FirstOrDefault();
     List<Post> posts = club.Posts.Where(m => m.Approval != "AID0").ToList();
     List<Plan> plans = club.Plans.ToList(); // lấy hết
@@ -19,7 +19,7 @@
 }
 <input type="hidden" name="user-id" value="@user_id" />
 <input type="hidden" name="club-id" value="@club.ID" />
-<nav class="row container-fluid pt-5 m-0 w-100 d-flex justify-content-center bg-light">
+<nav class="row container-fluid m-0 w-100 d-flex justify-content-center bg-light">
     <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
         <img src="@ViewBag.Url/assets/images/clubs/covers/@club.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
     </div>
@@ -136,42 +136,45 @@
 
         <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
             @{
-                foreach (var item in Model)
+                if (roles >= 2)
                 {
-                    <div class="d-inline my-2 py-3 px-2 rounded-circle w-100">
-                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
-                    </div>
-                    <div class="d-inline p-md-1 m-md-1 p-1 m-1">
-                        <span>
-                            <a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;">
-                                <b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>
-                            </a>
-                        </span>
-                    </div>
-                    <!-- nội dung bài đăng -->
-                    <div class="container-fluid ml-2 mb-3 mt-2 row justify-content-start">
-                        <div class="col-10">
-                            <div class="title-post">
-                                <a href="/User/PostDetail/@item.ID">@item.Title</a>
-                            </div>
-                            <div class="text-time">
-                                <i class="fa fa-caret-right" aria-hidden="true"></i>
-                                <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                    foreach (var item in Model)
+                    {
+                        <div class="d-inline my-2 py-3 px-2 rounded-circle w-100">
+                            <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
+                        </div>
+                        <div class="d-inline p-md-1 m-md-1 p-1 m-1">
+                            <span>
+                                <a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;">
+                                    <b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>
+                                </a>
+                            </span>
+                        </div>
+                        <!-- nội dung bài đăng -->
+                        <div class="container-fluid ml-2 mb-3 mt-2 row justify-content-start">
+                            <div class="col-10">
+                                <div class="title-post">
+                                    <a href="/User/PostDetail/@item.ID">@item.Title</a>
+                                </div>
+                                <div class="text-time">
+                                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                    <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                </div>
                             </div>
                         </div>
+                        <hr class="mt-2 mb-3">
+                    }
+                    <div class="my-3">
+                        @Html.PagedListPager(Model, page => Url.Action("ClubDetail", new { page }),
+                            new PagedListRenderOptions
+                            {
+                                LiElementClasses = new List<string> { "page-item", "page-link" },
+                                UlElementClasses = new List<string> { "pagination" },
+                                ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
+                            })
                     </div>
-                    <hr class="mt-1 mb-0">
                 }
             }
-            <div class="my-3">
-                @Html.PagedListPager(Model, page => Url.Action("ClubDetail", new { page }),
-                    new PagedListRenderOptions
-                    {
-                        LiElementClasses = new List<string> { "page-item", "page-link" },
-                        UlElementClasses = new List<string> { "pagination" },
-                        ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
-                    })
-            </div>
         </nav>
         <!-- end posts -->
 

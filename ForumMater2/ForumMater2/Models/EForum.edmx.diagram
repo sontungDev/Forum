@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="35284802177244a3b6d20c9537db1a23" Name="Diagram1">
+      <Diagram DiagramId="35284802177244a3b6d20c9537db1a23" Name="Diagram1" ZoomLevel="83">
         <EntityTypeShape EntityType="ClubForumModel.Administrator" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.Club" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.Comment" Width="1.5" PointX="10.5" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.Plan" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.Post" Width="1.5" PointX="8.25" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.UserClubRole" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClubForumModel.User" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.Club" Width="1.5" PointX="3.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.Comment" Width="1.5" PointX="10.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.Plan" Width="1.5" PointX="5.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.Post" Width="1.5" PointX="8" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.sysdiagram" Width="1.5" PointX="6.375" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.UserClubRole" Width="1.5" PointX="3.375" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClubForumModel.User" Width="1.5" PointX="0.875" PointY="4.25" IsExpanded="true" />
         <AssociationConnector Association="ClubForumModel.FK_Clubs_Administrators" ManuallyRouted="false" />
         <AssociationConnector Association="ClubForumModel.FK_Comments_Administrators" ManuallyRouted="false" />
         <AssociationConnector Association="ClubForumModel.FK_Posts_Admin" ManuallyRouted="false" />

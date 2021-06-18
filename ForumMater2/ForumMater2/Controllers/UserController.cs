@@ -18,7 +18,7 @@ namespace ForumMater2.Controllers
 
         // Trang chủ
         #region
-        public ActionResult Home(int page = 1, int size = 1)
+        public ActionResult Home(int page = 1, int size = 10)
         {
             if(Session["user"] != null)
             {
@@ -30,9 +30,18 @@ namespace ForumMater2.Controllers
 
                 ViewBag.Url = UrlContext();
                 ViewBag.UrlAva = UrlContext() + "/assets/images/users/avatars";
-                IEnumerable<Post> list_post = db.Posts.Where(m => m.Approval != "AID0").OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
-
-                return View(list_post);
+                //IEnumerable<Post> list_post = db.Posts.Where(m => m.Approval != "AID0" && m.cl).OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
+                List<Club> clubs_considered = db.UserClubRoles.Where(m => m.Role >= 2 && m.UserID == user_id).Select(m => m.Club).ToList();
+                List<Post> posts = new List<Post>();
+                foreach(var item in clubs_considered)
+                {
+                    foreach(var child_item in item.Posts)
+                    {
+                        posts.Add(child_item);
+                    }
+                }
+                IEnumerable<Post> result = posts.Where(m => m.Approval != "AID0").OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
+                return View(result);
             }
             return Redirect("/Log/Login"); 
         }
@@ -163,7 +172,7 @@ namespace ForumMater2.Controllers
             byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
 
             // lấy tên ảnh
-            string name_file = Guid.NewGuid() + ".jpeg";
+            string name_file = Guid.NewGuid() + ".png";
 
             // ghi file vào máy chủ
             FileStream stream = new FileStream(Server.MapPath("~/assets/images/users/avatars/" + name_file), FileMode.Create);
@@ -238,7 +247,7 @@ namespace ForumMater2.Controllers
             byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
 
             // lấy tên ảnh
-            string name_file = Guid.NewGuid() + ".jpeg";
+            string name_file = Guid.NewGuid() + ".png";
 
             // ghi file vào máy chủ
             FileStream stream = new FileStream(Server.MapPath("~/assets/images/clubs/covers/" + name_file), FileMode.Create);
@@ -308,7 +317,7 @@ namespace ForumMater2.Controllers
         // trang chi tiết câu lạc bộ
         #region
         // trang cho quản trưởng clb
-        public ActionResult ClubDetail(string id, int page = 1, int size = 1)
+        public ActionResult ClubDetail(string id, int page = 1, int size = 10)
         {
             if(Session["user"] != null)
             {
@@ -382,7 +391,7 @@ namespace ForumMater2.Controllers
                 byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
 
                 // lấy tên ảnh
-                string name_file = Guid.NewGuid() + ".jpeg";
+                string name_file = Guid.NewGuid() + ".png";
 
                 // ghi file vào máy chủ
                 FileStream stream = new FileStream(Server.MapPath("~/assets/images/clubs/covers/" + name_file), FileMode.Create);
