@@ -196,16 +196,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.js"></script>
     <script>
         $(document).ready(function () {
+            var changeImg = false;
             var croppieDemo = $('#container').croppie({
                 enableOrientation: true,
                 viewport: {
                     width: 150,
                     height: 150,
                     type: 'square' // or 'circle'
-                },                
+                },
+            });
+            croppieDemo.croppie('bind', {
+                url: '@ViewBag.Url/assets/images/users/avatars/@Model.Avatar'
             });
             $('#croppie-input').on('change', function () {
                 var reader = new FileReader();
+                changeImg = true;
                 reader.onload = function (e) {
                     croppieDemo.croppie('bind', {
                         url: e.target.result
@@ -220,15 +225,14 @@
                     size: 'viewport',
                     format: 'jpeg'
                 }).then(function (image) {
-                    var emt = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCACWAJYDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJ/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z";
 
-                    if (image != emt) {
+                    if (changeImg) {
                         var formData = new FormData();
 
                         // name , ima_base64
                         formData.append('avatar', image);
                         var request = new XMLHttpRequest();
-                        request.open("POST", "/User/MyProfile1");
+                        request.open("POST", "/User/MyProfileA");
                         request.send(formData);
                         window.location.href = "/User/MyProfile";
                     }

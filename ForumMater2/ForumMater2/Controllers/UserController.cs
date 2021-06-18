@@ -157,7 +157,7 @@ namespace ForumMater2.Controllers
         }    
         [HttpPost]
         // dùng để cập nhập ảnh đại diện người dùng
-        public JsonResult MyProfile1(FormCollection form_data)
+        public JsonResult MyProfileA(FormCollection form_data)
         {
             string imgbase64 = form_data["avatar"];
             byte[] bytes = Convert.FromBase64String(imgbase64.Split(',')[1]);
@@ -166,7 +166,7 @@ namespace ForumMater2.Controllers
             string name_file = Guid.NewGuid() + ".jpeg";
 
             // ghi file vào máy chủ
-            FileStream stream = new FileStream(Server.MapPath("~/assets/images/avatars/" + name_file), FileMode.Create);
+            FileStream stream = new FileStream(Server.MapPath("~/assets/images/users/avatars/" + name_file), FileMode.Create);
             stream.Write(bytes, 0, bytes.Length);
             stream.Flush();
 
@@ -176,7 +176,7 @@ namespace ForumMater2.Controllers
             // cập nhật ảnh đại diện
             User user = db.Users.Find(id);
             user.Avatar = name_file;
-            
+
             db.Entry(user).State = EntityState.Modified;
             
             db.SaveChanges();
@@ -320,6 +320,17 @@ namespace ForumMater2.Controllers
                     .OrderByDescending(m => m.DateTimeCreated).ToPagedList(page, size);
                 ViewBag.ClubID = id;
                 return View(posts);
+            }
+            return Redirect("/Log/Login");
+        }
+        // hiển thị toàn bộ CLB
+        public ActionResult AllClubs()
+        {
+            if(Session["user"] != null)
+            {
+                ViewBag.Url = UrlContext();
+                List<Club> clubs = db.Clubs.Where(m => m.Approval != "AID0").ToList();
+                return View(clubs);
             }
             return Redirect("/Log/Login");
         }
@@ -564,6 +575,21 @@ namespace ForumMater2.Controllers
 
             return Redirect("/User/ClubDetail/" + plan.ClubID);
         }
+        #endregion
+
+        // tìm kiếm
+        #region
+        [HttpPost]
+        public ActionResult Search(FormCollection form_data)
+        {
+            string key_word = form_data["key-word"];
+            List<User> users = db.Users.Where(m => m.FirstName.Contains(key_word) || m.LastName.Contains(key_word)).ToList();
+            ViewBag.Url = UrlContext();
+            if (users.Count == 0)
+                ViewBag.message = "Không có dữ liệu phù hợp";
+            return View(users);
+        }
+
         #endregion
         // làm gì đó tiếp đi
         protected override void Dispose(bool disposing)

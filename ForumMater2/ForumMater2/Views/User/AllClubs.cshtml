@@ -1,0 +1,34 @@
+﻿@using ForumMater2.Models
+@model List<Club>
+@{
+    ViewBag.Title = "AllClubs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h4 class="text-center mb-5">Danh sách toàn bộ các CLB</h4>
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width: 12rem;">
+            <img src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" class="card-img-top" alt="ảnh bìa">
+            <div class="card-body">
+                <h5 class="card-title font-weight-bold">@item.ShortName</h5>
+                <p class="card-text">@item.Name</p>
+            </div>
+            <div class="card-body">
+                <a href="/User/ClubDetail/@item.ID" class="card-link">Xem chi tiết</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.ff-active').removeClass('active');
+            $('.ff-active').eq(1).addClass('active');
+            console.log($('.ff-active'));
+        });
+    </script>
+}
+

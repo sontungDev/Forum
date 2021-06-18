@@ -104,8 +104,8 @@
                     <img src="@ViewBag.UrlAva/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
                 </div>
                 <div class="d-inline p-md-1 m-md-1 p-1 m-1">
-                    <span><a href="UseInfo.html" style="text-decoration: none; color: inherit;"><b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>&#10148;</a></span>
-                    <span><a href="groupofme.html" style="text-decoration: none; color: inherit;"><b>@item.Club.Name</b></a></span>
+                    <span><a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;"><b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>&#10148;</a></span>
+                    <span><a href="/User/ClubDetail/@item.ClubID" style="text-decoration: none; color: inherit;"><b>@item.Club.Name</b></a></span>
                 </div>
                 <hr class="mt-1 mb-0">
                 <!-- nội dung bài đăng -->

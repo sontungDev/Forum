@@ -1,0 +1,31 @@
+﻿@using ForumMater2.Models
+@model List<User> 
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="text-center">Kết quả tìm kiếm</h4>
+
+<div class="text-center">
+    <a href="#" class="btn btn-sm btn-info m-3">Mọi người</a>
+    <a href="#" class="btn btn-sm btn-secondary m-3">CLB</a>
+    <a href="#" class="btn btn-sm btn-secondary m-3">Bài viết</a>
+</div>
+
+<div class="container bg-light">
+    <p>@ViewBag.message</p>
+    @foreach(var item in Model) { 
+        <div class="row m-0 p-0 my-2 p-2 w-50">
+            <a href="/User/SeeProfile/@item.ID" class="col-2 d-block">
+                <img src="@ViewBag.Url/assets/images/users/avatars/@item.Avatar" alt="avatar" class="rounded-circle w-100" />
+            </a>
+            <div class="col-6">
+                <p class="mb-1"><a href="/User/SeeProfile/@item.ID" class="text-decoration-none text-dark">@item.FirstName @item.LastName</a></p>
+                <p class="text-muted mb-1" style="font-size:12px;">@item.Address</p>
+                <p class="text-muted mb-1" style="font-size:12px;">@item.Workplace</p>
+            </div>
+        </div>
+        <hr class="my-1" />
+    }
+</div>

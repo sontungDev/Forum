@@ -85,6 +85,7 @@
     <script src="//cdn.ckeditor.com/4.16.1/basic/ckeditor.js"></script>
     <script>
         $(document).ready(function () {
+            var changeImg = false;
             var old_long_name = $('#text_firstname_CLB').val();
             var old_short_name = $('#text_lastname_CLB').val();
             //var edit = CKEDITOR.replace('describe');
@@ -106,6 +107,7 @@
             });
             $('#uploadBtn_group').on('change', function () {
                 var reader = new FileReader();
+                changeImg = true;
                 reader.onload = function (e) {
                     croppieDemo.croppie('bind', {
                         url: e.target.result
@@ -164,7 +166,7 @@
                         formData.append('describe', descr);
                         formData.append('type_club', type_club);
 
-                        if (image != emt) {
+                        if (changeImg) {
                             console.log(image);
                             formData.append('cover', image);
                         }
