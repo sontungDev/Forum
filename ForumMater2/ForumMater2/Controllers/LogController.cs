@@ -31,6 +31,9 @@ namespace ForumMater2.Controllers
             string password = form_data["password"];
             string remember = form_data["remember-user"];
 
+            ViewBag.user = user_name;
+            ViewBag.pass = password;
+
             // kiểm tra tài khoản mật khẩu có hợp lệ hay không
             bool result = DBHelper.Instance.Authentication(user_name, password);
 

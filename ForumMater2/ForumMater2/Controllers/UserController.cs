@@ -600,7 +600,36 @@ namespace ForumMater2.Controllers
         }
 
         #endregion
+
+        // thay đổi password
+        [HttpPost]
+        public JsonResult ChangePassword(FormCollection form_data)
+        {
+            bool json = false;
+            if (Session["user"] != null)
+            {
+                string user_id = Session["user"].ToString();
+                User user = db.Users.Find(user_id);
+
+                string db_pass = Assitant.Instance.DecodeF64(user.Password);
+                string current_pass = form_data["current-pass"];
+                string new_pass = form_data["new-pass"];
+
+
+                if (db_pass.Equals(current_pass))
+                {
+                    json = true;
+
+                    user.Password = Assitant.Instance.EncodeF64(new_pass);
+
+                    db.SaveChanges();
+
+                }           
+            }
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
         // làm gì đó tiếp đi
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
