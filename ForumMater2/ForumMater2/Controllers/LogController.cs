@@ -142,5 +142,50 @@ namespace ForumMater2.Controllers
         }
 
         #endregion
+        // kiểm tra trùng tên
+        [HttpPost]
+        public JsonResult IsExistUserName(FormCollection form_data)
+        {
+            string current_id = db.Users.Select(m => m.ID).Max();
+            string id = Assitant.Instance.GetAutoID(current_id, "UID");
+
+            string user_name = form_data["user-name"];
+            string pass = form_data["pass"];
+            string first_name = form_data["first-name"];
+            string last_name = form_data["last-name"];
+            bool gender = bool.Parse(form_data["gender"]);
+            DateTime dob = DateTime.Parse(form_data["dob"]);
+            string email = form_data["email"];
+            string work_place = form_data["work-place"];
+            string address = form_data["address"];
+            string phone = form_data["phone"];
+
+            User user = db.Users.Where(m => m.UserName == user_name).FirstOrDefault();
+
+            bool json = false;
+            if(user is null)
+            {
+                json = true;
+                User new_user = new User()
+                {
+                    ID = id,
+                    Address = address,
+                    Avatar = "av.png",
+                    DateCreated = DateTime.Now.Date,
+                    DateOfBirth = dob,
+                    Email = email,
+                    FirstName = first_name,
+                    LastName = last_name,
+                    Gender = gender,
+                    Password = Assitant.Instance.EncodeF64(pass),
+                    Phone = phone,
+                    Workplace = work_place,
+                    UserName = user_name
+                };
+                db.Users.Add(new_user);
+                db.SaveChanges();
+            }             
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
     }
 }

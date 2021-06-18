@@ -190,6 +190,7 @@
   <ItemGroup>
     <Content Include="assets\css\admin\layout.css" />
     <Content Include="assets\css\detail\layout.css" />
+    <Content Include="assets\js\log\dangnhap.js" />
     <Content Include="assets\css\general\log.css" />
     <Content Include="assets\css\general\register.css" />
     <Content Include="assets\css\user\createCLB.css" />

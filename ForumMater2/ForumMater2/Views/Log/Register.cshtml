@@ -12,37 +12,33 @@
         <img src="@ViewBag.Url/assets/images/logoes/logo-ntu.png" class="w-25" alt="logo">
         <p class="my-2 f-title">Đăng ký tài khoản</p>
     </div>
-    <form action="/Log/Register" method="post" class="was-validated">
+
+    <form action="/Log/Register" method="post" class="" id="form">
         <div class="form-group">
-            <label for="uname" class="a font-weight-bold">Tên đăng nhập</label>
-            <input type="text" class="form-control" id="user-name" placeholder="Tên đăng nhập" name="user-name" required />
-            <div class="valid-feedback">Hợp lệ</div>
-            <div class="invalid-feedback">Tên đăng nhập phải nhiều hơn 8 ký tự</div>
+            <label for="user-name" class="a font-weight-bold">Tên đăng nhập</label>
+            <input type="text" class="form-control" id="user-name" placeholder="Tên đăng nhập" name="user-name" />
+            <span class="form-message"></span>
         </div>
         <div class="form-group">
-            <label for="pwd" class="a font-weight-bold">Mật khẩu</label>
-            <input type="password" class="form-control" id="pass" placeholder="Mật khẩu" name="pass" required />
-            <div class="valid-feedback">Hợp lệ</div>
-            <div class="invalid-feedback">Hãy nhập mật khẩu</div>
+            <label for="pass" class="a font-weight-bold">Mật khẩu</label>
+            <input type="password" class="form-control" id="pass" placeholder="Mật khẩu" name="pass" />
+            <span class="form-message"></span>
         </div>
         <div class="form-group">
-            <label for="pwd" class="a font-weight-bold">Nhập lại mật khẩu</label>
-            <input type="password" class="form-control" id="repass" placeholder="Nhập lại mật khẩu" name="repass" required />
-            <div class="valid-feedback">Hợp lệ</div>
-            <div class="invalid-feedback">Phải trùng với mật khẩu đã nhập</div>
+            <label for="repass" class="a font-weight-bold">Nhập lại mật khẩu</label>
+            <input type="password" class="form-control" id="repass" placeholder="Nhập lại mật khẩu" name="repass" />
+            <span class="form-message"></span>
         </div>
         <div class="container row d-flex justify-content-between p-0 mx-0">
             <div class="col-5 form-group p-0">
                 <label for="uname" class="a font-weight-bold">Họ</label>
-                <input type="text" class="form-control" id="first-name" placeholder="Họ" name="first-name" required />
-                <div class="valid-feedback">Hợp lệ</div>
-                <div class="invalid-feedback">Nhập họ của bạn</div>
+                <input type="text" class="form-control" id="first-name" placeholder="Họ" name="first-name" />
+                <span class="form-message"></span>
             </div>
             <div class="col-5 form-group p-0">
                 <label for="uname" class="a font-weight-bold">Tên</label>
-                <input type="text" class="form-control" id="last-name" placeholder="Tên" name="last-name" required />
-                <div class="valid-feedback">Hợp lệ</div>
-                <div class="invalid-feedback">Nhập tên của bạn</div>
+                <input type="text" class="form-control" id="last-name" placeholder="Tên" name="last-name" />
+                <span class="form-message"></span>
             </div>
         </div>
         <div class="form-group mt-3">
@@ -61,14 +57,12 @@
         <dic class="form-group">
             <label for="email" class="a font-weight-bold ">Ngày sinh</label>
             <input type="date" class="form-control" id="dob" name="dob" required />
-            <div class="valid-feedback">Hợp lệ.</div>
-            <div class="invalid-feedback">Vui lòng điền vào trường này</div>
+            <span class="form-message"></span>
         </dic>
         <div class="form-group">
             <label for="uname" class="a font-weight-bold">Email</label>
             <input type="text" class="form-control" id="email" placeholder="email@gmail.com" name="email" required />
-            <div class="valid-feedback">Hợp lệ</div>
-            <div class="invalid-feedback">Nhập Email của bạn</div>
+            <span class="form-message"></span>
         </div>
         <div class="form-group">
             <label for="uname" class="a font-weight-bold">Nơi làm việc hoặc học tập</label>
@@ -88,4 +82,65 @@
     </form>
 </div>
 
-
+@section scripts{
+    <script src="~/assets/js/log/dangnhap.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Validator({
+                form: '#form',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#user-name', 'Không để trống trường này'),
+                    Validator.isRequired('#pass', 'Không để trống trường này'),
+                    Validator.isRequired('#repass', 'Không để trống trường này'),
+                    Validator.isRequired('#first-name', 'Không để trống trường này'),
+                    Validator.isRequired('#last-name', 'Không để trống trường này'),
+                    Validator.isRequired('#dob', 'Không để trống trường này'),
+                    Validator.isEmail('#email'),
+                    Validator.minLength('#pass', 8),
+                    Validator.minLength('#user-name', 8),
+                    Validator.isConfirmed('#repass', function () {
+                        return document.querySelector('#pass').value;
+                    }, 'Mật khẩu nhập lại không chính xác')
+                ],
+                onSubmit: function (data) {
+                    var formdata = new FormData();
+                    formdata.append('user-name',data["user-name"]);
+                    formdata.append('pass', data["pass"]);
+                    formdata.append('first-name', data["first-name"]);
+                    formdata.append('last-name', data["last-name"]);
+                    formdata.append('gender', data["gender"]);
+                    formdata.append('dob', data["dob"]);
+                    formdata.append('email', data["email"]);
+                    formdata.append('work-place',data["work-place"]);
+                    formdata.append('address', data["address"]);
+                    formdata.append('phone',data["phone"]);
+                    $.ajax({
+                        url: '@Url.Action("IsExistUserName", "Log")',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        contentType: false,
+                        data: formdata,
+                        processData: false,
+                        cache: false,
+                        success: function (json) {
+                            if (json) {
+                                alert("Tạo tài khoản thành công");
+                                window.location.href = "/Log/Login";
+                                
+                            }
+                            else {
+                                alert("Tên đăng nhập đã bị trùng, hãy thử một tên khác nhé");
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
