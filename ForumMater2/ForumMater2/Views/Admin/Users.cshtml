@@ -30,19 +30,15 @@
         }
 </style>
 <div class="search d-flex justify-content-center mb-3" style="font-size:13px;">
-    <form method="post" action="/Admin/Clubs">
+    <form method="post" action="/Admin/Users">
         <table class="text-center">
             <tr class="my-5">
-                <td>Mã tài khoản &nbsp; &nbsp; </td>
-                <td><input type="text" class="form-control type" name="id" value="@ViewBag.user"></td>
+                <td>ID &nbsp; &nbsp; </td>
+                <td><input type="text" class="form-control type" name="id" value="@ViewBag.id"></td>
             </tr>
             <tr class="my-5">
                 <td>Tên &nbsp; &nbsp;</td>
-                <td><input type="text" class="form-control type" name="ten" value="@ViewBag.ten"></td>
-            </tr>
-            <tr class="my-5">
-                <td>Email &nbsp; &nbsp;</td>
-                <td><input type="text" class="form-control type" name="email" value="@ViewBag.email"></td>
+                <td><input type="text" class="form-control type" name="name" value="@ViewBag.name"></td>
             </tr>
             <tr>
                 <td></td>
@@ -78,14 +74,12 @@ grid.Column("Email","Email"),
 grid.Column("Address","Địa chỉ"),
 
 grid.Column("Chức năng", format: @<text>
-    <a href="@Url.Action("Edit",
-                        new { id = item.ID})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
     <a href="@Url.Action("Details",
-                        new { id = item.ID})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
+                        new { id = item.ID})" class="edit-btn"><abbr title="Xem chi tiết"><img src="~/assets/images/icons/detail-df.png" width="20" height="20" /></abbr></a>
     <a href="@Url.Action("Delete",
                         new { id = item.ID})" class="edit-btn">
         <abbr title="Xóa dữ liệu">
-            <img src="/images/delete.png" width="20" height="20" />
+            <img src="~/assets/images/icons/remove-bin.png" width="20" height="20" />
         </abbr>
     </a>
 </text>),

@@ -28,16 +28,12 @@
     <form method="post" action="/Admin/Clubs">
         <table class="text-center">
             <tr class="my-5">
-                <td>Mã CLB &nbsp; &nbsp; </td>
+                <td>ID &nbsp; &nbsp; </td>
                 <td><input type="text" class="form-control type" name="ma-clb" value="@ViewBag.clb"></td>
             </tr>
             <tr class="my-5">
-                <td>Mã QTV &nbsp; &nbsp;</td>
+                <td>Người duyệt &nbsp; &nbsp;</td>
                 <td><input type="text" class="form-control type" name="ma-qtv" value="@ViewBag.qtv"></td>
-            </tr>
-            <tr class="my-5">
-                <td>Mã người tạo &nbsp; &nbsp;</td>
-                <td><input type="text" class="form-control type" name="ma-user" value="@ViewBag.user"></td>
             </tr>
             <tr>
                 <td></td>
@@ -70,8 +66,7 @@
     grid.Column("DateCreated","Ngày tạo",format:@<text> @item.DateCreated.ToString("dd/MM/yyyy")</text>),
     grid.Column("Approval","Người duyệt"),
     grid.Column("Chức năng", format: @<text>
-        <a href="@Url.Action("DetailClub",
-                        new { id = item.ID})" class=""><abbr title="Xem chi tiết"><img src="@ViewBag.Url/assets/images/default/detail.png" width="20" height="20" /></abbr></a>
+        <a href="/Details/Club/@item.ID" class=""><abbr title="Xem chi tiết"><img src="@ViewBag.Url/assets/images/default/detail.png" width="20" height="20" /></abbr></a>
 </text>),
 }
 )

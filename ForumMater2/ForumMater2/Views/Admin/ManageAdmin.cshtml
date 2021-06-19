@@ -28,19 +28,15 @@
         }
 </style>
 <div class="search d-flex justify-content-center mb-3" style="font-size:13px;">
-    <form method="post" action="/Admin/Clubs">
+    <form method="post" action="/Admin/ManageAdmin">
         <table class="text-center">
             <tr class="my-5">
-                <td>Mã bài viết &nbsp; &nbsp; </td>
-                <td><input type="text" class="form-control type" name="id" value="@ViewBag.post"></td>
+                <td>ID &nbsp; &nbsp; </td>
+                <td><input type="text" class="form-control type" name="id" value="@ViewBag.id"></td>
             </tr>
             <tr class="my-5">
-                <td>Mã tài khoản &nbsp; &nbsp;</td>
-                <td><input type="text" class="form-control type" name="ten" value="@ViewBag.user"></td>
-            </tr>
-            <tr class="my-5">
-                <td>Mã CLB &nbsp; &nbsp;</td>
-                <td><input type="text" class="form-control type" name="email" value="@ViewBag.clb"></td>
+                <td>Mức độ truy cập &nbsp; &nbsp;</td>
+                <td><input type="text" class="form-control type" name="level" value="@ViewBag.level"></td>
             </tr>
             <tr>
                 <td></td>
@@ -55,6 +51,70 @@
         </table>
     </form>
 </div>
+<div class="my-2 mx-3">
+    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#createAdmin">Thêm quản trị viên</button>
+</div>
+<!-- Modal staticBackdrop -->
+<div class="modal fade" id="createAdmin" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="labelForm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="create-admin">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelForm">Thêm quản trị viên mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="admin-name">Tên đăng nhập</label>
+                    <input type="text" class="form-control" id="admin-name" name="admin-name" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" name="password" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="repass">Nhập lại mật khẩu</label>
+                    <input type="password" class="form-control" id="repass" name="repass" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="full-name">Tên đầy đủ</label>
+                    <input type="text" class="form-control" id="full-name" name="full-name" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" />
+                    <span class="form-message text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="level">Mức độ truy cập</label>
+                    <input type="number" class="form-control" id="level" name="level" min="0" value="1" />
+                    <span class="form-message text-danger"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-info" id="submit-admin">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--Hết model-->
 <div id="gridContent">
     @grid.GetHtml(
       tableStyle: "table table-bordered table-hover",
@@ -74,14 +134,14 @@ grid.Column("Phone","SĐT"),
 grid.Column("Level","Mức độ truy cập"),
 
 grid.Column("Chức năng", format: @<text>
-            <a href="@Url.Action("Edit",
-                        new { id = item.ID})" class="edit-btn"><abbr title="Cập nhật dữ liệu"><img src="/images/edit.png" width="20" height="20" /></abbr></a>
-            <a href="@Url.Action("Details",
-                        new { id = item.ID})" class="edit-btn"><abbr title="Xem chi tiết"><img src="/images/details.png" width="20" height="20" /></abbr></a>
-            <a href="@Url.Action("Delete",
-                        new { id = item.ID})" class="edit-btn">
+            <a href="#" class="edit-btn">
+                <abbr title="Chỉnh sửa">
+                    <img src="~/assets/images/icons/edit-admin.png" width="20" height="20" />
+                </abbr>
+            </a>
+            <a href="#" class="edit-btn">
                 <abbr title="Xóa dữ liệu">
-                    <img src="/images/delete.png" width="20" height="20" />
+                    <img src="~/assets/images/icons/remove-bin.png" width="20" height="20" />
                 </abbr>
             </a>
 </text>),
@@ -90,11 +150,68 @@ grid.Column("Chức năng", format: @<text>
 </div>
 
 @section scripts{
+    <script src="~/assets/js/log/dangnhap.js"></script>
     <script>
         $(document).ready(function () {
             $('.tabf').removeClass('active');
             var active = $('.tabf').eq(5);
             active.addClass('active');
+            $('#reset').click(function (e) {
+                e.preventDefault();
+                $('.type').val("");
+            });
+
+            Validator({
+                form: '#create-admin',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#admin-name', 'Không để trống trường này'),
+                    Validator.isRequired('#password', 'Không để trống trường này'),
+                    Validator.isRequired('#full-name', 'Không để trống trường này'),
+                    Validator.isRequired('#level', 'Không để trống trường này'),
+
+                    Validator.isEmail("#email", "Email không hợp lệ"),
+                    Validator.minLength('#admin-name', 6),
+                    Validator.minLength('#password', 8),
+                    Validator.isConfirmed('#repass', function () {
+                        return document.querySelector('#password').value;
+                    }, 'Mật khẩu nhập lại không chính xác')
+                ],
+                onSubmit: function (data) {
+                    var formdata = new FormData();
+                    formdata.append('admin-name',data["admin-name"]);
+                    formdata.append('password',data["password"]);
+                    formdata.append('full-name',data["full-name"]);
+                    formdata.append('phone',data["phone"]);
+                    formdata.append('email',data["email"]);
+                    formdata.append('level',data["level"]);
+
+                    $.ajax({
+                        url: '@Url.Action("CreateAdmin", "Admin")',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        contentType: false,
+                        data: formdata,
+                        processData: false,
+                        cache: false,
+                        success: function (json) {
+                            if (json) {
+                                alert("Thêm thành công");
+                                $('#create-admin').trigger("reset");
+                            }
+                            else {
+                                alert("Thêm không thành công - đã có lỗi xảy ra");
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('Rất tiếc đã có lỗi xảy ra');
+                        }
+                    });
+                }
+            });
+
         });
     </script>
 }

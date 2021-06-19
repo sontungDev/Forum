@@ -244,7 +244,7 @@ namespace ForumMater2.Controllers
                     List<Administrator> administrators = db.Administrators.ToList();
                     return View(administrators);
                 }
-                return Content("Bạn thể truy cập vào phần này");
+                return Content("Bạn không thể truy cập vào mục này");
             }
             return Redirect("/Admin/Index");        }
 
@@ -285,6 +285,151 @@ namespace ForumMater2.Controllers
             db.SaveChanges();
 
             return Json("Cập nhật thành công", JsonRequestBehavior.AllowGet);
+        }
+
+        // tìm kiếm clb
+        [HttpPost]
+        public ActionResult Clubs(FormCollection form_data)
+        {
+            string clb_id = form_data["ma-clb"];
+            string qtv_id = form_data["ma-qtv"];
+
+            ViewBag.clb = clb_id;
+            ViewBag.qtv = qtv_id;
+            List<Club> clubs;
+            if(clb_id.Length == 0 && qtv_id.Length == 0)
+            {
+                clubs = db.Clubs.ToList();
+                // xuất cái danh sách ra
+            }
+            else
+            {
+                clubs = db.Clubs.Where(m => m.ID.Contains(clb_id) && m.Approval.Contains(qtv_id)).ToList();
+            }
+
+            if (clubs.Count == 0)
+                ViewBag.nodata = "Không có dữ liệu phù hợp";
+
+            return View(clubs);
+        }
+
+        // tìm kiếm bài viết
+        [HttpPost]
+        public ActionResult Posts(FormCollection form_data)
+        {
+            string id = form_data["id"];
+            string clb = form_data["clb"];
+
+            ViewBag.id = id;
+            ViewBag.clb = clb;
+
+            List<Post> posts;
+            if (id.Length == 0 && clb.Length == 0)
+            {
+                posts = db.Posts.ToList();
+                // xuất cái danh sách ra
+            }
+            else
+            {
+                posts = db.Posts.Where(m => m.ID.Contains(id) && m.ClubID.Contains(clb)).ToList();
+            }
+
+            if (posts.Count == 0)
+                ViewBag.nodata = "Không có dữ liệu phù hợp";
+            return View(posts);
+        }
+        // tìm kiếm tài khoản
+        [HttpPost]
+        public ActionResult Users(FormCollection form_data)
+        {
+            string id = form_data["id"];
+            string name = form_data["name"];
+
+            ViewBag.id = id;
+            ViewBag.name = name;
+
+            List<User> users;
+            if (id.Length == 0 && name.Length == 0)
+            {
+                users = db.Users.ToList();
+                // xuất cái danh sách ra
+            }
+            else
+            {
+                users = db.Users.Where(m => m.ID.Contains(id) && m.LastName.Contains(name)).ToList();
+            }
+
+            if (users.Count == 0)
+                ViewBag.nodata = "Không có dữ liệu phù hợp";
+            return View(users);
+        }
+        
+        // tìm kiếm trong quản lý admin
+        [HttpPost]
+        public ActionResult ManageAdmin(FormCollection form_data)
+        {
+            string id = form_data["id"];
+            string level = form_data["level"];
+
+            ViewBag.id = id;
+            ViewBag.level = level;
+
+            List<Administrator> admins;
+            if (id.Length == 0 && level.Length == 0)
+            {
+                admins = db.Administrators.ToList();
+                // xuất cái danh sách ra
+            }
+            else
+            {
+                int level_short = int.Parse(level);
+                admins = db.Administrators.Where(m => m.ID.Contains(id) && m.Level == level_short).ToList();
+            }
+
+            if (admins.Count == 0)
+                ViewBag.nodata = "Không có dữ liệu phù hợp";
+
+            return View(admins);
+        }
+
+        // thêm quản trị viên
+        [HttpPost]
+        public JsonResult CreateAdmin(FormCollection form_data)
+        {
+            string admin_name = form_data["admin-name"];
+            string password = form_data["password"];
+            string full_name = form_data["full-name"];
+            string email = form_data["email"];
+            string phone = form_data["phone"];
+            string level = form_data["level"];
+
+            bool result = false;
+
+            string current_id = db.Administrators.Select(m => m.ID).Max();
+
+            string id = Assitant.Instance.GetAutoID(current_id, "AID");
+
+            Administrator administrator = new Administrator()
+            {
+                ID = id,
+                AdministratorName = admin_name,
+                Password = Assitant.Instance.EncodeF64(password),
+                Email = email,
+                FullName = full_name,
+                DateCreated = DateTime.Now.Date,
+                Level = short.Parse(level),
+                Phone = phone
+            };
+
+            db.Administrators.Add(administrator);
+
+            int res = db.SaveChanges();
+
+
+            if (res > 0)
+                result = true;
+           
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }
