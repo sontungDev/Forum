@@ -1,0 +1,140 @@
+﻿@using ForumMater2.Models
+@model PagedList.IPagedList<Post>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "AdminClub";
+    Layout = "~/Views/Shared/_detail_layout.cshtml";
+
+    ClubForumEntities db = new ClubForumEntities();
+    Club club = db.Clubs.Find(ViewBag.CID);
+}
+@section styles{
+    <link href="~/assets/css/user/groupofme_Chief.css" rel="stylesheet" />
+}
+<nav class="row container-fluid m-0 w-100 d-flex justify-content-center bg-light">
+    <div class="w-100 col-md-12 d-flex justify-content-center fileUpload">
+        <img src="@ViewBag.Url/assets/images/clubs/covers/@club.CoverPhoto" class="m-0 p-0 img_bia" alt="Ảnh bìa" style="border-radius: 20px">
+    </div>
+    <input class="col-6 col-md-7 h-50 mt-2 d-none" placeholder="Đang tải......" disabled="disabled" />
+    <div class="w-100 offset-2 mt-2 mb-2">
+        <h3 class="ml-md-5 ml-4">@club.Name</h3>
+        <h5 class="ml-md-5 ml-4 blockquote-footer">@club.ShortName</h5>
+        <i class="fas fa-globe ml-md-5 pl-md-4" style="font-size: 100%; color: black"> &nbsp @club.Type</i>
+        <i class="fas fa-users d-md-inline ml-md-5" style="font-size: 100%; color: black">&nbsp Số lượng thành viên : @club.UserClubRoles.Count</i>
+    </div>
+</nav>
+<hr class="mt-0">
+<!-- end header -->
+<!-- Body -->
+<nav class="row container-fluid mt-0 w-100 m-0 p-0">
+    <!-- left body -->
+    <nav class="boder border-bottom-1 d-none d-sm-block col-md-2 col-0 offset-md-1 p-0 left_body" id="">
+        <div class="border border-1 container-fluid text-left pt-2 pb-2" style="background-color: #7ed6df">
+            <img class="hu5pjgll bixrwtb6" src="https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/P3LEV6Y0FCf.png" style="height:36px;width:36px" alt=""> &nbsp Thành viên
+        </div>
+        @{
+            foreach (var item in club.UserClubRoles)
+            {
+                <div class="border border-1 justify-content-center">
+                    <div class="w-100 p-2">
+                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="avatar" class="d-inline rounded-circle img_member">
+                        <div class="d-inline"><a href="/Details/AdminUser/@item.UserID" style="text-decoration: none; color: inherit;">@item.User.FirstName @item.User.LastName</a></div>
+                    </div>
+                </div>
+            }
+        }
+        <div class=" pt-2 pl-5 mb-3 border border-1 justify-content-center">
+            @{
+                if (club.UserClubRoles.Count > 10)
+                {
+                    <a href="#" class="text-danger text-decoration-none text-center pl-3">Xem thêm</a>
+                }
+            }
+
+        </div>
+    </nav>
+    <!-- end left body -->
+    <!-- center body -->
+    <nav class="col-12 w-100 col-md-5 ml-md-5 m-0 p-0" style="box-sizing: border-box;">
+        <nav class="container-fluid mt-md-3 w-100 nav_posts mt-2 pt-md-2 pt-2">
+            @{
+                foreach (var item in Model)
+                {
+                    <div class="d-inline my-2 py-3 px-2 rounded-circle w-100">
+                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="Avatar" class="avatar_post rounded-circle">
+                    </div>
+                    <div class="d-inline p-md-1 m-md-1 p-1 m-1">
+                        <span>
+                            <a href="/Details/AdminUser/@item.UserID" style="text-decoration: none; color: inherit;">
+                                <b class="mr-md-2 mr-2">@item.User.FirstName @item.User.LastName</b>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- nội dung bài đăng -->
+                    <div class="container-fluid ml-2 mb-3 mt-2 row justify-content-start">
+                        <div class="col-10">
+                            <div class="title-post">
+                                <a href="/Details/AdminPost/@item.ID">@item.Title</a>
+                            </div>
+                            <div class="text-time">
+                                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                <span class="text-muted">@item.DateTimeCreated.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mt-2 mb-3">
+                }
+                <div class="my-3">
+                    @Html.PagedListPager(Model, page => Url.Action("ClubDetail", new { page }),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new List<string> { "page-item", "page-link" },
+                            UlElementClasses = new List<string> { "pagination" },
+                            ContainerDivClasses = new List<string> { "pagination-container", "text-center" }
+                        })
+                </div>
+            }
+        </nav>
+        <!-- end posts -->
+
+
+
+    </nav>
+    <!-- End center body -->
+    <!-- right body -->
+    <nav class="col-0 col-md-2 ml-md-5 p-0 w-100 d-sm-block d-none">
+        <div class=" border border-1 container-fluid text-left px-0" style="background-color: #7ed6df">
+            <div class="text-decoration-none p-2" style="color: inherit;">
+                <img src="http://chodongkinh.com.vn/uploads/news/2017_08/doc.png" style="height:36px;width:36px" alt=""> &nbsp Danh mục
+            </div>
+            <div class="bg-light mt-2 p-2 pl-3">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#describe">
+                    Mô tả
+                </button>
+                <!-- Scrollable modal -->
+                <div class="modal fade" id="describe" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalScrollableTitle">Mô tả về câu lạc bộ</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="white-space: pre-line;">
+                                @Html.Raw(club.Description)
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- end right body -->
+
+
+</nav>
+<!-- End body -->

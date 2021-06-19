@@ -1,0 +1,53 @@
+﻿@using ForumMater2.Models
+@model Post
+@{
+    ViewBag.Title = "AdminPost";
+    Layout = "~/Views/Shared/_detail_layout.cshtml";
+}
+
+<div class="container" style="max-width:80%">
+    <h3 class="text-center py-4">@Model.Title</h3>
+
+    <div class="content">
+        @Html.Raw(@Model.Content)
+        <div class="mb-4 text-right">
+            <small>Thời gian đăng : @Model.DateTimeCreated</small>
+            <br />
+            <small>Tác giả : @Model.User.FirstName @Model.User.LastName <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> @Model.Club.Name</small>
+            <br />
+        </div>
+        <hr />
+        <div class="py-5">
+            <div class="write-comment">
+                <form class="w-50">
+                    <div class="form-group">
+                        <label for="content-commnet">Viết bình luận</label>
+                        <textarea class="form-control" id="content-comment" name="content-comment" rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-info" id="post-comment">Bình luận</button>
+                </form>
+            </div>
+            <p class="my-3">Tất cả bình luận</p>
+            <div class="my-3" id="con-comment">
+                @{
+                    foreach (var item in Model.Comments.Reverse())
+                    {
+                        <div class="px-3 py-2 bg-light rounded" style="font-size:13px;">
+                            <a class="mb-2 d-block" href="/Details/AdminUser/@item.UserID" style="text-decoration:none; color:black;">
+                                <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" style="width:30px;" />
+                                <span style="font-weight:bold" class="px-2">@item.User.FirstName @item.User.LastName</span>
+                            </a>
+                            <p class="pl-3">@item.Content</p>
+                            <div class="text-right mr-3">
+                                <small class="text-muted">@item.DateTimeCreated</small>
+                            </div>
+                        </div>
+                        <hr style="width:50%" class="ml-5" />
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+

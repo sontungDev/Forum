@@ -64,9 +64,14 @@
           grid.Column("Type","Loại CLB"),
           grid.Column("UserCreated","Mã người tạo"),
     grid.Column("DateCreated","Ngày tạo",format:@<text> @item.DateCreated.ToString("dd/MM/yyyy")</text>),
-    grid.Column("Approval","Người duyệt"),
-    grid.Column("Chức năng", format: @<text>
-        <a href="/Details/Club/@item.ID" class=""><abbr title="Xem chi tiết"><img src="@ViewBag.Url/assets/images/default/detail.png" width="20" height="20" /></abbr></a>
+grid.Column("Approval","Người duyệt"),
+grid.Column("Chức năng", format: @<text>
+        <a href="/Details/AdminClub/@item.ID" class=""><abbr title="Xem chi tiết"><img src="~/assets/images/icons/detail-df.png" width="20" height="20" /></abbr></a>
+        <a id="@item.ID" class="edit-btn">
+            <abbr title="Xóa dữ liệu">
+                <img src="~/assets/images/icons/remove-bin.png" width="20" height="20" />
+            </abbr>
+        </a>
 </text>),
 }
 )
@@ -82,6 +87,15 @@
             $('#reset').click(function (e) {
                 e.preventDefault();
                 $('.type').val("");
+            });
+
+            $('.edit-btn').click(function (e) {
+                e.preventDefault();
+                var dialog = confirm("Bạn có chắc muốn xóa chứ ?");
+                if (dialog) {
+                    var id = $(this).attr('id');
+                    window.location.href = "/Admin/RemoveClub/" + id;
+                }
             });
         });
     </script>

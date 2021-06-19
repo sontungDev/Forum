@@ -139,7 +139,7 @@ grid.Column("Chức năng", format: @<text>
                     <img src="~/assets/images/icons/edit-admin.png" width="20" height="20" />
                 </abbr>
             </a>
-            <a href="#" class="edit-btn">
+            <a id="@item.ID" class="edit-btn">
                 <abbr title="Xóa dữ liệu">
                     <img src="~/assets/images/icons/remove-bin.png" width="20" height="20" />
                 </abbr>
@@ -209,6 +209,15 @@ grid.Column("Chức năng", format: @<text>
                             alert('Rất tiếc đã có lỗi xảy ra');
                         }
                     });
+                }
+            });
+
+            $('.edit-btn').click(function (e) {
+                e.preventDefault();
+                var dialog = confirm("Bạn có chắc muốn xóa chứ ?");
+                if (dialog) {
+                    var id = $(this).attr('id');
+                    window.location.href = "/Admin/RemoveAdmin/" + id;
                 }
             });
 

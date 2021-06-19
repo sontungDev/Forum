@@ -1,0 +1,64 @@
+﻿@using ForumMater2.Models
+@model User
+@{
+    ViewBag.Title = "AdminUser";
+    Layout = "~/Views/Shared/_detail_layout.cshtml";
+
+
+    ClubForumEntities db = new ClubForumEntities();
+
+    List<Club> list_club = db.UserClubRoles.Where(m => m.UserID == Model.ID && m.Role > 1).Select(m => m.Club).ToList();
+    string gt = Model.Gender ? "Nam" : "Nữ";
+    string dob = Model.DateOfBirth.Date.ToString("dd/MM/yyyy");
+    string dct = Model.DateCreated.Date.ToString("dd/MM/yyyy");
+
+    // tính toán
+    int posted_count = db.Posts.Where(m => m.UserID == Model.ID && m.Approval != "AID0").Count();
+}
+
+@section styles{
+    <link href="~/assets/css/user/see_profile.css" rel="stylesheet" />
+}
+<div class="row px-5 py-3 m-0 justify-content-between">
+    <!-- Thông tin các câu lạc bộ tham gia -->
+    <div class="col-3 text-center">
+        <h6 class="bg-fr py-3">Các câu lạc bộ đang tham gia</h6>
+        <div class="con-text border-fr">
+            @{
+                foreach (var item in list_club)
+                {
+                    <a class="text-left py-2 ml-2 d-block text-decoration-none" href="/Details/AdminClub/@item.ID">
+                        <span class="d-inline-block ml-3 over-text-ellipsis">@item.Name</span>
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <!--Thông tin cá nhân-->
+    <div class="col-5 text-center">
+        <h6 class="bg-fr py-3">Thông tin cá nhân</h6>
+        <div class="con-text border-fr row p-0 m-0 text-left">
+            <div class="col-12 text-center mb-3">
+                <img src="@ViewBag.Url/assets/images/users/avatars/@Model.Avatar" alt="ava" class="rounded-circle" style="width:100px;" />
+            </div>
+            <div class="col-6 py-2">Họ tên : <b>@Model.FirstName @Model.LastName</b></div>
+            <div class="col-6 py-2">Giới tính : <b>@gt</b></div>
+            <div class="col-6 py-2">Ngày sinh : <b>@dob</b></div>
+            <div class="col-6 py-2">Số điện thoại : <b>@Model.Phone</b></div>
+            <div class="col-6 py-2">Địa chỉ : <b>@Model.Address</b></div>
+            <div class="col-6 py-2">Nơi công tác : <b>@Model.Workplace</b></div>
+            <div class="col-6 py-2">Email : <b>@Model.Email</b></div>
+            <div class="col-6 py-2">Ngày tạo tài khoản : <b>@dct</b></div>
+        </div>
+    </div>
+
+    <!--Các con số thống kê-->
+    <div class="col-3 text-center">
+        <h6 class="bg-fr py-3">Thông tin thêm</h6>
+        <div class="con-text border-fr p-2 m-0 text-left">
+            <p>Số câu lạc bộ tham gia : <b>@list_club.Count</b></p>
+            <p>Số bìa viết đã đăng : <b>@posted_count</b></p>
+        </div>
+    </div>
+</div>

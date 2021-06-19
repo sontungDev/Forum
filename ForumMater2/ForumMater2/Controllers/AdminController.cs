@@ -431,5 +431,42 @@ namespace ForumMater2.Controllers
            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult RemoveUser(string id)
+        {
+            User user = db.Users.Find(id);
+
+            db.Users.Remove(user);
+
+            db.SaveChanges();
+            return RedirectToAction("Users","Admin");
+        }
+        public ActionResult RemovePost(string id)
+        {
+            Post post = db.Posts.Find(id);
+
+            db.Posts.Remove(post);
+
+            db.SaveChanges();
+            return RedirectToAction("Posts", "Admin");
+        }
+        public ActionResult RemoveClub(string id)
+        {
+            Club club = db.Clubs.Find(id);
+
+            db.Clubs.Remove(club);
+
+            db.SaveChanges();
+            return RedirectToAction("Clubs", "Admin");
+        }
+        public ActionResult RemoveAdmin(string id)
+        {
+            Administrator administrator = db.Administrators.Find(id);
+
+            db.Administrators.Remove(administrator);
+
+            db.SaveChanges();
+            return RedirectToAction("ManageAdmin", "Admin");
+        }
     }
 }
