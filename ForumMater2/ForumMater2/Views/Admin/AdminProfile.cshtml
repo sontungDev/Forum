@@ -1,4 +1,5 @@
-﻿
+﻿@using ForumMater2.Models
+@model Administrator
 @{
     ViewBag.Title = "AdminProfile";
     Layout = "~/Views/Shared/_admin_layout.cshtml";
@@ -12,38 +13,46 @@
 <div class="row justify-content-between m-0 px-4">
     <div class="col-5">
         <h5>Thông tin cá nhân</h5>
-        <div class="row m-0">
-            <div class="col-4 ver">ID</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">Tên đăng nhập</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">Họ tên</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">Email</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">Ngày lập tài khoản</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">SĐT</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
-        <div class="row m-0 mt-3">
-            <div class="col-4 ver">Mức truy cập</div>
-            <div class="col-8"><input type="text" class="form-control" /></div>
-        </div>
+        <form id="form1">
+            <div class="row m-0 form-group">
+                <div class="col-4 ver">ID</div>
+                <div class="col-8"><input type="text" class="form-control" readonly value="@Model.ID" /></div>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">Tên đăng nhập</div>
+                <div class="col-8"><input type="text" class="form-control" readonly value="@Model.AdministratorName" /></div>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">Họ tên</div>
+                <div class="col-8"><input type="text" class="form-control" value="@Model.FullName" id="full-name" name="full-name" /></div>
+                <span class="form-message"></span>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">Email</div>
+                <div class="col-8"><input type="email" class="form-control" value="@Model.Email" id="email" name="email" /></div>
+                <span class="form-message"></span>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">Ngày lập tài khoản</div>
+                <div class="col-8"><input type="text" class="form-control" readonly value="@Model.DateCreated.ToString("dd/MM/yyyy")" /></div>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">SĐT</div>
+                <div class="col-8"><input type="text" class="form-control" value="@Model.Phone" id="phone" name="phone" /></div>
+                <span class="form-message"></span>
+            </div>
+            <div class="row m-0 mt-3 form-group">
+                <div class="col-4 ver">Mức truy cập</div>
+                <div class="col-8"><input type="text" class="form-control" readonly value="@Model.Level" /></div>
+            </div>
+            <div class="row m-0 mt-3">
+                <button class="btn btn-info" id="update-info">Cập nhật</button>
+            </div>
+        </form>
     </div>
     <div class="col-5">
         <h5>Đổi mật khẩu</h5>
-        <form class="w-50 my-5">
+        <form class="w-50 my-5" id="form2">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nhập mật khẩu cũ" id="oldpass" />
                 <span class="form-text text-danger d-none">Nhập hơn 8 kí tự</span>
@@ -60,12 +69,49 @@
                 <span class="form-text text-danger d-none">Mật khẩu chưa khớp</span>
                 <span class="form-text text-success d-none">Hợp lệ</span>
             </div>
-            <button class="btn btn-info" id="submit">Đổi mật khẩu</button>
+            <button class="btn btn-info" id="update-password">Đổi mật khẩu</button>
         </form>
     </div>
 </div>
 
 @section scripts{
+    <script src="~/assets/js/log/dangnhap.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Validator({
+                form: '#form1',
+                formGroupSelector: '.form-group',
+                errorSelector: '.form-message',
+                rules: [
+                    Validator.isRequired('#full-name', 'Không để trống trường này'),
+                    Validator.isRequired('#phone', 'Không để trống trường này'),
+                    Validator.isEmail('#email'),
+                ],
+                onSubmit: function (data) {
+                    var formdata = new FormData();
+                    formdata.append('full-name',data["full-name"]);
+                    formdata.append('phone', data["phone"]);
+                    formdata.append('email', data["email"]);
+                    $.ajax({
+                        url: '@Url.Action("UpdateProfile", "Admin")',
+                        dataType: "json",
+                        type: "POST",
+                        //contentType: 'application/json; charset=utf-8',
+                        contentType: false,
+                        data: formdata,
+                        processData: false,
+                        cache: false,
+                        success: function (json) {
+                            alert(json);
+                        },
+                        error: function (xhr) {
+                            alert('Rất tiếc - đã bị lỗi');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
 
@@ -118,7 +164,7 @@
                     valRePass = true;
                 }
             });
-            $('#submit').click(function (e) {
+            $('#update-password').click(function (e) {
                 e.preventDefault();
                 if (valNewPass && valOldPass && valRePass) {
                     var newpass = $('#newpass').val();
@@ -130,8 +176,14 @@
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify({ old_password : password, new_password: newpass }),
                         success: function (data) {
-                            if (data == 'OK') {
-                                alert('Dô');
+                            if (data) {
+                                $('#newpass').val('');
+                                $('#oldpass').val('');
+                                $('#repass').val('');
+                                alert("Cập nhật mật khẩu thành công");
+                            }
+                            else {
+                                alert("Mật khẩu chưa đúng - xin vui lòng kiểm tra lại");
                             }
                         },
                         error: function (err) {
@@ -141,5 +193,5 @@
                 }
             });
         });
-    </script>    
+    </script>
 }

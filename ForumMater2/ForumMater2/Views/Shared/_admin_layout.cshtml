@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using ForumMater2.Models
+@{ 
+    ClubForumEntities db = new ClubForumEntities();
+    string admin_id = Session["admin"].ToString();
+    Administrator admin = db.Administrators.Find(admin_id);
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -33,20 +39,16 @@
         <!-- menu user -->
         <div class="btn-group col-md-3 d-block d-md-flex align-items-center w-100">
 
-            <img src="#" class=" rounded-circle mt-md-1 d-none d-sm-block img_avatar">
+            <img src="~/assets/images/default/admin.png" class=" rounded-circle mt-md-1 d-none d-sm-block img_avatar">
 
             <button class="btn d-none d-sm-block dropdown-toggle mt-md-1 text-left" data-toggle="dropdown">
-                tên admin
+                @admin.FullName
             </button>
 
             <div class="dropdown-menu p-3">
                 <div>
                     <div class="text-center">
-                        <a href="/User/MyProfile" class="d-block text-decoration-none">Cài đặt</a>
-                        <hr>
-                    </div>
-                    <div class="text-center">
-                        <a href="/Log/SignOut" class="text-center w-100 text-decoration-none">Đăng xuất</a>
+                        <a href="/Admin/SignOut" class="text-center w-100 text-decoration-none">Đăng xuất</a>
                     </div>
                 </div>
             </div>

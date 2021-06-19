@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ForumMater2.Models;
+using LIB;
 
 namespace ForumMater2.Controllers
 {
@@ -14,6 +15,10 @@ namespace ForumMater2.Controllers
         public ActionResult Index()
         {
             ViewBag.Url = UrlContext();
+            if (Session["admin"] != null)
+            {
+                return RedirectToAction("Home", "Admin");
+            }          
             return View();
         }
         [HttpPost]
@@ -69,6 +74,8 @@ namespace ForumMater2.Controllers
             }
             else
             {
+                ViewBag.username = user_name;
+                ViewBag.pass = password;
                 ViewBag.message = "Sai tài khoản hoặc mật khẩu";
                 return View();
             }    
@@ -105,14 +112,29 @@ namespace ForumMater2.Controllers
         {
             if (Session["admin"] != null)
             {
-                return View();
+                string admin_id = Session["admin"].ToString();
+                Administrator administrator = db.Administrators.Find(admin_id);
+                return View(administrator);
             }
             return Redirect("/Admin/Index");
         }
         [HttpPost]
-        public JsonResult ChangePassWord(string old_password, string new_pass)
+        public JsonResult ChangePassWord(string old_password, string new_password)
         {
-            return Json("OK", JsonRequestBehavior.AllowGet);
+            string admin_id = Session["admin"].ToString();
+            Administrator administrator = db.Administrators.Find(admin_id);
+            bool result = false;
+
+            if (Assitant.Instance.DecodeF64(administrator.Password).Equals(old_password))
+            {
+                administrator.Password = Assitant.Instance.EncodeF64(new_password);
+
+                db.SaveChanges();
+
+                result = true;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         public ActionResult BrowserPosts()
         {
@@ -231,6 +253,38 @@ namespace ForumMater2.Controllers
         {
             Club club = db.Clubs.Find(id);
             return View(club);
+        }
+
+        // đăng xuất
+        public ActionResult SignOut()
+        {
+            if(Session["admin"] != null)
+            {
+                Session["admin"] = null;
+                return Redirect("/Admin/Index");
+            }
+            return Redirect("/Admin/Index");
+        }
+
+        // cập nhật thông tin cá nhân
+        public JsonResult UpdateProfile(FormCollection form_data)
+        {
+
+            string full_name = form_data["full-name"];
+            string email = form_data["email"];
+            string phone = form_data["phone"];
+
+            string admin_id = Session["admin"].ToString();
+
+            Administrator admin = db.Administrators.Find(admin_id);
+
+            admin.FullName = full_name;
+            admin.Email = email;
+            admin.Phone = phone;
+
+            db.SaveChanges();
+
+            return Json("Cập nhật thành công", JsonRequestBehavior.AllowGet);
         }
     }
 }

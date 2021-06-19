@@ -190,6 +190,7 @@
   <ItemGroup>
     <Content Include="assets\css\admin\layout.css" />
     <Content Include="assets\css\detail\layout.css" />
+    <Content Include="assets\images\default\admin.png" />
     <Content Include="assets\js\log\dangnhap.js" />
     <Content Include="assets\css\general\log.css" />
     <Content Include="assets\css\general\register.css" />
@@ -1072,6 +1073,7 @@
     <Content Include="Views\User\EditPlan.cshtml" />
     <Content Include="Views\User\AllClubs.cshtml" />
     <Content Include="Views\User\Search.cshtml" />
+    <Content Include="Views\User\ForgetPassWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

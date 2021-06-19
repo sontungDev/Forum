@@ -628,6 +628,38 @@ namespace ForumMater2.Controllers
             }
             return Json(json, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult ForgetPassWord()
+        {
+            return View();
+        }
+        [HttpPost]
+        public JsonResult SendPassToEmail(string user_name)
+        {
+            User user = db.Users.Where(m => m.UserName == user_name).FirstOrDefault();
+            bool response = false;
+            if (user != null)
+            {
+
+                string email_form = "tung.ns.60cntt@ntu.edu.vn";
+                string password = "U3QxMTAyMjAxMEF1QWdDdUZl";
+                System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
+                mail.From = new System.Net.Mail.MailAddress(email_form);
+                mail.To.Add(user.Email);
+                mail.Subject = "Diễn đàn CLB - Đại học Nha Trang";
+                mail.Body = "Mật khẩu hiện tại của bạn : " + Assitant.Instance.DecodeF64(user.Password);
+                mail.IsBodyHtml = true;
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new System.Net.NetworkCredential(email_form, Assitant.Instance.DecodeF64(password));
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+
+                response = true;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         // làm gì đó tiếp đi
 
         protected override void Dispose(bool disposing)

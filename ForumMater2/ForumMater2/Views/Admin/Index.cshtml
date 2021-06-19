@@ -17,19 +17,19 @@
             @* validate token is here *@
             <div class="form-group">
                 <label for="user-name">Tên đăng nhập</label>
-                <input type="text" class="form-control" id="user-name" name="user-name">
+                <input type="text" class="form-control" id="user-name" name="user-name" value="@ViewBag.username" />
                 <span class="form-message"></span>
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" class="form-control" id="password" name="password" value="@ViewBag.pass" />
                 <span class="form-message"></span>
             </div>
             <div class="mb-2">
                 <span class="wrong-user-message"></span>
             </div>
             <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="remember-user" name="remember-user" value="remember">
+                <input type="checkbox" class="form-check-input" id="remember-user" name="remember-user" value="remember" />
                 <label class="form-check-label" for="remember-user">Nhớ tài khoản</label>
             </div>
             <div class="my-2">
