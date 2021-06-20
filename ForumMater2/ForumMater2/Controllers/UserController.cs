@@ -18,7 +18,7 @@ namespace ForumMater2.Controllers
 
         // Trang chủ
         #region
-        public ActionResult Home(int page = 1, int size = 10)
+        public ActionResult Home(int page = 1, int size = 5)
         {
             if(Session["user"] != null)
             {
@@ -505,6 +505,19 @@ namespace ForumMater2.Controllers
             return Json("Thành công", JsonRequestBehavior.AllowGet);
         }
 
+        // xóa thành viên
+        [HttpPost]
+        public JsonResult RemoveRemember(string cid, string uid)
+        {
+            UserClubRole clubRole = db.UserClubRoles.Where(m => m.UserID == uid && m.ClubID == cid).FirstOrDefault();
+
+            db.UserClubRoles.Remove(clubRole);
+
+            int res = db.SaveChanges();
+
+            return Json(res, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         // kế hoạch
@@ -588,15 +601,36 @@ namespace ForumMater2.Controllers
 
         // tìm kiếm
         #region
-        [HttpPost]
-        public ActionResult Search(FormCollection form_data)
+        [HttpGet]
+        public ActionResult Search(string key_word)
         {
-            string key_word = form_data["key-word"];
+            ViewBag.key_word = key_word;
             List<User> users = db.Users.Where(m => m.FirstName.Contains(key_word) || m.LastName.Contains(key_word)).ToList();
             ViewBag.Url = UrlContext();
             if (users.Count == 0)
                 ViewBag.message = "Không có dữ liệu phù hợp";
             return View(users);
+        }
+        [HttpGet]
+
+        public ActionResult SearchClub(string key_word)
+        {
+            ViewBag.key_word = key_word;
+            List<Club> clubs = db.Clubs.Where(m => m.Name.Contains(key_word) || m.ShortName.Contains(key_word)).ToList();
+            ViewBag.Url = UrlContext();
+            if (clubs.Count == 0)
+                ViewBag.message = "Không có dữ liệu phù hợp";
+            return View(clubs);
+        }
+        [HttpGet]
+        public ActionResult SearchPost(string key_word)
+        {
+            ViewBag.key_word = key_word;
+            List<Post> posts = db.Posts.Where(m => m.Title.Contains(key_word) || m.Hashtag.Contains(key_word)).ToList();
+            ViewBag.Url = UrlContext();
+            if (posts.Count == 0)
+                ViewBag.message = "Không có dữ liệu phù hợp";
+            return View(posts);
         }
 
         #endregion
@@ -634,6 +668,7 @@ namespace ForumMater2.Controllers
         {
             return View();
         }
+        // gửi mail
         [HttpPost]
         public JsonResult SendPassToEmail(string user_name)
         {
@@ -659,6 +694,7 @@ namespace ForumMater2.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
 
         // làm gì đó tiếp đi
 

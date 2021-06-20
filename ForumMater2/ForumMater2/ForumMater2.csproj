@@ -1080,6 +1080,8 @@
     <Content Include="Views\Details\AdminClub.cshtml" />
     <Content Include="Views\Details\AdminPost.cshtml" />
     <Content Include="Views\Details\AdminUser.cshtml" />
+    <Content Include="Views\User\SearchClub.cshtml" />
+    <Content Include="Views\User\SearchPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

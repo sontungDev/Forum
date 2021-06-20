@@ -1,16 +1,16 @@
 ﻿@using ForumMater2.Models
 @model List<User> 
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = "Tìm kiếm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="text-center">Kết quả tìm kiếm</h4>
 
 <div class="text-center">
-    <a href="#" class="btn btn-sm btn-info m-3">Mọi người</a>
-    <a href="#" class="btn btn-sm btn-secondary m-3">CLB</a>
-    <a href="#" class="btn btn-sm btn-secondary m-3">Bài viết</a>
+    <a href="/User/Search/?key_word=@ViewBag.key_word" class="btn btn-sm btn-info m-3">Mọi người</a>
+    <a href="/User/SearchClub/?key_word=@ViewBag.key_word" class="btn btn-sm btn-secondary m-3">CLB</a>
+    <a href="/User/SearchPost/?key_word=@ViewBag.key_word" class="btn btn-sm btn-secondary m-3">Bài viết</a>
 </div>
 
 <div class="container bg-light">

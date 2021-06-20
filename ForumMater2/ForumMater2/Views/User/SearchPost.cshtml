@@ -1,0 +1,32 @@
+﻿@using ForumMater2.Models
+@model List<Post>
+@{
+    ViewBag.Title = "SearchPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="text-center">Kết quả tìm kiếm</h4>
+
+<div class="text-center">
+    <a href="/User/Search/?key_word=@ViewBag.key_word" class="btn btn-sm btn-secondary m-3">Mọi người</a>
+    <a href="/User/SearchClub/?key_word=@ViewBag.key_word" class="btn btn-sm btn-secondary m-3">CLB</a>
+    <a href="/User/SearchPost/?key_word=@ViewBag.key_word" class="btn btn-sm btn-info m-3">Bài viết</a>
+</div>
+
+<div class="container bg-light">
+    <p>@ViewBag.message</p>
+    @foreach (var item in Model)
+    {
+        <div class="row m-0 p-0 my-2 p-2 w-50">
+            <a href="/User/PostDetail/@item.ID" class="col-2 d-block">
+                <img src="@ViewBag.Url/assets/images/clubs/covers/@item.Club.CoverPhoto" alt="avatar" class="rounded w-100" />
+            </a>
+            <div class="col-6">
+                <p class="mb-1"><a href="/User/PostDetail/@item.ID" class="text-decoration-none text-dark">@item.Title</a></p>
+                <p class="text-muted mb-1" style="font-size:12px;">@item.Hashtag</p>
+                <p class="text-muted mb-1" style="font-size:12px;">@item.DateTimeCreated</p>
+            </div>
+        </div>
+        <hr class="my-1" />
+    }
+</div>

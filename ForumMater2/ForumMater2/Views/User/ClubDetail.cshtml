@@ -90,10 +90,19 @@
             foreach (var item in remembers)
             {
                 <div class="border border-1 justify-content-center">
-                    <div class="w-100 p-2">
-                        <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="avatar" class="d-inline rounded-circle img_member">
-                        <div class="d-inline"><a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;">@item.User.FirstName @item.User.LastName</a></div>
-                    </div>
+                            <div class="w-100 p-2">
+                                <img src="@ViewBag.Url/assets/images/users/avatars/@item.User.Avatar" alt="avatar" class="d-inline rounded-circle img_member">
+                                <div class="d-inline"><a href="/User/SeeProfile/@item.UserID" style="text-decoration: none; color: inherit;">@item.User.FirstName @item.User.LastName</a></div>
+                                @if (roles >= 3 && item.UserID != user_id)
+                                {
+                                    <button class="float-lg-right btn-sm btn btn-danger pr-2 kick-remember" data-uid="@item.UserID" data-cid="@item.ClubID">Kích</button>
+                                }
+                                @if (item.UserID == item.Club.UserCreated)
+                                {
+                                    <i class="float-lg-right pr-2">Trưởng CLB</i>
+                                }
+
+                            </div>
                 </div>
             }
         }
@@ -247,7 +256,7 @@
                                                 if (roles >= 3)
                                                 {
                                                     <a href="/User/EditPlan/@item.ID" class="btn btn-sm btn-info">Sửa</a>
-                                                    <button class="btn btn-sm btn-danger">Xóa</button>
+                                                    <button class="btn btn-sm btn-danger remove-plan">Xóa</button>
                                                     <input type="hidden" class="pid" value="@item.ID" />
                                                 }
                                             }
@@ -362,12 +371,40 @@
                     });
             });
 
-            $('.btn-danger').click(function (e) {
+            $('.remove-plan').click(function (e) {
                 e.preventDefault();
                 var res = confirm("Bạn có chắc muốn xóa kế hoạch này không?");
                 if (res) {
                     var pid = $(e.target).next().val();
                     window.location.href = "/User/RemovePlan/" + pid;
+                }
+            });
+
+            $('.kick-remember').click(function (e) {
+                e.preventDefault();
+                var res = confirm("Bạn có chắc muốn kích thành viên này ra khỏi CLB không?");
+                if (res) {
+                    var target = $(this);
+                    var cid = $(this).data('cid');
+                    var uid = $(this).data('uid');
+
+                    $.ajax({
+                        url: '@Url.Action("RemoveRemember", "User")',
+                        dataType: 'json',
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ cid: cid, uid: uid }),
+                        success: function (data) {
+                            if (data > 0) {
+                                alert("Kích thành công");
+                                target.parent().parent().remove();
+                            }
+                        },
+                        error: function (err) {
+                            alert('Đã xảy ra lỗi - Rất tiếc');
+                        }
+                    });
+
                 }
             });
         });
