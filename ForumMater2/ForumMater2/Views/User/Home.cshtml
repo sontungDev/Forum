@@ -92,7 +92,17 @@
                 <span>Bạn đang nghĩ gì ?</span>
             </div>
             <div class="d-inline float-right mt-md-1">
-                <a href="/User/CreatePost" class="btn btn-info">Đăng bài</a>
+                @{
+                    if (clubs_considered.Count > 0)
+                    {
+                        <a href="/User/CreatePost" class="btn btn-info">Đăng bài</a>
+                    }
+                    else
+                    {
+                        <a href="/User/CreatePost" class="btn btn-info disabled">Đăng bài</a>
+                    }
+                }
+
             </div>
 
         </nav>

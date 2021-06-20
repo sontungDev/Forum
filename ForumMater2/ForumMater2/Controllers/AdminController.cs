@@ -18,7 +18,18 @@ namespace ForumMater2.Controllers
             if (Session["admin"] != null)
             {
                 return RedirectToAction("Home", "Admin");
-            }          
+            }
+
+            var str_user = HttpContext.Request.Cookies.Get("remember_admin_name");
+            var str_pass = HttpContext.Request.Cookies.Get("remember_admin_password");
+
+            if (str_user != null && str_pass != null)
+            {
+                ViewBag.username = str_user.Value;
+                ViewBag.pass = Assitant.Instance.DecodeF64(str_pass.Value);
+                ViewBag.check = "checked";
+            }
+
             return View();
         }
         [HttpPost]
@@ -41,13 +52,13 @@ namespace ForumMater2.Controllers
                 if (!String.IsNullOrEmpty(remember))
                 {
                     // lưu lại tài khoản, mật khẩu, và thời gian cookie này tồn tại là 1 giờ
-                    HttpCookie user_name_cookie = new HttpCookie("remember_user_name");
+                    HttpCookie user_name_cookie = new HttpCookie("remember_admin_name");
                     user_name_cookie.Value = user_name;
-                    user_name_cookie.Expires.AddHours(1);
+                    user_name_cookie.Expires.AddMonths(1);
 
-                    HttpCookie password_cookie = new HttpCookie("remember_password");
-                    password_cookie.Value = password;
-                    password_cookie.Expires.AddHours(1);
+                    HttpCookie password_cookie = new HttpCookie("remember_admin_password");
+                    password_cookie.Value = Assitant.Instance.EncodeF64(password);
+                    password_cookie.Expires.AddMonths(1);
 
                     Response.Cookies.Add(user_name_cookie);
                     Response.Cookies.Add(password_cookie);
@@ -57,14 +68,14 @@ namespace ForumMater2.Controllers
                 else
                 {
                     //lấy cookie đang có
-                    HttpCookie user_name_cookie = ControllerContext.HttpContext.Request.Cookies["remember_user_name"];
-                    HttpCookie password_cookie = ControllerContext.HttpContext.Request.Cookies["remember_password"];
+                    HttpCookie user_name_cookie = ControllerContext.HttpContext.Request.Cookies["remember_admin_name"];
+                    HttpCookie password_cookie = ControllerContext.HttpContext.Request.Cookies["remember_admin_password"];
 
                     if (user_name_cookie != null && password_cookie != null)
                     {
                         // thiết lập lại giờ lưu cookie
-                        user_name_cookie.Expires = DateTime.Now.AddHours(-1);
-                        password_cookie.Expires = DateTime.Now.AddHours(-1);
+                        user_name_cookie.Expires = DateTime.Now.AddMonths(-1);
+                        password_cookie.Expires = DateTime.Now.AddMonths(-1);
 
                         ControllerContext.HttpContext.Response.Cookies.Add(user_name_cookie);
                         ControllerContext.HttpContext.Response.Cookies.Add(password_cookie);

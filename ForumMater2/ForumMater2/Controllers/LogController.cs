@@ -19,8 +19,18 @@ namespace ForumMater2.Controllers
             if (Session["user"] != null)
             {
                 return RedirectToAction("Home", "User");
-            }    
+            }
 
+            var str_user = HttpContext.Request.Cookies.Get("remember_user_name");
+            var str_pass = HttpContext.Request.Cookies.Get("remember_password");
+
+            if(str_user != null && str_pass != null)
+            {
+                ViewBag.user = str_user.Value;
+                ViewBag.pass = Assitant.Instance.DecodeF64(str_pass.Value);
+                ViewBag.check = "checked";
+            }    
+            
             return View();
         }
         [HttpPost]
@@ -52,7 +62,7 @@ namespace ForumMater2.Controllers
                     user_name_cookie.Expires.AddHours(1);
 
                     HttpCookie password_cookie = new HttpCookie("remember_password");
-                    password_cookie.Value = password;
+                    password_cookie.Value = Assitant.Instance.EncodeF64(password);
                     password_cookie.Expires.AddHours(1);
 
                     Response.Cookies.Add(user_name_cookie);
