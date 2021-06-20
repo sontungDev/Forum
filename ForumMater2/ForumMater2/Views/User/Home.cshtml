@@ -28,6 +28,8 @@
     List<Club> clubs_unconsidered = clubs_joining.Except(clubs_considered).ToList();
 
     int offer_count = clubs_unjoin.Count;
+
+    clubs_unjoin = clubs_unjoin.Take(5).ToList();
 }
 @section styles{
 
@@ -71,7 +73,7 @@
                         </div>
                     </div>
                 }
-                if (offer_count > 7)
+                if (offer_count > 5)
                 {
                     <div class="pl-5 pt-4 pb-3">
                         <a href="/User/NotJoinedClubs" class="text-danger text-decoration-none pl-1">Xem thêm</a>

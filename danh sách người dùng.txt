@@ -4,7 +4,7 @@ hoangson
 letruong
 nguyentai
 nguyentung
-lenhung - ghi sai mat khau
+lenhung - bị sai mk
 
 sakura11
 mk : wibuchinhhieu
@@ -34,7 +34,7 @@ mk : linh2001
 truy cập vào localhost:....../Admin/Index
 
 admin0
-nhom2cntt
+nhom1cntt
 
 admin1
 11111111 (8 số 1 á)

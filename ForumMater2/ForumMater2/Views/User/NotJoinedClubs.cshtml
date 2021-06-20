@@ -26,13 +26,13 @@
                     <div class="card col-2 m-2 justify-content-center py-2 px-0" style="font-size:14px;">
                         <img class="avatar rounded" src="@ViewBag.Url/assets/images/clubs/covers/@item.CoverPhoto" alt="Card image" style="width:70%; margin:0 auto;">
                         <div class="card-body text-center">
-                            <a href="/User/ClubDetailCus/@item.ID" class="card-title d-block text-decoration-none text-dark">@item.Name</a>
+                            <a href="/User/ClubDetail/@item.ID" class="card-title d-block text-decoration-none text-dark">@item.Name</a>
                             <p class="card-text text-muted" style="font-size:12px;">@item.ShortName</p>
                             <div class="d-flex justify-content-center" >
                                 <button class="btn btn-info mr-3 joined" style="font-size:10px;">Tham gia</button>
                                 <input type="hidden" value="@item.ID" name="cid" />
                                 <input type="hidden" value="@user_id" name="uid" />
-                                <a href="/User/ClubDetailCus/@item.ID" class="btn btn-info" style="font-size:11px;">Xem</a>
+                                <a href="/User/ClubDetail/@item.ID" class="btn btn-info" style="font-size:11px;">Xem</a>
                             </div>
                         </div>
                     </div>
