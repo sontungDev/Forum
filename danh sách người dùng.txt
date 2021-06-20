@@ -30,9 +30,11 @@ mk : taynguyen
 levanlinh21
 mk : linh2001
 
-CLB là sân chơi lành mạnh cho các bạn sinh viên
-Khi tham gia CLB các bạn sẽ được
-- Luyện tập thân thể, sức khỏe
-- Giao lưu học hỏi kinh nghiệm
-- Cuối tuần nhóm có tổ chức họp mặt tại các quán cà phê, trà sữa, v..v
-* Nhóm chỉ duyệt cho các tài khoản với thông tin thật
+--------------------------- tài khoản admin ----------------------
+truy cập vào localhost:....../Admin/Index
+
+admin0
+nhom2cntt
+
+admin1
+11111111 (8 số 1 á)
